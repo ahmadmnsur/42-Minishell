@@ -6,11 +6,11 @@
 /*   By: mjamil <mjamil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 12:58:50 by mjamil            #+#    #+#             */
-/*   Updated: 2025/01/04 14:07:06 by mjamil           ###   ########.fr       */
+/*   Updated: 2025/01/23 16:30:31 by mjamil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	art(void)
 {
