@@ -2,32 +2,6 @@
 
 #include "../../minishell.h"
 
-int ft_cmp(const char *s1, const char *s2)
-{
-    size_t i;
-
-    i = 0;
-    while (s1[i] && s2[i])
-    {
-        if (s1[i] != s2[i])
-            return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-        i++;
-    }
-    return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
-char	*get_env(t_env *head, const char *key)
-{
-	while (head)
-	{
-		if (ft_cmp(head->key, key) == 0
-			&& ft_strlen(key) == ft_strlen(head->key))
-			return (ft_strdup(head->value));
-		head = head->next;
-	}
-	return (ft_strdup(""));
-}
-
 int	pwd_help(t_env *env_list)
 {
 	int		nbr;

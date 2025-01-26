@@ -1,44 +1,6 @@
 
 #include "../../minishell.h"
 
-int	get_cmd_len(t_lexer *lexer)
-{
-	int	len;
-
-	if (!lexer)
-		return (0);
-	len = 0;
-	while (lexer && lexer->token == TOKEN_WORD)
-	{
-		len++;
-		lexer = lexer->next;
-	}
-	return (len);
-}
-
-char	**get_cmd(t_lexer *lexer)
-{
-	char	**cmd;
-	int		len;
-	int		i;
-
-	len = get_cmd_len(lexer);
-	if (len == 0 || !lexer)
-		return (NULL);
-	cmd = (char **)malloc(sizeof(char *) * (len + 1));
-	if (!cmd)
-		return (NULL);
-	i = 0;
-	while (lexer && lexer->token == TOKEN_WORD)
-	{
-		cmd[i] = ft_strdup(lexer->str);
-		lexer = lexer->next;
-		i++;
-	}
-	cmd[i] = NULL;
-	return (cmd);
-}
-
 int is_numeric(const char *str)
 {
     if (!str || !*str)

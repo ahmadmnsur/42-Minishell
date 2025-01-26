@@ -2,59 +2,6 @@
 
 #include "../../minishell.h"
 
-void add_env_var(t_env **env, const char *key, const char *value)
-{
-    t_env *new_var = malloc(sizeof(t_env));
-    t_env *tmp = *env;
-
-    if (!new_var)
-        return;
-    new_var->key = ft_strdup(key);
-    new_var->value = ft_strdup(value);
-    new_var->next = NULL;
-    if (!*env)
-        *env = new_var;
-    else
-    {
-        while (tmp->next)
-            tmp = tmp->next;
-        tmp->next = new_var;
-    }
-}
-
-void update_env_var(t_env **env, const char *key, const char *value)
-{
-    t_env *tmp = *env;
-
-    while (tmp)
-    {
-        if (ft_cmp(tmp->key, key) == 0)
-        {
-            free(tmp->value);
-            tmp->value = ft_strdup(value);
-            return;
-        }
-        tmp = tmp->next;
-    }
-    add_env_var(env, key, value);
-}
-
-void print_full_export_list(t_env *env)
-{
-    if (!env)
-        return;
-
-    t_env *tmp = env;
-    while (tmp)
-    {
-        if (tmp->value)
-            printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-        else
-            printf("declare -x %s\n", tmp->key);
-        tmp = tmp->next;
-    }
-}
-
 char **export_split(const char *str, const char *delimiter)
 {
     char **result = malloc(5 * sizeof(char *));
@@ -77,15 +24,6 @@ char **export_split(const char *str, const char *delimiter)
     result[3] = strdup(delim_pos + delim_len);
     result[4] = NULL;
     return result;
-}
-
-void free_split_array(char **array)
-{
-    if (!array)
-        return;
-    for (int i = 0; array[i]; i++)
-        free(array[i]);
-    free(array);
 }
 
 int builtin_export(t_parser *parser, t_env *env)
