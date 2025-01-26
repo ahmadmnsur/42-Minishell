@@ -85,8 +85,18 @@ extern int	g_signum;
 
 int     builtin_env(t_parser *parser, t_env *env);
 int	    builtin_pwd(t_parser *parser, t_env *env);
+int		builtin_exit(t_parser *parser, t_env *env);
+int     builtin_unset(t_parser *parser, t_env *env);
+int		builtin_export(t_parser *parser, t_env *env);
 char	*get_env(t_env *head, const char *key);
 int     ft_cmp(const char *s1, const char *s2);
-int     builtin_unset(t_parser *parser, t_env *env);
+int		get_cmd_len(t_lexer *lexer);
+char	**get_cmd(t_lexer *lexer);
+int		is_numeric(const char *str);
+void 	add_env_var(t_env **env, const char *key, const char *value);
+void 	update_env_var(t_env **env, const char *key, const char *value);
+void 	print_full_export_list(t_env *env);
+char 	**export_split(const char *str, const char *delimiter);
+void 	free_split_array(char **array);
 
 #endif
