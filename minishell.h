@@ -102,5 +102,16 @@ char 	**export_split(const char *str, const char *delimiter);
 void 	free_split_array(char **array);
 t_env	*create_env_node(char *key, char *value, int hidden);
 int		set_env(t_env **head, const char *key, const char *value, int hidden);
-
+void	add_lexer_node_back(t_lexer **head, t_lexer *new_node);
+t_lexer	*create_new_lexer_node(char *str, t_tokens token,
+        t_quote_type quote_type, int space);
+void    handle_normal_string(t_lexer **lexer, const char *str, int *i);
+int		is_special_char(char c);
+int		is_whitespace(char c);
+void	handle_pipe(t_lexer **lexer, int *i);
+void	handle_in_or_heredoc(t_lexer **lexer, const char *str, int *i);
+void	handle_out_or_append(t_lexer **lexer, const char *str, int *i);
+t_quote_type	get_quote_type(char quote);
+int				get_quote_length(const char *str, int i, char quote);
+void 			handle_quotes(t_lexer **lexer, const char *str, int *i, char quote);
 #endif
