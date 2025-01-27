@@ -114,4 +114,7 @@ void	handle_out_or_append(t_lexer **lexer, const char *str, int *i);
 t_quote_type	get_quote_type(char quote);
 int				get_quote_length(const char *str, int i, char quote);
 void 			handle_quotes(t_lexer **lexer, const char *str, int *i, char quote);
+void	add_index_token(t_lexer **lexer);
+void	parse_string(t_lexer **lexer, const char *str);
+void	skip_spaces(const char *str, int *i);
 #endif

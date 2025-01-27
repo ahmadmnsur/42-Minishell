@@ -46,3 +46,20 @@ void	add_lexer_node_back(t_lexer **head, t_lexer *new_node)
 		temp = temp->next;
 	temp->next = new_node;
 }
+
+void	add_index_token(t_lexer **lexer)
+{
+	t_lexer	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = *lexer;
+	if (!*lexer)
+		return ;
+	while (tmp)
+	{
+		tmp->i = i;
+		i++;
+		tmp = tmp->next;
+	}
+}
