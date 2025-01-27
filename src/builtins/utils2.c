@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mjamil <mjamil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/27 11:01:30 by mjamil            #+#    #+#             */
+/*   Updated: 2025/01/27 11:01:30 by mjamil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../minishell.h"
 
@@ -51,7 +61,7 @@ t_env	*create_env_node(char *key, char *value, int hidden)
 	new_node->value = ft_strdup(value);
 	new_node->hidden = hidden;
 	new_node->next = NULL;
-	node->two_point = 0;
+	new_node->two_point = 0;
 	return (new_node);
 }
 
