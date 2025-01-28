@@ -46,9 +46,9 @@ void	handle_special_char(t_lexer **lexer, const char *str, int *i)
 
 void	process_string(t_lexer **lexer, const char *str, int *i)
 {
-	if (is_whitespace(str[*i]))
+	if (whitespace(str[*i]))
 		skip_spaces(str, i);
-	else if (is_special_char(str[*i]))
+	else if (special_char(str[*i]))
 		handle_special_char(lexer, str, i);
 	else
 		handle_normal_string(lexer, str, i);

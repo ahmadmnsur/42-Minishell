@@ -18,10 +18,9 @@ int	special_char(char c)
 	return (0);
 }
 
-
 void	skip_spaces(const char *str, int *i)
 {
-	while (str[*i] && is_whitespace(str[*i]))
+	while (str[*i] && whitespace(str[*i]))
 		(*i)++;
 }
 
