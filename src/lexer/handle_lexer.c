@@ -31,20 +31,18 @@ void	handle_pipe(t_lexer **lexer, int *i)
 
 void	handle_in_or_heredoc(t_lexer **lexer, const char *str, int *i)
 {
-	if (str[*i + 1] && str[*i + 1] == '<')
-		add_lexer_and_increment_i(lexer, TOKEN_REDIRECT_IN, i, 2);
+	if (str[*i + 1] && str[*i + 1] != '<')
+		add_lexer_and_increment_i(lexer, TOKEN_REDIRECT_IN, i, 1);
 	else
-		add_lexer_and_increment_i(lexer, TOKEN_HEREDOC, i, 1);
+		add_lexer_and_increment_i(lexer, TOKEN_HEREDOC, i, 2);
 }
 
 void	handle_out_or_append(t_lexer **lexer, const char *str, int *i)
 {
-	t_lexer	*new;
-
-	if (str[*i + 1] && str[*i + 1] == '>')
-		add_lexer_and_increment_i(lexer, TOKEN_REDIRECT_OUT, i, 2);
+	if (str[*i + 1] && str[*i + 1] != '>')
+		add_lexer_and_increment_i(lexer, TOKEN_REDIRECT_OUT, i, 1);
 	else
-		add_lexer_and_increment_i(lexer, TOKEN_APPEND, i, 1);
+		add_lexer_and_increment_i(lexer, TOKEN_APPEND, i, 2);
 }
 
 void handle_quotes(t_lexer **lexer, const char *str, int *i, char quote)
