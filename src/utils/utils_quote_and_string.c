@@ -31,3 +31,25 @@ int get_quote_length(const char *str, int i, char quote)
         return ((int) ft_strlen(str) - i - 1);
     return (len);
 }
+
+void	handle_special_char(t_lexer **lexer, const char *str, int *i)
+{
+	if (str[*i] == '<')
+		handle_in_or_heredoc(lexer, str, i);
+	else if (str[*i] == '\'' || str[*i] == '\"')
+		handle_quotes(lexer, str, i, str[*i]);
+	else if (str[*i] == '|')
+		handle_pipe(lexer, i);
+	else if (str[*i] == '>')
+		handle_out_or_append(lexer, str, i);
+}
+
+void	process_string(t_lexer **lexer, const char *str, int *i)
+{
+	if (is_whitespace(str[*i]))
+		skip_spaces(str, i);
+	else if (is_special_char(str[*i]))
+		handle_special_char(lexer, str, i);
+	else
+		handle_normal_string(lexer, str, i);
+}
