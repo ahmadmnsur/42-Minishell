@@ -119,4 +119,5 @@ void	parse_string(t_lexer **lexer, const char *str);
 void	skip_spaces(const char *str, int *i);
 void	handle_special_char(t_lexer **lexer, const char *str, int *i);
 void	process_string(t_lexer **lexer, const char *str, int *i);
+void	add_lexer_and_increment_i(t_lexer **lexer, int token, int *i, int increment);
 #endif

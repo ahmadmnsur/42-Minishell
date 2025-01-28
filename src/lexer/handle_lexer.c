@@ -31,38 +31,20 @@ void	handle_pipe(t_lexer **lexer, int *i)
 
 void	handle_in_or_heredoc(t_lexer **lexer, const char *str, int *i)
 {
-	t_lexer	*new;
-
-	if (str[*i + 1] && str[*i + 1] != '<')
-	{
-		new = create_new_lexer_node(NULL, TOKEN_REDIRECT_IN, -1, 1);
-		(*i)++;
-	}
+	if (str[*i + 1] && str[*i + 1] == '<')
+		add_lexer_and_increment_i(lexer, TOKEN_REDIRECT_IN, i, 2);
 	else
-	{
-        new = create_new_lexer_node(NULL, TOKEN_HEREDOC, -1, 1);
-		(*i) += 2;
-	}
-	lexer_add_back(lexer, new);
+		add_lexer_and_increment_i(lexer, TOKEN_HEREDOC, i, 1);
 }
 
 void	handle_out_or_append(t_lexer **lexer, const char *str, int *i)
 {
 	t_lexer	*new;
 
-	if (str[*i + 1] && str[*i + 1] != '>')
-	{
-		new = create_new_lexer_node(NULL, TOKEN_REDIRECT_OUT, -1, 1);
-		(*i)++;
-	}
+	if (str[*i + 1] && str[*i + 1] == '>')
+		add_lexer_and_increment_i(lexer, TOKEN_REDIRECT_OUT, i, 2);
 	else
-	{
-		new = create_new_lexer_node(NULL, TOKEN_REDIRECT_OUT, -1, 1);
-		(*i)++;
-        new = create_new_lexer_node(NULL, TOKEN_APPEND, -1, 1);
-		(*i) += 2;
-	}
-	lexer_add_back(lexer, new);
+		add_lexer_and_increment_i(lexer, TOKEN_APPEND, i, 1);
 }
 
 void handle_quotes(t_lexer **lexer, const char *str, int *i, char quote)
