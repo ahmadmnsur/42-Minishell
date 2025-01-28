@@ -120,4 +120,9 @@ void	skip_spaces(const char *str, int *i);
 void	handle_special_char(t_lexer **lexer, const char *str, int *i);
 void	process_string(t_lexer **lexer, const char *str, int *i);
 void	add_lexer_and_increment_i(t_lexer **lexer, int token, int *i, int increment);
+void	copy_lexer_node(t_lexer **sub, t_lexer **tmp);
+void	fill_sub_lexer(t_lexer **sub, t_lexer **tmp, unsigned int sub_size);
+unsigned int	get_sub_size(t_lexer *start, unsigned int nb_nodes);
+t_lexer	*find_start_node(t_lexer *lexer, unsigned int start_index);
+t_lexer	*ft_sublexer(t_lexer *lexer, t_lexer *start_node, unsigned int nb_nodes);
 #endif
