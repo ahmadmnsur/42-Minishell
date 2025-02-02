@@ -6,7 +6,7 @@
 /*   By: mjamil <mjamil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:45 by mjamil            #+#    #+#             */
-/*   Updated: 2025/01/23 14:33:12 by mjamil           ###   ########.fr       */
+/*   Updated: 2025/02/02 14:09:12 by mjamil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,14 @@ void	fill_sub_lexer(t_lexer **sub, t_lexer **tmp, unsigned int sub_size);
 unsigned int	get_sub_size(t_lexer *start, unsigned int nb_nodes);
 t_lexer	*find_start_node(t_lexer *lexer, unsigned int start_index);
 t_lexer	*ft_sublexer(t_lexer *lexer, t_lexer *start_node, unsigned int nb_nodes);
+void	free_env(t_env **env);
+void	check_signal_if_recieved(int *status);
+void	handle_execution_signals(int sig);
+void	handle_ctrl_c(int sig);
+void	ignore_signals(void);
+void	set_ctrl_d(t_tools *tools, char *prompt);
+void	set_execution_signals(void);
+void	reset_signals(void);
+void	set_signals(void);
+
 #endif

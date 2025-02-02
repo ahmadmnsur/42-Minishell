@@ -59,7 +59,6 @@ void remove_env_var(t_env **env, const char *key)
     free(to_del);
 }
 
-
 int builtin_unset(t_parser *parser, t_env *env)
 {
     t_lexer *tmp = parser->tokens->next;
