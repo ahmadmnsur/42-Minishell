@@ -6,7 +6,7 @@
 /*   By: mjamil <mjamil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:02:45 by mjamil            #+#    #+#             */
-/*   Updated: 2025/02/02 14:09:12 by mjamil           ###   ########.fr       */
+/*   Updated: 2025/02/04 15:56:44 by mjamil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_lexer	*create_new_lexer_node(char *str, t_tokens token,
         t_quote_type quote_type, int space);
 void    handle_normal_string(t_lexer **lexer, const char *str, int *i);
 int		special_char(char c);
-int		whitespace(char c);
+int		whitespacee(char c);
 void	handle_pipe(t_lexer **lexer, int *i);
 void	handle_in_or_heredoc(t_lexer **lexer, const char *str, int *i);
 void	handle_out_or_append(t_lexer **lexer, const char *str, int *i);

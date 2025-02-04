@@ -9,7 +9,7 @@ void    handle_normal_string(t_lexer **lexer, const char *str, int *i)
 
     start = *i;
     end = start;
-    while (str[end] && !special_char(str[end]) && !whitespace(str[end]))
+    while (str[end] && !special_char(str[end]) && !whitespacee(str[end]))
         end++;
     sub = ft_substr(str, start, end - start);
     new = create_new_lexer_node(sub, TOKEN_WORD, NO_QUOTE, 1);
@@ -56,7 +56,7 @@ void handle_quotes(t_lexer **lexer, const char *str, int *i, char quote)
     len = get_quote_length(str, *i, quote);
     sub = ft_substr(str, *i + 1, len - 1);
     new = create_new_lexer_node(sub, TOKEN_WORD, type, 1);
-    if (!whitespace(str[*i + len + 1]) && str[*i + len + 1] != '<'
+    if (!whitespacee(str[*i + len + 1]) && str[*i + len + 1] != '<'
         && str[*i + len + 1] != '>' && str[*i + len + 1] != '|')
         new->space = 0;
     lexer_add_back(lexer, new);

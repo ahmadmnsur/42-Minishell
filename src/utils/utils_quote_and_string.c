@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   utils_quote_and_string.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjamil <mjamil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 16:00:50 by mjamil            #+#    #+#             */
-/*   Updated: 2025/01/23 16:00:51 by mjamil           ###   ########.fr       */
+/*   Updated: 2025/02/04 15:56:44 by mjamil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	handle_special_char(t_lexer **lexer, const char *str, int *i)
 
 void	process_string(t_lexer **lexer, const char *str, int *i)
 {
-	if (whitespace(str[*i]))
+	if (whitespacee(str[*i]))
 		skip_spaces(str, i);
 	else if (special_char(str[*i]))
 		handle_special_char(lexer, str, i);

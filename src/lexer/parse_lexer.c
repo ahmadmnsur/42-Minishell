@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-int	whitespace(char c)
+int	whitespaceee(char c)
 {
 	if (c == ' ')
 		return (1);
@@ -20,7 +20,7 @@ int	special_char(char c)
 
 void	skip_spaces(const char *str, int *i)
 {
-	while (str[*i] && whitespace(str[*i]))
+	while (str[*i] && whitespacee(str[*i]))
 		(*i)++;
 }
 
