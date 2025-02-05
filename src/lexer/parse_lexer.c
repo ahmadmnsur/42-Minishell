@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-int	whitespaceee(char c)
+int	whitespacee(char c)
 {
 	if (c == ' ')
 		return (1);
