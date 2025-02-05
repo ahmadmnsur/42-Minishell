@@ -13,11 +13,11 @@
 #include "../../minishell.h"
 
 t_lexer	*create_new_lexer_node(char *str, t_tokens token,
-        t_quote_type quote_type, int space)
+		t_quote_type quote_type, int space)
 {
-    t_lexer *new_node;
+	t_lexer	*new_node;
 
-    new_node = (t_lexer *)calloc(1, sizeof(t_lexer));
+	new_node = (t_lexer *)calloc(1, sizeof(t_lexer));
 	if (!new_node)
 		return (NULL);
 	if (str)
@@ -27,14 +27,14 @@ t_lexer	*create_new_lexer_node(char *str, t_tokens token,
 	new_node->token = token;
 	new_node->quote_type = quote_type;
 	new_node->space = space;
-    new_node->i = -1;
+	new_node->i = -1;
 	new_node->next = NULL;
 	return (new_node);
 }
 
 void	add_lexer_node_back(t_lexer **head, t_lexer *new_node)
 {
-	t_lexer *temp;
+	t_lexer	*temp;
 
 	if (!*head)
 	{

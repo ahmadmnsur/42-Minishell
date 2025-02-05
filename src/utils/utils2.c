@@ -1,6 +1,7 @@
 #include "../../minishell.h"
 
-void	add_lexer_and_increment_i(t_lexer **lexer, int token, int *i, int increment)
+void	add_lexer_and_increment_i(t_lexer **lexer, int token,
+		int *i, int increment)
 {
 	t_lexer	*new;
 

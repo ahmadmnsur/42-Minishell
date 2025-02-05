@@ -94,11 +94,17 @@ int	set_env(t_env **head, const char *key, const char *value, int hidden)
 	return (0);
 }
 
-void free_split_array(char **array)
+void	free_split_array(char **array)
 {
-    if (!array)
-        return;
-    for (int i = 0; array[i]; i++)
-        free(array[i]);
-    free(array);
+	int	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }

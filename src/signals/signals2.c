@@ -1,7 +1,4 @@
 
-
-
-
 #include "../../minishell.h"
 
 void	handle_ctrl_c(int sig)

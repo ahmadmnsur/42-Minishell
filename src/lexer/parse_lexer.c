@@ -36,4 +36,3 @@ void	parse_string(t_lexer **lexer, const char *str)
 	lexer_add_back(lexer, new);
 	add_index_token(lexer);
 }
-
