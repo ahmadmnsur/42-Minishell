@@ -39,8 +39,4 @@ int	execute_command(t_tools *tools, char **envp)
         set_signals();
         return(exit_status);
     }
-    else
-    {
-
-    }
 }
