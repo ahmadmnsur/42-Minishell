@@ -17,18 +17,18 @@ char *my_strtok(char *str, const char *delim)
     static char *next;
     char *start;
 
-    *next = NULL;
+    if (!str && (!next || *next == '\0'))
+        return NULL;
     if (str)
         next = str;
-    if (!next || *next == '\0')
-        return NULL;
-    *start = next;
-    while (*next && ft_strrchr(delim, *next) == NULL)
+    start = next;
+    while (*next && !ft_strrchr(delim, *next))
         next++;
     if (*next)
         *next++ = '\0';
     return start;
 }
+
 
 static int process_redirections_child(t_tools *tools, t_lexer *redirects)
 {
@@ -43,33 +43,32 @@ static int process_redirections_child(t_tools *tools, t_lexer *redirects)
             fprintf(stderr, "minishell: syntax error near unexpected token\n");
             return -1;
         }
-        
+
         filename = current->next->str;
-        
         if (!filename)
         {
             fprintf(stderr, "minishell: error processing redirection\n");
             return -1;
         }
 
-        if (current->token == TOKEN_REDIRECT_IN)
+        if (current->token == TOKEN_HEREDOC)
         {
-            fd = open(filename, O_RDONLY);
-        }
-        else if (current->token == TOKEN_REDIRECT_OUT)
-        {
-            fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        }
-        else if (current->token == TOKEN_APPEND)
-        {
-            fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        }
-        else if (current->token == TOKEN_HEREDOC)
-        {
-			rl_clear_history();
+            // Handle Heredoc and ensure filename is valid
+            rl_clear_history();
             filename = handle_heredoc_case(tools->parser->hd_delimiters, tools, current->quote_type);
+            if (!filename)
+            {
+                fprintf(stderr, "minishell: error processing heredoc\n");
+                return -1;
+            }
             fd = open(filename, O_RDONLY);
         }
+        else if (current->token == TOKEN_REDIRECT_IN)
+            fd = open(filename, O_RDONLY);
+        else if (current->token == TOKEN_REDIRECT_OUT)
+            fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        else if (current->token == TOKEN_APPEND)
+            fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
         else
         {
             fprintf(stderr, "minishell: syntax error near unexpected token\n");
@@ -81,7 +80,8 @@ static int process_redirections_child(t_tools *tools, t_lexer *redirects)
             perror("minishell");
             return -1;
         }
-        
+
+        // Redirect stdin/stdout based on the token type
         if (current->token == TOKEN_REDIRECT_IN || current->token == TOKEN_HEREDOC)
         {
             if (dup2(fd, STDIN_FILENO) == -1)
@@ -91,7 +91,7 @@ static int process_redirections_child(t_tools *tools, t_lexer *redirects)
                 return -1;
             }
         }
-        else
+        else // TOKEN_REDIRECT_OUT or TOKEN_APPEND
         {
             if (dup2(fd, STDOUT_FILENO) == -1)
             {
@@ -100,8 +100,9 @@ static int process_redirections_child(t_tools *tools, t_lexer *redirects)
                 return -1;
             }
         }
+
         close(fd);
-        current = current->next->next;
+        current = current->next->next; // Move to the next redirection
     }
     return 0;
 }
@@ -164,7 +165,7 @@ static char *get_command_path(char *cmd, t_env *env)
     char *dir = my_strtok(path, ":");
     while (dir)
     {
-        char *full_path = malloc(strlen(dir) + ft_strlen(cmd) + 2);
+        char *full_path = malloc(ft_strlen(dir) + ft_strlen(cmd) + 2);
         sprintf(full_path, "%s/%s", dir, cmd);
         if (access(full_path, F_OK) == 0)
         {
@@ -184,7 +185,7 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
     pid_t pid;
 
     /* --- For builtins (omitted for brevity, unchanged) --- */
-    if (parser->builtin
+    if (parser->builtin)
     {
         int save_stdin = dup(STDIN_FILENO);
         int save_stdout = dup(STDOUT_FILENO);

@@ -139,6 +139,7 @@ int		if_no_pipe(t_tools *tools, t_parser *parser, char **envp);
 static char *get_command_path(char *cmd, t_env *env);
 static char **build_args(t_lexer *tokens);
 static int process_redirections_child(t_tools *tools, t_lexer *redirects);
-char *my_strtok(char *str, const char *delim);
+char	*my_strtok(char *str, const char *delim);
+static int if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp);
 
 #endif
