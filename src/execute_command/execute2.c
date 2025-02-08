@@ -56,6 +56,7 @@ static int process_redirections_child(t_tools *tools, t_lexer *redirects)
             // Handle Heredoc and ensure filename is valid
             rl_clear_history();
             filename = handle_heredoc_case(tools->parser->hd_delimiters, tools, current->quote_type);
+            
             if (!filename)
             {
                 fprintf(stderr, "minishell: error processing heredoc\n");
@@ -196,8 +197,6 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
         else
             exit_status = parser->builtin(parser, tools->env);
 
-        set_execution_signals();
-
         dup2(save_stdin, STDIN_FILENO);
         close(save_stdin);
         dup2(save_stdout, STDOUT_FILENO);
@@ -216,7 +215,6 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
         }
         else if (pid == 0)
         {
-            set_execution_signals();
             if (parser->redirects && process_redirections_child(tools, parser->redirects) != 0)
                 exit(EXIT_FAILURE);
 
@@ -244,7 +242,6 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
                 free(path);
                 exit(EXIT_FAILURE);
             }
-            set_execution_signals();
             execve(path, args, envp);
             perror("minishell");
             free(path);
@@ -255,8 +252,6 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
         }
         else
         {
-            set_signals();
-
             waitpid(pid, &exit_status, 0);
             if (WIFEXITED(exit_status))
                 exit_status = WEXITSTATUS(exit_status);

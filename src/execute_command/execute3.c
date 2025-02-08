@@ -14,7 +14,7 @@
 
 static int if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp)
 {
-	set_execution_signals();
+	
     int num_cmd = num_pipes + 1;
     int status;
     int last_status = 0;
@@ -47,7 +47,6 @@ static int if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **
     t_parser *curr = parser;
     while (curr)
     {
-		set_execution_signals();
         child_pids[i] = fork();
         if (child_pids[i] == -1)
         {

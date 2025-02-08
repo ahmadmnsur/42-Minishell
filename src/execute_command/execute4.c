@@ -12,3 +12,8 @@
 
 #include "../../minishell.h"
 
+char	*handle_heredoc_case(char **delimiters, t_tools *tools,
+	t_quote_type quote_type)
+{
+	
+}
