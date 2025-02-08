@@ -25,6 +25,14 @@
 # include <signal.h>
 # include "libft/libft.h"
 
+struct s_parser;
+struct s_env;
+
+/*
+** Function pointer type for builtin commands
+*/
+typedef int	(*t_builtin_func)(struct s_parser *, struct s_env *);
+
 typedef enum e_tokens
 {
 	TOKEN_WORD,
@@ -66,7 +74,7 @@ typedef struct s_env
 typedef struct s_parser
 {
 	t_lexer				*tokens;
-	int					(*builtin)(struct s_parser *, t_env *);
+	t_builtin_func		builtin;  // Function pointer for builtins
 	t_lexer				*redirects;
 	char				**hd_delimiters;
 	struct s_parser		*next;
