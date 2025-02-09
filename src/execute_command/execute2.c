@@ -225,10 +225,7 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
                 while (tmp && tmp->token != TOKEN_WORD)
                     tmp = tmp->next;
                 if (!tmp || !tmp->str)
-                {
-                    fprintf(stderr, "minishell: no command provided\n");
-                    exit(EXIT_FAILURE);
-                }
+                    exit(0);
                 parser->tokens = tmp;
             }
 
