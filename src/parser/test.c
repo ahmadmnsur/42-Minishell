@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../minishell.h"
+
 int	check_unclosed_quotes(char *str)
 {
 	int		i;

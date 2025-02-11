@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-static void	set_one_builtin(t_parser *curr)
+void	set_one_builtin(t_parser *curr)
 {
 	static const char		*builtin_names[] = {
 		"echo", "pwd", "cd", "export", "unset", "env", "exit"

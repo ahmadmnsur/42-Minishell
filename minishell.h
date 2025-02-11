@@ -144,12 +144,16 @@ void	reset_signals(void);
 void	set_signals(void);
 int		execute_command(t_tools *tools, char **envp);
 int		if_no_pipe(t_tools *tools, t_parser *parser, char **envp);
-static char *get_command_path(char *cmd, t_env *env);
-static char **build_args(t_lexer *tokens);
-static int process_redirections_child(t_tools *tools, t_lexer *redirects);
+char *get_command_path(char *cmd, t_env *env);
+char **build_args(t_lexer *tokens);
+int process_redirections_child(t_tools *tools, t_lexer *redirects);
 char	*my_strtok(char *str, const char *delim);
-static int if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp);
-static int process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects);
+int	if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp);
+int process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects);
 int process_all_heredocs(t_parser *parser, t_tools *tools);
+int	check_unclosed_quotes(char *str);
+void	set_one_builtin(t_parser *curr);
+void	set_builtins(t_tools *tools);
+int	ft_strcmp1(const char *s1, const char *s2);
 
 #endif
