@@ -149,5 +149,7 @@ static char **build_args(t_lexer *tokens);
 static int process_redirections_child(t_tools *tools, t_lexer *redirects);
 char	*my_strtok(char *str, const char *delim);
 static int if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp);
+static int process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects);
+int process_all_heredocs(t_parser *parser, t_tools *tools);
 
 #endif

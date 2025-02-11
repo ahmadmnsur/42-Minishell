@@ -30,7 +30,7 @@ char *my_strtok(char *str, const char *delim)
 }
 
 
-static int process_redirections_child(t_tools *tools, t_lexer *redirects)
+static int process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects)
 {
     t_lexer *current = redirects;
     int fd;
@@ -185,14 +185,13 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
     int exit_status = 0;
     pid_t pid;
 
-    /* --- For builtins (omitted for brevity, unchanged) --- */
     if (parser->builtin)
     {
         int save_stdin = dup(STDIN_FILENO);
         int save_stdout = dup(STDOUT_FILENO);
         int save_stderr = dup(STDERR_FILENO);
 
-        if (parser->redirects && process_redirections_child(tools, parser->redirects) != 0)
+        if (parser->redirects && process_redirections_child_for_no_pipe(tools, parser->redirects) != 0)
             exit_status = 1;
         else
             exit_status = parser->builtin(parser, tools->env);
@@ -215,10 +214,9 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
         }
         else if (pid == 0)
         {
-            if (parser->redirects && process_redirections_child(tools, parser->redirects) != 0)
+            if (parser->redirects && process_redirections_child_for_no_pipe(tools, parser->redirects) != 0)
                 exit(EXIT_FAILURE);
 
-            /* Defensive: Ensure there is a command token */
             if (!parser->tokens || !parser->tokens->str)
             {
                 t_lexer *tmp = parser->tokens;
