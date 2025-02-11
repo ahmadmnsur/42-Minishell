@@ -180,10 +180,13 @@ static char *get_command_path(char *cmd, t_env *env)
     return NULL;
 }
 
+
 int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
 {
+    (void)envp;  // Mark envp as unused
     int exit_status = 0;
     pid_t pid;
+    char **local_envp;
 
     if (parser->builtin)
     {
@@ -237,7 +240,8 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
                 free(path);
                 exit(EXIT_FAILURE);
             }
-            execve(path, args, envp);
+            local_envp = copy_envp_to_execve(tools->env);
+            execve(path, args, local_envp);
             perror("minishell");
             free(path);
             for (int i = 0; args[i]; i++)

@@ -7,7 +7,7 @@ void	set_one_builtin(t_parser *curr)
 	};
 	static int				(*builtin_funcs[])(t_parser *, t_env *) = {
 		builtin_echo, builtin_pwd, builtin_cd, builtin_export,
-		builtin_unset, builtin_env, builtin_exit, builtin_shlvl;
+		builtin_unset, builtin_env, builtin_exit;
 	};
 	int						i;
 

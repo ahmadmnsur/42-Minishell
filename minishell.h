@@ -155,5 +155,6 @@ int	check_unclosed_quotes(char *str);
 void	set_one_builtin(t_parser *curr);
 void	set_builtins(t_tools *tools);
 int	ft_strcmp1(const char *s1, const char *s2);
+char    **copy_envp_to_execve(t_env *env);
 
 #endif
