@@ -3,11 +3,11 @@
 void	set_one_builtin(t_parser *curr)
 {
 	static const char		*builtin_names[] = {
-		"echo", "pwd", "cd", "export", "unset", "env", "exit"
+		"echo", "pwd", "cd", "export", "unset", "env", "exit", "./minishell"
 	};
 	static int				(*builtin_funcs[])(t_parser *, t_env *) = {
 		builtin_echo, builtin_pwd, builtin_cd, builtin_export,
-		builtin_unset, builtin_env, builtin_exit
+		builtin_unset, builtin_env, builtin_exit, builtin_shlvl;
 	};
 	int						i;
 
