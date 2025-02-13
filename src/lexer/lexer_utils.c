@@ -82,3 +82,21 @@ void	free_lexer(t_lexer **lexer)
 	}
 	*lexer = NULL;
 }
+
+int	count_pipes(t_lexer *node)
+{
+	int		pipe_count;
+	t_lexer	*current;
+
+	pipe_count = 0;
+	if (node == NULL || node->token == TOKEN_EOF)
+		return (0);
+	current = node;
+	while (current != NULL)
+	{
+		if (current->token == TOKEN_PIPE)
+			pipe_count++;
+		current = current->next;
+	}
+	return (pipe_count);
+}
