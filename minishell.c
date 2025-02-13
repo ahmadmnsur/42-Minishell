@@ -55,25 +55,33 @@ void	set_init(int argc, char *argv[], int *status, t_env **env)
 
 char	*minishell_loop(int status)
 {
-	char	*prompt;
-	char	*last_status;
-	char	*readline_;
+    char	*prompt;
+    char	*last_status;
+   // char	*formatted_prompt;
+    char	*readline_;
 
-	if (status == 0)
-		return (readline("\033[32mminishell\033[0m\033[34m[0]\033[0m$ "));
-	else
-	{
-		prompt = ft_strdup("\033[32mminishell\033[0m");
-		prompt = ft_strjoin(prompt, "\033[31m");
-		prompt = ft_strjoin(prompt, "[");
-		last_status = ft_itoa(status);
-		prompt = ft_strjoin(prompt, last_status);
-		free(last_status);
-		prompt = ft_strjoin(prompt, "]\033[0m$ ");
-		readline_ = readline(prompt);
-		free(prompt);
-	}
-	return (readline_);
+    if (status == 0)
+    {
+        // Note: Wrap non-printable sequences with \001 and \002
+        prompt = ft_strdup("\001\033[32m\002minishell\001\033[0m\002\001\033[34m\002[0]\001\033[0m\002$ ");
+        readline_ = readline(prompt);
+        free(prompt);
+    }
+    else
+    {
+        // Constructing the prompt dynamically with the status code.
+        // Start with the colored 'minishell'
+        prompt = ft_strdup("\001\033[32m\002minishell\001\033[0m\002");
+        // Append the status with its color
+        prompt = ft_strjoin(prompt, "\001\033[31m\002[");
+        last_status = ft_itoa(status);
+        prompt = ft_strjoin(prompt, last_status);
+        free(last_status);
+        prompt = ft_strjoin(prompt, "]\001\033[0m\002$ ");
+        readline_ = readline(prompt);
+        free(prompt);
+    }
+    return (readline_);
 }
 
 void	print_full_env(t_env *env)
