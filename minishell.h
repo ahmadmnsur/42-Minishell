@@ -171,4 +171,9 @@ void	print_syntax_error(char *msg, int *status);
 t_parser	*create_new_parser_node(void);
 void	parser_add_back(t_parser **parser);
 void	init_parser_nodes(t_parser **parser, t_lexer *lexer, const char *str);
+void	add_to_redirects(t_lexer **redirects, t_lexer *redirection,
+	t_lexer *target);
+void	init_one_redirect(t_lexer **redirects, t_lexer **lexer);
+void	init_redirections(t_parser *parser);
+void	free_lexer_node(t_lexer **lexer, t_lexer *to_del);
 #endif
