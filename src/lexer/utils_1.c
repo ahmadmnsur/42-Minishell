@@ -62,3 +62,20 @@ void	add_lexer_and_increment_i(t_lexer **lexer, int token,
 	*i += increment;
 	add_lexer_node_back(lexer, new);
 }
+int	get_nb_of_pipes(t_lexer *lexer)
+{
+	int		nb_pipes;
+	t_lexer	*tmp;
+
+	nb_pipes = 0;
+	if (!lexer || lexer->token == TOKEN_EOF)
+		return (0);
+	tmp = lexer;
+	while (tmp)
+	{
+		if (tmp->token == TOKEN_PIPE)
+			nb_pipes++;
+		tmp = tmp->next;
+	}
+	return (nb_pipes);
+}

@@ -203,24 +203,6 @@ void	initialize_environment(t_env **env)
 	set_env_var(env, "OLDPWD", NULL, 1);
 	set_env_var(env, "SHLVL", "1", 0);
 }
-int	init_tools(t_tools *tools, char *str, char **envp)
-{
-	tools->lexer = NULL;
-	tools->parser = NULL;
-	(void)envp;
-	parse_string(&(tools->lexer), str);
-	init_parser_nodes(&(tools->parser), tools->lexer, str);
-	set_tokens_lexer(&(tools->parser), tools->lexer);
-	if (!check_initial_errors(str, tools))
-		return (free(str), 0);
-	free(str);
-	free_lexer(&(tools->lexer));
-	update_parser_tokens(tools);
-	init_redirections(tools->parser);
-	set_hd_limiter_parser(tools->parser);
-	set_builtins(tools);
-	return (1);
-}
 
 void	free_tools(t_tools *tools)
 {
@@ -318,20 +300,6 @@ void	env_add_back(t_env **env, char *key, char *value, int hidden)
 	tmp->next = node;
 }
 
-void	free_split(char **split)
-{
-	int	i;
-
-	if (!split)
-		return ;
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
 
 void	update_double_quotes_case(t_tools *tools, t_lexer *current)
 {
@@ -637,4 +605,20 @@ free(*sub);
 (**i)++;
 return ;
 }
+}
+
+int	open_file(char *filename, int oflags, int access)
+{
+	int	fd;
+
+	if (access == 0)
+		fd = open(filename, oflags);
+	else
+		fd = open(filename, oflags, access);
+	if (fd < 0)
+	{
+		print_message_error(filename, ": ", strerror(errno), 0);
+		return (-1);
+	}
+	return (fd);
 }

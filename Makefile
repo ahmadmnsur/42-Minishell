@@ -12,6 +12,7 @@ SRCS =  minishell.c										\
 		src/lexer/utils_1.c				\
 		src/parser/free_parser.c						\
 		src/parser/parser_checker.c					\
+		src/parser/utils.c \
 		src/parser/parser_checker2.c					\
 		src/parser/set_builtin.c						\
 		src/parser/hd_limiter.c					\
@@ -19,7 +20,6 @@ SRCS =  minishell.c										\
 		src/parser/tokens2.c						\
 		src/parser/redirection.c						\
 		src/utils/utils.c								\
-		src/tools/test.c 						\
 		src/builtins/echo.c					\
 		src/builtins/exit.c					\
 		src/builtins/env.c						\
@@ -33,11 +33,12 @@ SRCS =  minishell.c										\
 		src/execute_command/execute2.c			\
 		src/execute_command/execute3.c			\
 		src/execute_command/execute4.c			\
-		src/execute_command/utils.c			\
+		src/execute_command/utils1.c			\
 		src/signals/signals2.c							\
 		src/signals/signals1.c					\
 		src/heredoc/test.c							\
-		
+		src/tools/test.c \
+	
 		
 OBJDIR = objs
 OBJCS = $(SRCS:%.c=$(OBJDIR)/%.o)

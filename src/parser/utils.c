@@ -36,29 +36,3 @@ void	parser_add_back(t_parser **parser)
 	new_node->prev = last_node;
 }
 
-void	init_parser_nodes(t_parser **parser, t_lexer *lexer, const char *str)
-{
-	int	pipe_count;
-	int	i;
-	int	j;
-
-	if (!str || !str[0])
-		return ;
-	j = 0;
-	while (str[j])
-	{
-		if (str[j] != ' ' && (str[j] < 9 || str[j] > 13))
-			break ;
-		j++;
-	}
-	if (str[j] == '\0')
-		return ; // If the string is only spaces, return early
-
-	pipe_count = get_nb_of_pipes(lexer);
-	i = 0;
-	while (i <= pipe_count)
-	{
-		parser_add_back(parser);
-		i++;
-	}
-}

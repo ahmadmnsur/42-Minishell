@@ -146,7 +146,7 @@ char *get_command_path(char *cmd, t_env *env);
 char **build_args(t_lexer *tokens);
 int process_redirections_child(t_tools *tools, t_lexer *redirects);
 char	*my_strtok(char *str, const char *delim);
-int	if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp);
+int if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp);
 int process_all_heredocs(t_parser *parser, t_tools *tools);
 int	check_unclosed_quotes(char *str);
 void	set_one_builtin(t_parser *curr);
@@ -169,7 +169,7 @@ int	check_parser_redirections(t_parser *parser);
 void	print_syntax_error(char *msg, int *status);
 t_parser	*create_new_parser_node(void);
 void	parser_add_back(t_parser **parser);
-void	init_parser_nodes(t_parser **parser, t_lexer *lexer, const char *str);
+void	init_parser_node(t_parser **parser, t_lexer *lexer, const char *str);
 void	add_to_redirects(t_lexer **redirects, t_lexer *redirection,
 	t_lexer *target);
 void	init_one_redirect(t_lexer **redirects, t_lexer **lexer);
@@ -225,4 +225,14 @@ int	is_a_special_case(t_lexer *current, int *i);
 void	fill_ptr_substr(char **ptr, char *buffer, pid_t *pid);
 void	handle_dollar_special_case(t_lexer	*current, char **sub,
     int **len, int **i);
+char	*handle_heredoc_case(char **delimiters, t_tools *tools,
+		t_quote_type quote_type);
+char	*create_heredoc_file_and_redirect(char **delimiters, t_tools *tools,
+			t_quote_type quote_type, int i);
+t_lexer	*render_input_to_lexer(char *delimiter);
+void	update_heredoc_words(t_lexer *heredoc_lex, t_tools *tools,
+	t_quote_type quote_type);
+int	open_file(char *filename, int oflags, int access);
+int	get_delimiters_count(char **delimiters);
+int	get_nb_of_pipes(t_lexer *lexer);
 #endif

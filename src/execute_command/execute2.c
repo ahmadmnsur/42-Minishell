@@ -30,7 +30,7 @@ char *my_strtok(char *str, const char *delim)
 }
 
 
-static int process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects)
+int process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects)
 {
     t_lexer *current = redirects;
     int fd;
@@ -108,7 +108,7 @@ static int process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redir
     return 0;
 }
 
-static char **build_args(t_lexer *tokens)
+char **build_args(t_lexer *tokens)
 {
     int count = 0;
     t_lexer *tmp = tokens;
@@ -142,7 +142,7 @@ static char **build_args(t_lexer *tokens)
     return args;
 }
 
-static char *get_command_path(char *cmd, t_env *env)
+char *get_command_path(char *cmd, t_env *env)
 {
     if (ft_strrchr(cmd, '/') != NULL)
     {
