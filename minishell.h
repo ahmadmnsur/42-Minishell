@@ -181,9 +181,6 @@ void	set_hd_limiters_in_node(t_parser *node);
 int		get_nb_of_heredocs(t_lexer *redirs);
 char	*get_token(t_tokens token);
 void	set_tokens_lexer(t_parser **parser, t_lexer *lexer);
-void	assign_tokens_to_parser(t_parser **parser,
-	t_lexer *lexer, unsigned int nb_nodes);
-int	count_lexer_nodes(t_lexer *lexer);
 void	ft_tokens_join(t_lexer **tmp, t_lexer **to_del);
 void	free_strs_nodes(char **s1, char **s2);
 void	delete_empty_node(t_lexer **tokens, t_lexer **tmp, char **str);
@@ -210,4 +207,11 @@ int	ft_isspacee(char *str);
 void	env_add_back(t_env **env, char *key, char *value, int hidden);
 t_env	*get_env_var(t_env *env, char *key);
 void	free_split(char **split);
+int builtin_echo(t_parser *parser, t_env *env);
+void	update_double_quotes_case(t_tools *tools, t_lexer *current);
+void	insert_at(t_lexer **lexer, t_lexer *current, char *str, int space);
+void	update_no_quotes_case(t_tools *tools, t_lexer **current, t_lexer **tmp);
+char	*string_converter(t_lexer *current, t_tools *tools);
+void	handle_dollar_sign_str(t_lexer *current, t_tools *tools,
+	int *i, char **result);
 #endif

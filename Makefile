@@ -14,7 +14,7 @@ SRCS =  minishell.c										\
 		src/parser/parser_checker.c					\
 		src/parser/parser_checker2.c					\
 		src/parser/set_builtin.c						\
-		src/parser/hd_limiters.c					\
+		src/parser/hd_limiter.c					\
 		src/parser/tokens.c				\
 		src/parser/tokens2.c						\
 		src/parser/redirection.c						\
