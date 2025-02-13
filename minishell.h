@@ -167,5 +167,6 @@ int	handle_redirect_in(t_lexer *current);
 int	check_invalid_token(t_lexer *current);
 int	check_redirections(t_lexer *lexer);
 int	check_parser_redirections(t_parser *parser);
+void	print_syntax_error(char *msg, int *status);
 
 #endif

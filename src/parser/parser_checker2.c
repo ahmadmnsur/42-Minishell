@@ -57,3 +57,12 @@ int	check_unclosed_quotes(char *str)
 	}
 	return (quote);
 }
+
+void	print_syntax_error(char *msg, int *status)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putendl_fd("\'", STDERR_FILENO);
+	if (status)
+		*status = 2;
+}
