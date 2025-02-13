@@ -179,4 +179,9 @@ void	free_lexer_node(t_lexer **lexer, t_lexer *to_del);
 void	set_hd_limiter_parser(t_parser *parser);
 void	set_hd_limiters_in_node(t_parser *node);
 int		get_nb_of_heredocs(t_lexer *redirs);
+char	*get_token(t_tokens token);
+void	set_tokens_lexer(t_parser **parser, t_lexer *lexer);
+void	assign_tokens_to_parser(t_parser **parser,
+	t_lexer *lexer, unsigned int nb_nodes);
+int	count_lexer_nodes(t_lexer *lexer);
 #endif
