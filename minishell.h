@@ -190,4 +190,6 @@ void	delete_empty_node(t_lexer **tokens, t_lexer **tmp, char **str);
 void	update_parser_tokens(t_tools *tools);
 void	update_token_words(t_tools *tools, t_lexer **current);
 void	cat_words(t_parser *parser);
+void	cat_heredoc_word(t_lexer **lexer, t_lexer *current);
+void	cat_heredoc_words(t_parser *parser);
 #endif
