@@ -176,4 +176,7 @@ void	add_to_redirects(t_lexer **redirects, t_lexer *redirection,
 void	init_one_redirect(t_lexer **redirects, t_lexer **lexer);
 void	init_redirections(t_parser *parser);
 void	free_lexer_node(t_lexer **lexer, t_lexer *to_del);
+void	set_hd_limiter_parser(t_parser *parser);
+void	set_hd_limiters_in_node(t_parser *node);
+int		get_nb_of_heredocs(t_lexer *redirs);
 #endif
