@@ -8,37 +8,35 @@ SRCS =  minishell.c										\
 		src/lexer/handle_lexer.c					\
 		src/lexer/lexer_utils.c					\
 		src/lexer/lexer_sublist.c					\
-		srcs/lexer/parser_lexer.c						\
-		srcs/lexer/parser_lexer.c						\
-		srcs/parser/utils_1.c						\
-		srcs/parser/free_parser.c						\
-		srcs/parser/set_tokens.c						\
-		srcs/parser/parser_checker.c					\
-		srcs/parser/parser_checker2.c					\
-		srcs/parser/set_builtin.c						\
-		srcs/parser/hd_limiters.c					\
-		srcs/parser/tokens.c				\
-		srcs/parser/tokens2.c						\
-		srcs/parser/redirection.c						\
-		srcs/utils/utils.c								\
-		srcs/tools/test.c 						\
-		srcs/builtins/echo.c					\
-		srcs/builtins/exit.c					\
-		srcs/builtins/builtin_env.c						\
-		srcs/builtins/export.c					\
-		srcs/builtins/unset.c					\
-		srcs/builtins/cd.c						\
-		srcs/builtins/pwd.c						\
-		srcs/builtins/utils.c					\
-		srcs/builtins/utils2.c					\
-		srcs/execute_command/execute1.c			\
-		srcs/execute_command/execute2.c			\
-		srcs/execute_command/execute3.c			\
-		srcs/execute_command/execute4.c			\
-		srcs/execute_command/utils.c			\
-		srcs/signals/signals1.c					\
-		srcs/signals/signals2.c							\
-		srcs/heredoc/test.c							\
+		src/lexer/parse_lexer.c						\
+		src/lexer/utils_1.c				\
+		src/parser/free_parser.c						\
+		src/parser/parser_checker.c					\
+		src/parser/parser_checker2.c					\
+		src/parser/set_builtin.c						\
+		src/parser/hd_limiters.c					\
+		src/parser/tokens.c				\
+		src/parser/tokens2.c						\
+		src/parser/redirection.c						\
+		src/utils/utils.c								\
+		src/tools/test.c 						\
+		src/builtins/echo.c					\
+		src/builtins/exit.c					\
+		src/builtins/builtin_env.c						\
+		src/builtins/export.c					\
+		src/builtins/unset.c					\
+		src/builtins/cd.c						\
+		src/builtins/pwd.c						\
+		src/builtins/utils.c					\
+		src/builtins/utils2.c					\
+		src/execute_command/execute1.c			\
+		src/execute_command/execute2.c			\
+		src/execute_command/execute3.c			\
+		src/execute_command/execute4.c			\
+		src/execute_command/utils.c			\
+		src/signals/signals2.c							\
+		src/signals/signals1.c					\
+		src/heredoc/test.c							\
 		
 		
 OBJDIR = objs
