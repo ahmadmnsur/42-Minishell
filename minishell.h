@@ -161,5 +161,6 @@ int	count_pipes(t_lexer *node);
 void	free_parser_list(t_parser **head);
 void	free_parser_content(t_parser *node);
 void	delete_parser_node(t_parser **head, t_parser *node_to_delete);
+int	validate_pipes_and_words(t_parser *head);
 
 #endif
