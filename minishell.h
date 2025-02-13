@@ -129,7 +129,7 @@ void	handle_special_char(t_lexer **lexer, const char *str, int *i);
 void	process_string(t_lexer **lexer, const char *str, int *i);
 void	add_lexer_and_increment_i(t_lexer **lexer, int token, int *i, int increment);
 void	fill_sub_lexer(t_lexer **sub, t_lexer **tmp, unsigned int sub_size);
-t_lexer	*find_start_node(t_lexer *lexer, unsigned int start_index);
+t_lexer	*find_start_node(t_lexer *lexer, t_lexer *start_node)
 t_lexer	*ft_sublexer(t_lexer *lexer, t_lexer *start_node, unsigned int nb_nodes);
 void	free_env(t_env **env);
 void	check_signal_if_recieved(int *status);
