@@ -27,7 +27,7 @@ void	fill_sub_lexer(t_lexer **sub, t_lexer **tmp, unsigned int sub_size)
 		add_lexer_node_back(sub, new);
 		i++;
 		(*tmp) = (*tmp)->next;
-		assign_indices(sub);
+		add_index_token(sub);
 	}
 }
 
