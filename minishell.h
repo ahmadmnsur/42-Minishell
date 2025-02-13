@@ -168,5 +168,7 @@ int	check_invalid_token(t_lexer *current);
 int	check_redirections(t_lexer *lexer);
 int	check_parser_redirections(t_parser *parser);
 void	print_syntax_error(char *msg, int *status);
-
+t_parser	*create_new_parser_node(void);
+void	parser_add_back(t_parser **parser);
+void	init_parser_nodes(t_parser **parser, t_lexer *lexer, const char *str);
 #endif
