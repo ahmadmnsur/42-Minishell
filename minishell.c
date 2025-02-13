@@ -14,12 +14,14 @@
 #include "fcntl.h"
 #include "unistd.h"
 
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*prompt;
 	char	*cmd;
 	t_tools	tools;
 
+	art();
 	set_init(argc, argv, &(tools.last_exit_status), &(tools.env));
 	(copy_envp(&(tools.env), envp), initialize_environment(&(tools.env)));
 	while (1)

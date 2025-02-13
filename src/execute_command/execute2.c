@@ -187,10 +187,11 @@ int if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
     int exit_status = 0;
     pid_t pid;
     char **local_envp;
-
+    
     if (process_all_heredocs(parser, tools) != 0) {
         return 130;
     }
+
     if (parser->builtin)
     {
         int save_stdin = dup(STDIN_FILENO);

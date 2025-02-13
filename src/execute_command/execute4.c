@@ -83,20 +83,30 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
     char *line;
     char *expanded_line;
     int expand_variables;
-    int delimiter_found = 0;
+    int stdin_copy;
 
-    /* Install our custom signal handler for SIGINT */
-    set_signals();
-    /* Disable Readline’s internal signal catching so our handler is used */
-    rl_catch_signals = 0;
+    // Save a copy of stdin
+    stdin_copy = dup(STDIN_FILENO);
+    if (stdin_copy == -1) {
+        perror("minishell");
+        return NULL;
+    }
 
+    // Set specific signal handler for heredoc
+    signal(SIGINT, handle_heredoc_signal);
+    signal(SIGQUIT, SIG_IGN);
+    g_signum = 0;
+    
     if (!delimiters || !delimiters[0]) {
+        close(stdin_copy);
         reset_signals();
         return NULL;
     }
+    
     delimiter = ft_strtrim(delimiters[0], " \t\n");
     if (!delimiter) {
         perror("minishell");
+        close(stdin_copy);
         reset_signals();
         return NULL;
     }
@@ -105,14 +115,17 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
     if (tmp_fd == -1) {
         perror("minishell");
         free(delimiter);
+        close(stdin_copy);
         reset_signals();
         return NULL;
     }
+    
     tmp_file = fdopen(tmp_fd, "w+");
     if (!tmp_file) {
         perror("minishell");
         close(tmp_fd);
         free(delimiter);
+        close(stdin_copy);
         reset_signals();
         return NULL;
     }
@@ -121,32 +134,37 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
 
     while (1) {
         line = readline("> ");
-        if (!line) {
-            /*
-             * Ctrl-D (EOF) encountered.
-             * Print a warning (optional) and simulate the delimiter being entered.
-             */
-            fprintf(stderr,
-                    "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
-                    delimiter);
-            delimiter_found = 1;
-            break;
-        }
+        
         if (g_signum == SIGINT) {
             free(line);
             fclose(tmp_file);
+            unlink(template);
             free(delimiter);
+            
+            // Restore stdin
+            dup2(stdin_copy, STDIN_FILENO);
+            close(stdin_copy);
+            
             reset_signals();
             return NULL;
         }
-        if (strcmp(line, delimiter) == 0) {
-            free(line);
-            delimiter_found = 1;
+
+        // Handle EOF
+        if (!line) {
+            fprintf(stderr, 
+                "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
+                delimiter);
             break;
         }
+
+        if (strcmp(line, delimiter) == 0) {
+            free(line);
+            break;
+        }
+
         if (expand_variables) {
             expanded_line = expand_heredoc_line(line, tools->env,
-                                                  tools->last_exit_status, 1);
+                                              tools->last_exit_status, 1);
             fprintf(tmp_file, "%s\n", expanded_line);
             free(expanded_line);
         } else {
@@ -154,16 +172,20 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
         }
         free(line);
     }
-    if(!delimiter_found)
-    {
-        printf("hhh\n");
-    }
 
-    /* We now treat EOF as a valid termination of the heredoc. */
-    reset_signals();
+    // Restore stdin before returning
+    dup2(stdin_copy, STDIN_FILENO);
+    close(stdin_copy);
+
     free(delimiter);
     fflush(tmp_file);
     fclose(tmp_file);
+    reset_signals();
+    
+    if (g_signum == SIGINT) {
+        unlink(template);
+        return NULL;
+    }
 
     return ft_strdup(template);
 }
