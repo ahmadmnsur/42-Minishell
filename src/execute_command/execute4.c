@@ -154,6 +154,10 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
         }
         free(line);
     }
+    if(!delimiter_found)
+    {
+        printf("hhh\n");
+    }
 
     /* We now treat EOF as a valid termination of the heredoc. */
     reset_signals();
