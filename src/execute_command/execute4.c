@@ -17,7 +17,7 @@ char *get_env_value(const char *key, t_env *env)
     while (env)
     {
         if (strcmp(env->key, key) == 0)
-            return strdup(env->value);  
+            return strdup(env->value);
         env = env->next;
     }
     return NULL;
@@ -85,14 +85,19 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
     int expand_variables;
     int delimiter_found = 0;
 
-    reset_signals();
+    /* Install our custom signal handler for SIGINT */
+    set_signals();
+    /* Disable Readline’s internal signal catching so our handler is used */
+    rl_catch_signals = 0;
 
     if (!delimiters || !delimiters[0]) {
+        reset_signals();
         return NULL;
     }
     delimiter = ft_strtrim(delimiters[0], " \t\n");
     if (!delimiter) {
         perror("minishell");
+        reset_signals();
         return NULL;
     }
 
@@ -100,6 +105,7 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
     if (tmp_fd == -1) {
         perror("minishell");
         free(delimiter);
+        reset_signals();
         return NULL;
     }
     tmp_file = fdopen(tmp_fd, "w+");
@@ -107,16 +113,30 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
         perror("minishell");
         close(tmp_fd);
         free(delimiter);
+        reset_signals();
         return NULL;
     }
 
     expand_variables = (quote_type == NO_QUOTE);
 
-    while ((line = readline("> ")) != NULL) {
+    while (1) {
+        line = readline("> ");
+        if (!line) {
+            /*
+             * Ctrl-D (EOF) encountered.
+             * Print a warning (optional) and simulate the delimiter being entered.
+             */
+            fprintf(stderr,
+                    "minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
+                    delimiter);
+            delimiter_found = 1;
+            break;
+        }
         if (g_signum == SIGINT) {
             free(line);
             fclose(tmp_file);
             free(delimiter);
+            reset_signals();
             return NULL;
         }
         if (strcmp(line, delimiter) == 0) {
@@ -125,7 +145,8 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
             break;
         }
         if (expand_variables) {
-            expanded_line = expand_heredoc_line(line, tools->env, tools->last_exit_status, 1);
+            expanded_line = expand_heredoc_line(line, tools->env,
+                                                  tools->last_exit_status, 1);
             fprintf(tmp_file, "%s\n", expanded_line);
             free(expanded_line);
         } else {
@@ -134,12 +155,7 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
         free(line);
     }
 
-    if (!delimiter_found) {
-        fclose(tmp_file);
-        free(delimiter);
-        return NULL;
-    }
-
+    /* We now treat EOF as a valid termination of the heredoc. */
     reset_signals();
     free(delimiter);
     fflush(tmp_file);
@@ -147,7 +163,6 @@ char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
 
     return ft_strdup(template);
 }
-
 
 
 
