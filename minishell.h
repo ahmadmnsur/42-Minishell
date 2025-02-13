@@ -162,5 +162,10 @@ void	free_parser_list(t_parser **head);
 void	free_parser_content(t_parser *node);
 void	delete_parser_node(t_parser **head, t_parser *node_to_delete);
 int	validate_pipes_and_words(t_parser *head);
+int	is_redirection_token(t_tokens token);
+int	handle_redirect_in(t_lexer *current);
+int	check_invalid_token(t_lexer *current);
+int	check_redirections(t_lexer *lexer);
+int	check_parser_redirections(t_parser *parser);
 
 #endif
