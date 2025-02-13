@@ -192,4 +192,18 @@ void	update_token_words(t_tools *tools, t_lexer **current);
 void	cat_words(t_parser *parser);
 void	cat_heredoc_word(t_lexer **lexer, t_lexer *current);
 void	cat_heredoc_words(t_parser *parser);
+int	main(int argc, char *argv[], char *envp[]);
+void	set_init(int argc, char *argv[], int *status, t_env **env);
+char	*minishell_loop(int status);
+void	print_full_env(t_env *env);
+void	set_env_var(t_env **env, char *key, char *value, int hidden);
+void	free_simple_node(t_env **env, t_env *to_del);
+void	unset_env_var(t_env **env, char *key);
+void	copy_envp(t_env **env, char **envp);
+void	update_shlvl(t_env **env, int hidden);
+void	initialize_environment(t_env **env);
+int	init_tools(t_tools *tools, char *str, char **envp);
+void	free_tools(t_tools *tools);
+int	check_initial_errors(char *prompt, t_tools *tools);
+void	print_message_error(char *s1, char *s2, char *s3, char *s4);
 #endif
