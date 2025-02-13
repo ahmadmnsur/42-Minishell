@@ -187,4 +187,7 @@ int	count_lexer_nodes(t_lexer *lexer);
 void	ft_tokens_join(t_lexer **tmp, t_lexer **to_del);
 void	free_strs_nodes(char **s1, char **s2);
 void	delete_empty_node(t_lexer **tokens, t_lexer **tmp, char **str);
+void	update_parser_tokens(t_tools *tools);
+void	update_token_words(t_tools *tools, t_lexer **current);
+void	cat_words(t_parser *parser);
 #endif
