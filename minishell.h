@@ -184,4 +184,7 @@ void	set_tokens_lexer(t_parser **parser, t_lexer *lexer);
 void	assign_tokens_to_parser(t_parser **parser,
 	t_lexer *lexer, unsigned int nb_nodes);
 int	count_lexer_nodes(t_lexer *lexer);
+void	ft_tokens_join(t_lexer **tmp, t_lexer **to_del);
+void	free_strs_nodes(char **s1, char **s2);
+void	delete_empty_node(t_lexer **tokens, t_lexer **tmp, char **str);
 #endif
