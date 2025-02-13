@@ -158,5 +158,8 @@ int	count_sub_size(t_lexer *start_node, unsigned int nb_nodes);
 void	fill_missing_strings(t_lexer *sub);
 void	free_lexer(t_lexer **lexer);
 int	count_pipes(t_lexer *node);
+void	free_parser_list(t_parser **head);
+void	free_parser_content(t_parser *node);
+void	delete_parser_node(t_parser **head, t_parser *node_to_delete);
 
 #endif
