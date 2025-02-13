@@ -156,5 +156,7 @@ int	ft_strcmp1(const char *s1, const char *s2);
 char    **copy_envp_to_execve(t_env *env);
 int	count_sub_size(t_lexer *start_node, unsigned int nb_nodes);
 void	fill_missing_strings(t_lexer *sub);
+void	free_lexer(t_lexer **lexer);
+int	count_pipes(t_lexer *node);
 
 #endif
