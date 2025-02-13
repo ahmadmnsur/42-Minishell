@@ -15,6 +15,7 @@
 
 int process_all_heredocs(t_parser *parser, t_tools *tools) {
     t_parser *curr = parser;
+    
     while (curr) {
         t_lexer *redirect = curr->redirects;
         while (redirect) {
@@ -23,24 +24,30 @@ int process_all_heredocs(t_parser *parser, t_tools *tools) {
                     fprintf(stderr, "minishell: syntax error near unexpected token\n");
                     return -1;
                 }
-                // Process heredoc in parent
+                
                 char *delimiter = redirect->next->str;
                 char *filename = handle_heredoc_case(&delimiter, tools, redirect->quote_type);
+                
+                // Check if heredoc was interrupted by SIGINT
+                if (!filename && g_signum == SIGINT) {
+                    g_signum = 0;
+                    return 130;
+                }
+                
                 if (!filename) {
                     return -1;
                 }
-                // Replace heredoc token with redirect_in and update filename
+                
                 redirect->token = TOKEN_REDIRECT_IN;
                 free(redirect->next->str);
                 redirect->next->str = filename;
             }
-            redirect = redirect->next;  // Move to next node directly
+            redirect = redirect->next;
         }
         curr = curr->next;
     }
     return 0;
 }
-
 
 int process_redirections_child(t_tools *tools, t_lexer *redirects) {
     (void)tools;
@@ -102,7 +109,6 @@ int if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp) {
     if (process_all_heredocs(parser, tools) != 0) {
         return 130;
     }
-
     int num_cmd = num_pipes + 1;
     int status;
     int last_status = 0;

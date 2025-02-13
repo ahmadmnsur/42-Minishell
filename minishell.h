@@ -91,7 +91,8 @@ typedef struct s_tools
 
 extern int	g_signum;
 
-
+void	art(void);
+void	handle_heredoc_signal(int sig);
 int     builtin_env(t_parser *parser, t_env *env);
 int	    builtin_pwd(t_parser *parser, t_env *env);
 int		builtin_exit(t_parser *parser, t_env *env);
@@ -235,4 +236,6 @@ void	update_heredoc_words(t_lexer *heredoc_lex, t_tools *tools,
 int	open_file(char *filename, int oflags, int access);
 int	get_delimiters_count(char **delimiters);
 int	get_nb_of_pipes(t_lexer *lexer);
+
+
 #endif

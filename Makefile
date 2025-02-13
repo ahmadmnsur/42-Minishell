@@ -4,24 +4,25 @@ LIBFT = libft
 
 LIBFT_LIB = libft/libft.a
 
-SRCS =  minishell.c										\
-		src/lexer/handle_lexer.c					\
+SRCS =  minishell.c								\
+		art.c									\
+		src/lexer/handle_lexer.c				\
 		src/lexer/lexer_utils.c					\
-		src/lexer/lexer_sublist.c					\
-		src/lexer/parse_lexer.c						\
-		src/lexer/utils_1.c				\
-		src/parser/free_parser.c						\
-		src/parser/parser_checker.c					\
-		src/parser/utils.c \
-		src/parser/parser_checker2.c					\
-		src/parser/set_builtin.c						\
+		src/lexer/lexer_sublist.c				\
+		src/lexer/parse_lexer.c					\
+		src/lexer/utils_1.c						\
+		src/parser/free_parser.c				\
+		src/parser/parser_checker.c				\
+		src/parser/utils.c 						\
+		src/parser/parser_checker2.c			\
+		src/parser/set_builtin.c				\
 		src/parser/hd_limiter.c					\
-		src/parser/tokens.c				\
-		src/parser/tokens2.c						\
-		src/parser/redirection.c						\
-		src/utils/utils.c								\
-		src/builtins/echo.c					\
-		src/builtins/exit.c					\
+		src/parser/tokens.c						\
+		src/parser/tokens2.c					\
+		src/parser/redirection.c				\
+		src/utils/utils.c						\
+		src/builtins/echo.c						\
+		src/builtins/exit.c						\
 		src/builtins/env.c						\
 		src/builtins/export.c					\
 		src/builtins/unset.c					\
@@ -34,10 +35,10 @@ SRCS =  minishell.c										\
 		src/execute_command/execute3.c			\
 		src/execute_command/execute4.c			\
 		src/execute_command/utils1.c			\
-		src/signals/signals2.c							\
+		src/signals/signals2.c					\
 		src/signals/signals1.c					\
-		src/heredoc/test.c							\
-		src/tools/test.c \
+		src/heredoc/test.c						\
+		src/tools/test.c 						\
 	
 		
 OBJDIR = objs
