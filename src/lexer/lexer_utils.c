@@ -63,3 +63,22 @@ void	add_index_token(t_lexer **lexer)
 		tmp = tmp->next;
 	}
 }
+
+void	free_lexer(t_lexer **lexer)
+{
+	t_lexer	*tmp;
+	t_lexer	*next_node;
+
+	if (!lexer || !*lexer)
+		return ;
+	tmp = *lexer;
+	while (tmp != NULL)
+	{
+		next_node = tmp->next;
+		if (tmp->str != NULL)
+			free(tmp->str);
+		free(tmp);
+		tmp = next_node;
+	}
+	*lexer = NULL;
+}
