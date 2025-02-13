@@ -22,7 +22,7 @@ SRCS =  minishell.c										\
 		src/tools/test.c 						\
 		src/builtins/echo.c					\
 		src/builtins/exit.c					\
-		src/builtins/builtin_env.c						\
+		src/builtins/env.c						\
 		src/builtins/export.c					\
 		src/builtins/unset.c					\
 		src/builtins/cd.c						\

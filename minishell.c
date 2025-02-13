@@ -494,3 +494,147 @@ else
 }
 return (result);
 }
+
+void	handle_empty_split(t_lexer **current, t_lexer *to_del,
+    char ***split, char **str)
+{
+free_lexer_node(current, to_del);
+if (*split && !(**split))
+free_split(*split);
+free(*str);
+}
+void	handle_simple_string(t_lexer *to_del, char ***split, char **str)
+{
+	if (to_del->str)
+		free(to_del->str);
+	to_del->str = ft_strdup(*str);
+	free_split(*split);
+	free(*str);
+}
+
+pid_t	get_pid(void)
+{
+	int		fd;
+	char	buffer[256];
+	pid_t	pid;
+	ssize_t	bytes_read;
+	char	*ptr;
+
+	pid = -1;
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (fd == -1)
+	{
+		perror("open");
+		return (pid);
+	}
+	bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+	if (bytes_read == -1)
+	{
+		perror("read");
+		close(fd);
+		return (pid);
+	}
+	buffer[bytes_read] = '\0';
+	fill_ptr_substr(&ptr, buffer, &pid);
+	close(fd);
+	return (pid);
+}
+
+int	get_new_string_length(t_lexer *current, t_tools *tools)
+{
+	int		len;
+	int		i;
+
+	if (!current->str || !current->str[0])
+		return (0);
+	len = 0;
+	i = 0;
+	while (current->str[i])
+	{
+		if (current->str[i] != '$')
+		{
+			len++;
+			i++;
+		}
+		else
+			handle_dollar_sign_len(current, tools, &i, &len);
+	}
+	return (len);
+}
+
+void	handle_question_mark(t_tools *tools, char **sub, int **i, int **len)
+{
+	*sub = ft_itoa(tools->last_exit_status);
+	**len += ft_strlen(*sub);
+	free(*sub);
+	(**i)++;
+}
+
+void	handle_dollar_sign_len(t_lexer *current, t_tools *tools,
+		int *i, int *len)
+{
+	int		j;
+	char	*sub;
+	t_env	*env_var;
+
+	(*i)++;
+	if (current->str[*i] && current->str[*i] == '?')
+		return (handle_question_mark(tools, &sub, &i, &len), (void)0);
+	if (is_a_special_case(current, i))
+		return (handle_dollar_special_case(current, &sub, &len, &i), (void)0);
+	j = 0;
+	while (current->str[*i + j] && (ft_isalnum(current->str[*i + j])
+			|| current->str[*i + j] == '_'))
+		j++;
+	sub = ft_substr(current->str, *i, j);
+	if (!sub || !*sub)
+	{
+		if (current->space || current->quote_type == DOUBLE_QUOTES)
+			*len += 1;
+		free(sub);
+		return ;
+	}
+	env_var = get_env_var(tools->env, sub);
+	if (env_var)
+		*len += ft_strlen(env_var->value);
+	(free(sub), *i += j);
+}
+
+int	is_a_special_case(t_lexer *current, int *i)
+{
+	return ((current->str[*i] && ft_isdigit(current->str[*i]))
+		|| (current->str[*i] && current->str[*i] == '$'));
+}
+
+void	fill_ptr_substr(char **ptr, char *buffer, pid_t *pid)
+{
+	*ptr = buffer;
+	while (**ptr != ' ' && **ptr != '\0')
+		(*ptr)++;
+	**ptr = '\0';
+	*pid = ft_atoi(buffer);
+}
+
+void	handle_dollar_special_case(t_lexer	*current, char **sub,
+    int **len, int **i)
+{
+int	j;
+
+if (current->str[**i] && ft_isdigit(current->str[**i]))
+{
+(**i)++;
+j = 0;
+while (current->str[**i + j] && ft_isalnum(current->str[**i + j]))
+j++;
+**len += j;
+return ;
+}
+if (current->str[**i] && current->str[**i] == '$')
+{
+*sub = ft_itoa((int)get_pid());
+**len += ft_strlen(*sub);
+free(*sub);
+(**i)++;
+return ;
+}
+}

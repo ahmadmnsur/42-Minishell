@@ -147,7 +147,6 @@ char **build_args(t_lexer *tokens);
 int process_redirections_child(t_tools *tools, t_lexer *redirects);
 char	*my_strtok(char *str, const char *delim);
 int	if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp);
-int process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects);
 int process_all_heredocs(t_parser *parser, t_tools *tools);
 int	check_unclosed_quotes(char *str);
 void	set_one_builtin(t_parser *curr);
@@ -214,4 +213,16 @@ void	update_no_quotes_case(t_tools *tools, t_lexer **current, t_lexer **tmp);
 char	*string_converter(t_lexer *current, t_tools *tools);
 void	handle_dollar_sign_str(t_lexer *current, t_tools *tools,
 	int *i, char **result);
+pid_t	get_pid(void);
+void	handle_simple_string(t_lexer *to_del, char ***split, char **str);
+void	handle_empty_split(t_lexer **current, t_lexer *to_del,
+    char ***split, char **str);
+int	get_new_string_length(t_lexer *current, t_tools *tools);
+void	handle_question_mark(t_tools *tools, char **sub, int **i, int **len);
+void	handle_dollar_sign_len(t_lexer *current, t_tools *tools,
+	int *i, int *len);
+int	is_a_special_case(t_lexer *current, int *i);
+void	fill_ptr_substr(char **ptr, char *buffer, pid_t *pid);
+void	handle_dollar_special_case(t_lexer	*current, char **sub,
+    int **len, int **i);
 #endif

@@ -30,7 +30,7 @@ int	execute_command(t_tools *tools, char **envp)
 	int			status;
 
 	parser = tools->parser;
-	num_pipes = get_parser_len(parser);
+	num_pipes = get_pipe_len(parser);
 	if (num_pipes == 0)
 		return (0);
 	num_pipes = num_pipes - 1;

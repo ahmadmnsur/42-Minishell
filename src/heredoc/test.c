@@ -62,4 +62,6 @@ void	cat_heredoc_words(t_parser *parser)
 			tmp = tmp->next;
 	}
 }
+
+
 //testt
