@@ -17,7 +17,7 @@ char *get_env_value(const char *key, t_env *env)
     while (env)
     {
         if (strcmp(env->key, key) == 0)
-            return strdup(env->value);
+            return strdup(env->value);  
         env = env->next;
     }
     return NULL;
