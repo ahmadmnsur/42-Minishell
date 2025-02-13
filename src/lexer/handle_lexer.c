@@ -15,7 +15,7 @@ void	handle_normal_string(t_lexer **lexer, const char *str, int *i)
 	new = create_new_lexer_node(sub, TOKEN_WORD, NO_QUOTE, 1);
 	if (str[end] == '"' || str[end] == '\'')
 		new->space = 0;
-	lexer_add_back(lexer, new);
+	add_lexer_node_back(lexer, new);
 	free(sub);
 	*i = end;
 }
@@ -25,7 +25,7 @@ void	handle_pipe(t_lexer **lexer, int *i)
 	t_lexer	*new;
 
 	new = create_new_lexer_node(NULL, TOKEN_PIPE, -1, 1);
-	lexer_add_back(lexer, new);
+	add_lexer_node_back(lexer, new);
 	(*i)++;
 }
 
@@ -59,7 +59,7 @@ void	handle_quotes(t_lexer **lexer, const char *str, int *i, char quote)
 	if (!whitespacee(str[*i + len + 1]) && str[*i + len + 1] != '<'
 		&& str[*i + len + 1] != '>' && str[*i + len + 1] != '|')
 		new->space = 0;
-	lexer_add_back(lexer, new);
+	add_lexer_node_back(lexer, new);
 	free(sub);
 	*i += len + 1;
 }

@@ -12,7 +12,7 @@ void	fill_sub_lexer(t_lexer **sub, t_lexer **tmp, unsigned int sub_size)
 			break;
 		new = create_new_lexer_node(
 				(*tmp)->str, (*tmp)->token, (*tmp)->quote_type, (*tmp)->space);
-		lexer_add_back(sub, new);
+		add_lexer_node_back(sub, new);
 		i++;
 		(*tmp) = (*tmp)->next;
 		add_index_token(sub);

@@ -27,7 +27,7 @@ int	main(int argc, char *argv[], char *envp[])
 		prompt = minishell_loop(tools.last_exit_status);
 		set_ctrl_d(&tools, prompt);
 		check_signal_if_recieved(&(tools.last_exit_status));
-		if (!ft_isspace(prompt))
+		if (!ft_isspacee(prompt))
 			add_history(prompt);
 		cmd = ft_strdup(prompt);
 		free(prompt);
@@ -242,7 +242,7 @@ int	check_initial_errors(char *prompt, t_tools *tools)
 			print_syntax_error("\"", &(tools->last_exit_status));
 		return (free_tools(tools), 0);
 	}
-	else if (!check_pipes(tools->parser))
+	else if (!validate_pipes_and_words(tools->parser))
 	{
 		print_syntax_error("|", &(tools->last_exit_status));
 		return (free_tools(tools), 0);
@@ -267,4 +267,68 @@ void	print_message_error(char *s1, char *s2, char *s3, char *s4)
 	if (s4)
 		ft_putstr_fd(s4, 2);
 	ft_putstr_fd("\n", 2);
+}
+
+int	ft_isspacee(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = -1;
+	while (str[++i])
+		if (str[i] != ' ')
+			return (0);
+	return (1);
+}
+
+t_env	*get_env_var(t_env *env, char *key)
+{
+	t_env	*tmp;
+
+	if (!env)
+		return (NULL);
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strlen(tmp->key) == ft_strlen(key)
+			&& ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+void	env_add_back(t_env **env, char *key, char *value, int hidden)
+{
+	t_env	*node;
+	t_env	*tmp;
+
+	node = create_env_node(key, value, hidden);
+	tmp = *env;
+	if (!node)
+		return ;
+	if (!*env)
+	{
+		*env = node;
+		return ;
+	}
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = node;
+}
+
+void	free_split(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }

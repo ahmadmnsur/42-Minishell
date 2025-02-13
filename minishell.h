@@ -206,4 +206,8 @@ int	init_tools(t_tools *tools, char *str, char **envp);
 void	free_tools(t_tools *tools);
 int	check_initial_errors(char *prompt, t_tools *tools);
 void	print_message_error(char *s1, char *s2, char *s3, char *s4);
+int	ft_isspacee(char *str);
+void	env_add_back(t_env **env, char *key, char *value, int hidden);
+t_env	*get_env_var(t_env *env, char *key);
+void	free_split(char **split);
 #endif

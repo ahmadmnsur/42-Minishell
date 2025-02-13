@@ -33,6 +33,6 @@ void	parse_string(t_lexer **lexer, const char *str)
 	while (i < (int)ft_strlen(str))
 		process_string(lexer, str, &i);
 	new = create_new_lexer_node(NULL, TOKEN_EOF, -1, -1);
-	lexer_add_back(lexer, new);
+	add_lexer_node_back(lexer, new);
 	add_index_token(lexer);
 }

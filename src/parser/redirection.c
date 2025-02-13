@@ -10,10 +10,10 @@ void	add_to_redirects(t_lexer **redirects, t_lexer *redirection,
 	if (!*redirects)
 		*redirects = new_node;
 	else
-		lexer_add_back(redirects, new_node);
+		add_lexer_node_back(redirects, new_node);
 	new_node = create_new_lexer_node(target->str, target->token,
 			target->quote_type, target->space);
-	lexer_add_back(redirects, new_node);
+	add_lexer_node_back(redirects, new_node);
 }
 
 void	init_one_redirect(t_lexer **redirects, t_lexer **lexer)
