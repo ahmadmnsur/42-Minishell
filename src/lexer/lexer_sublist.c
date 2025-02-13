@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_sublist.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mjamil <mjamil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/13 20:05:42 by mjamil            #+#    #+#             */
+/*   Updated: 2025/02/13 20:05:42 by mjamil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 void	fill_sub_lexer(t_lexer **sub, t_lexer **tmp, unsigned int sub_size)
@@ -15,7 +27,7 @@ void	fill_sub_lexer(t_lexer **sub, t_lexer **tmp, unsigned int sub_size)
 		lexer_add_back(sub, new);
 		i++;
 		(*tmp) = (*tmp)->next;
-		add_index_token(sub);
+		assign_indices(sub);
 	}
 }
 

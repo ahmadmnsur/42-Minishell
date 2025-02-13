@@ -100,7 +100,7 @@ static int process_redirections_child(t_tools *tools, t_lexer *redirects) {
 static int if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp) {
     // Process all heredocs in parent before forking
     if (process_all_heredocs(parser, tools) != 0) {
-        return -1;
+        return 130;
     }
 
     int num_cmd = num_pipes + 1;
