@@ -12,52 +12,64 @@
 
 #include "../../minishell.h"
 
-int is_numeric(const char *str)
+int	is_numeric(const char *str)
 {
-    if (!str || !*str)
-        return (0);
-    for (int i = 0; str[i]; i++)
-        if (!ft_isdigit(str[i]))
-            return (0);
-    return (1);
+	int	i;
+
+	i = 0;
+	if (!str || !*str)
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-int builtin_exit(t_parser *parser, t_env *env)
+void	free_args(char **arg)
 {
-    (void)env;
-    char **arg;
-    int exit_status;
-    int i;
+	int	i;
 
-    i = 0;
+	i = 0;
+	while (arg[i])
+	{
+		free(arg[i]);
+		i++;
+	}
+	free(arg);
+}
 
-    arg = get_cmd(parser->tokens);
-    if (!arg || !arg[0])
-        return (0);
-    if (!arg[1])
-        exit(0);
-    if (is_numeric(arg[1]))
-    {
-        if (arg[2])
-        {
-            printf("exit: too many arguments\n");
-            for (int i = 0; arg[i]; i++)
-                free(arg[i]);
-            free(arg);
-            return (1);
-        }
-        exit_status = ft_atoi(arg[1]);
-    }
-    else
-    {
-        printf("exit: %s: numeric argument required\n", arg[1]);
-        exit_status = 2;
-    }
-    while(arg[i])
-    {
-        free(arg[i]);
-        i++;
-    }
-    free(arg);
-    exit(exit_status);
+int	print_error(char **arg)
+{
+	printf("exit: %s: numeric argument required\n", arg[1]);
+	return (2);
+}
+
+int	builtin_exit(t_parser *parser, t_env *env)
+{
+	char	**arg;
+	int		exit_status;
+
+	(void)env;
+	arg = get_cmd(parser->tokens);
+	if (!arg || !arg[0])
+		exit(0);
+	if (!arg[1])
+		exit(0);
+	if (is_numeric(arg[1]))
+	{
+		if (arg[2])
+		{
+			printf("exit: too many arguments\n");
+			free_args(arg);
+			return (1);
+		}
+		exit_status = ft_atoi(arg[1]);
+	}
+	else
+		exit_status = print_error(arg);
+	free_args(arg);
+	exit(exit_status);
 }

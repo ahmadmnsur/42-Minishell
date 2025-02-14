@@ -16,6 +16,7 @@ int	pwd_help(t_env *env_list)
 	int		nbr;
 	char	*pwd;
 	int		i;
+
 	if (!env_list)
 		return (1);
 	nbr = env_list->two_point;
