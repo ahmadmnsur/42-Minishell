@@ -19,16 +19,36 @@ t_quote_type	get_quote_type(char quote)
 	return (DOUBLE_QUOTES);
 }
 
+// int	get_quote_length(const char *str, int i, char quote)
+// {
+// 	int	len;
+
+// 	len = 1;
+// 	while (str[i + len] && str[i + len] != quote)
+// 		len++;
+// 	if (str[i + len] != quote)
+// 		return ((int)ft_strlen(str) - i - 1);
+// 	return (len);
+// }
+
 int	get_quote_length(const char *str, int i, char quote)
 {
-	int	len;
+    int	len;
 
 	len = 1;
-	while (str[i + len] && str[i + len] != quote)
-		len++;
-	if (str[i + len] != quote)
-		return ((int)ft_strlen(str) - i - 1);
-	return (len);
+    while (str[i + len])
+    {
+        if (quote == '"' && str[i + len] == '\\' && str[i + len + 1] == '"')
+        {
+            // Skip both the backslash and the escaped quote.
+            len += 2;
+            continue;
+        }
+        if (str[i + len] == quote)
+            return (len);
+        len++;
+    }
+    return (len);
 }
 
 void	handle_special_char(t_lexer **lexer, const char *str, int *i)
@@ -62,6 +82,7 @@ void	add_lexer_and_increment_i(t_lexer **lexer, int token,
 	*i += increment;
 	add_lexer_node_back(lexer, new);
 }
+
 int	get_nb_of_pipes(t_lexer *lexer)
 {
 	int		nb_pipes;

@@ -40,6 +40,7 @@ SRCS =  minishell.c								\
 		src/signals/signals1.c					\
 		src/heredoc/test.c						\
 		src/tools/test.c 						\
+		src/lexer/utils_2.c						\
 	
 		
 OBJDIR = objs

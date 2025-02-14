@@ -427,33 +427,80 @@ free(sub);
 *i += j;
 }
 
+// char	*string_converter(t_lexer *current, t_tools *tools)
+// {
+// char	*result;
+// int		i;
+// int		j;
+// size_t	size;
+
+// size = get_new_string_length(current, tools) + 1;
+// result = (char *)ft_calloc(size, 1);
+// if (!result)
+// return (NULL);
+// i = 0;
+// j = 0;
+// while (current->str[i])
+// {
+// if (current->str[i] != '$')
+// {
+//     result[j] = current->str[i];
+//     j++;
+//     i++;
+// }
+// else
+//     (handle_dollar_sign_str(current, tools, &i, &result),
+//         j = ft_strlen(result));
+// }
+// return (result);
+// }
+
 char	*string_converter(t_lexer *current, t_tools *tools)
 {
-char	*result;
-int		i;
-int		j;
-size_t	size;
+	char	*result;
+	int		i;
+	int		j;
+	size_t	size;
 
-size = get_new_string_length(current, tools) + 1;
-result = (char *)ft_calloc(size, 1);
-if (!result)
-return (NULL);
-i = 0;
-j = 0;
-while (current->str[i])
-{
-if (current->str[i] != '$')
-{
-    result[j] = current->str[i];
-    j++;
-    i++;
+	/* Make sure get_new_string_length accounts for removed escape backslashes */
+	size = get_new_string_length(current, tools) + 1;
+	result = ft_calloc(size, 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (current->str[i])
+	{
+		/* If in double quotes, check for backslash escapes */
+		if (current->quote_type == DOUBLE_QUOTES && current->str[i] == '\\')
+		{
+			/* Only escape the characters that should be escaped */
+			if (current->str[i + 1] && (current->str[i + 1] == '"' ||
+				current->str[i + 1] == '$' ||
+				current->str[i + 1] == '\\'))
+			{
+				result[j++] = current->str[i + 1];
+				i += 2;
+				continue;
+			}
+			/* If not a recognized escape, copy the backslash as is */
+			else
+			{
+				result[j++] = current->str[i++];
+				continue;
+			}
+		}
+		if (current->str[i] == '$')
+		{
+			handle_dollar_sign_str(current, tools, &i, &result);
+			j = ft_strlen(result); /* Update j to current length */
+			continue;
+		}
+		result[j++] = current->str[i++];
+	}
+	return (result);
 }
-else
-    (handle_dollar_sign_str(current, tools, &i, &result),
-        j = ft_strlen(result));
-}
-return (result);
-}
+
 
 void	handle_empty_split(t_lexer **current, t_lexer *to_del,
     char ***split, char **str)
@@ -463,6 +510,7 @@ if (*split && !(**split))
 free_split(*split);
 free(*str);
 }
+
 void	handle_simple_string(t_lexer *to_del, char ***split, char **str)
 {
 	if (to_del->str)

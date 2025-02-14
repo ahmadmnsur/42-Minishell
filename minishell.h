@@ -238,5 +238,6 @@ int	get_delimiters_count(char **delimiters);
 int	get_nb_of_pipes(t_lexer *lexer);
 char	*ft_strndupp(const char *src, size_t n);
 char	*ft_strstr(const char *haystack, const char *needle);
+char *remove_escaped_quotes(const char *str);
 
 #endif
