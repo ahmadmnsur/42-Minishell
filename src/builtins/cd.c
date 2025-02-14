@@ -17,8 +17,8 @@ int	cd_home(t_env *env)
 	char	*home;
 	char	*pwd;
 
-	*home = get_env(env, "HOME");
-	*pwd = get_env(env, "PWD");
+	home = get_env(env, "HOME");
+	pwd = get_env(env, "PWD");
 	if (!home)
 	{
 		fprintf(stderr, "cd: HOME not set\n");
@@ -43,8 +43,8 @@ int	cd_oldpwd(t_env *env)
 	char	*pwd;
 	char	*oldpwd;
 
-	*pwd = get_env(env, "PWD");
-	*oldpwd = get_env(env, "OLDPWD");
+	pwd = get_env(env, "PWD");
+	oldpwd = get_env(env, "OLDPWD");
 	if (!oldpwd)
 	{
 		fprintf(stderr, "cd: OLDPWD not set\n");
@@ -70,7 +70,7 @@ int	cd_path(const char *path, t_env *env)
 	char	*current_pwd;
 	char	*new_pwd;
 
-	*current_pwd = get_env(env, "PWD");
+	current_pwd = get_env(env, "PWD");
 	if (chdir(path) != 0)
 	{
 		perror("cd");
@@ -97,7 +97,7 @@ int	builtin_cd(t_parser *parser, t_env *env)
 {
 	char	**arg;
 
-	**arg = get_cmd(parser->tokens->next);
+	arg = get_cmd(parser->tokens->next);
 	if (!arg || !arg[0])
 		return (cd_home(env));
 	if (arg[1])

@@ -236,7 +236,7 @@ void	update_heredoc_words(t_lexer *heredoc_lex, t_tools *tools,
 int	open_file(char *filename, int oflags, int access);
 int	get_delimiters_count(char **delimiters);
 int	get_nb_of_pipes(t_lexer *lexer);
-char	*ft_strndup(const char *src, size_t n);
+char	*ft_strndupp(const char *src, size_t n);
 char	*ft_strstr(const char *haystack, const char *needle);
 
 #endif

@@ -18,11 +18,11 @@ char	**export_split(const char *str, const char *delimiter)
 	size_t	delim_len;
 	char	*delim_pos;
 
-	**result = malloc(5 * sizeof(char *));
+	result = malloc(5 * sizeof(char *));
 	if (!result)
 		return (NULL);
 	delim_len = ft_strlen(delimiter);
-	*delim_pos = ft_strstr(str, delimiter);
+	delim_pos = ft_strstr(str, delimiter);
 	if (!delim_pos)
 	{
 		result[0] = NULL;
@@ -33,8 +33,8 @@ char	**export_split(const char *str, const char *delimiter)
 		return (result);
 	}
 	result[0] = NULL;
-	result[1] = ft_strndup(str, delim_pos - str);
-	result[2] = ft_strndup(delimiter, delim_len);
+	result[1] = ft_strndupp(str, delim_pos - str);
+	result[2] = ft_strndupp(delimiter, delim_len);
 	result[3] = ft_strdup(delim_pos + delim_len);
 	result[4] = NULL;
 	return (result);

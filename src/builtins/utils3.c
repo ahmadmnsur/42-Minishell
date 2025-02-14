@@ -6,13 +6,13 @@
 /*   By: mjamil <mjamil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 04:22:57 by mjamil            #+#    #+#             */
-/*   Updated: 2025/02/14 04:26:10 by mjamil           ###   ########.fr       */
+/*   Updated: 2025/02/14 04:40:44 by mjamil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*ft_strndup(const char *src, size_t n)
+char	*ft_strndupp(const char *src, size_t n)
 {
 	char	*dest;
 	size_t	i;

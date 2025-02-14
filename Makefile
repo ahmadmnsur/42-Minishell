@@ -30,6 +30,7 @@ SRCS =  minishell.c								\
 		src/builtins/pwd.c						\
 		src/builtins/utils.c					\
 		src/builtins/utils2.c					\
+		src/builtins/utils3.c					\
 		src/execute_command/execute1.c			\
 		src/execute_command/execute2.c			\
 		src/execute_command/execute3.c			\
