@@ -196,7 +196,7 @@ void	print_full_env(t_env *env);
 void	set_env_var(t_env **env, char *key, char *value, int hidden);
 void	free_simple_node(t_env **env, t_env *to_del);
 void	unset_env_var(t_env **env, char *key);
-void	copy_envp(t_env **env, char **envp);
+void	copy_envp(t_env **env, char **envp);//////////////
 void	update_shlvl(t_env **env, int hidden);
 void	initialize_environment(t_env **env);
 int	init_tools(t_tools *tools, char *str, char **envp);
@@ -205,7 +205,7 @@ int	check_initial_errors(char *prompt, t_tools *tools);
 void	print_message_error(char *s1, char *s2, char *s3, char *s4);
 int	ft_isspacee(char *str);
 void	env_add_back(t_env **env, char *key, char *value, int hidden);
-t_env	*get_env_var(t_env *env, char *key);
+t_env	*get_env_var(t_env *env, char *key);/////////////////////
 void	free_split(char **split);
 int builtin_echo(t_parser *parser, t_env *env);
 void	update_double_quotes_case(t_tools *tools, t_lexer *current);

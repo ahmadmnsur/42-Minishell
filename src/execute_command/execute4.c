@@ -12,17 +12,33 @@
 
 #include "../../minishell.h"
 
-char *get_env_value(const char *key, t_env *env)
-{
-    while (env)
-    {
-        if (strcmp(env->key, key) == 0)
-            return strdup(env->value);
-        env = env->next;
-    }
-    return NULL;
-}
+// char *get_env_value(const char *key, t_env *env)
+// {
+//     while (env)
+//     {
+//         if (strcmp(env->key, key) == 0)
+//             return strdup(env->value);
+//         env = env->next;
+//     }
+//     return NULL;
+// }
 
+t_env	*get_env_var(t_env *env, char *key)
+{
+	t_env	*tmp;
+
+	if (!env)
+		return (NULL);
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strlen(tmp->key) == ft_strlen(key)
+			&& ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
 
 char *expand_heredoc_line(char *line, t_env *env, int last_ret, int expand_variables)
 {
@@ -55,14 +71,15 @@ char *expand_heredoc_line(char *line, t_env *env, int last_ret, int expand_varia
                 char *key = strndup(line + key_start, j - key_start);
                 if (!key)
                     continue;
-                char *value = get_env_value(key, env);
+
+                
+                t_env *env_var = get_env_var(env, key);
                 free(key);
-                if (value)
+                if (env_var && env_var->value)
                 {
                     size_t k = 0;
-                    while (value[k])
-                        expanded[i++] = value[k++];
-                    free(value);
+                    while (env_var->value[k])
+                        expanded[i++] = env_var->value[k++];
                 }
             }
         }
@@ -74,6 +91,7 @@ char *expand_heredoc_line(char *line, t_env *env, int last_ret, int expand_varia
     expanded[i] = '\0';
     return expanded;
 }
+
 
 char *handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_type) {
     char *delimiter;

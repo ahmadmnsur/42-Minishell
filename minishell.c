@@ -14,14 +14,12 @@
 #include "fcntl.h"
 #include "unistd.h"
 
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*prompt;
 	char	*cmd;
 	t_tools	tools;
 
-	art();
 	set_init(argc, argv, &(tools.last_exit_status), &(tools.env));
 	(copy_envp(&(tools.env), envp), initialize_environment(&(tools.env)));
 	while (1)
@@ -274,22 +272,6 @@ int	ft_isspacee(char *str)
 	return (1);
 }
 
-t_env	*get_env_var(t_env *env, char *key)
-{
-	t_env	*tmp;
-
-	if (!env)
-		return (NULL);
-	tmp = env;
-	while (tmp)
-	{
-		if (ft_strlen(tmp->key) == ft_strlen(key)
-			&& ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
 
 void	env_add_back(t_env **env, char *key, char *value, int hidden)
 {
