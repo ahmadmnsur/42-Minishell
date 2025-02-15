@@ -35,7 +35,7 @@ int	process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects)
 	int		fd;
 	char	*filename;
 
-	*current = redirects;
+	current = redirects;
 	while (current)
 	{
 		if (!current->next || current->next->token != TOKEN_WORD)
@@ -110,14 +110,14 @@ char	**build_args(t_lexer *tokens)
 	int		i;
 
 	count = 0;
-	*tmp = tokens;
+	tmp = tokens;
 	while (tmp && tmp->token != TOKEN_PIPE && tmp->token != TOKEN_EOF)
 	{
 		if (tmp->token == TOKEN_WORD)
 			count++;
 		tmp = tmp->next;
 	}
-	**args = malloc((count + 1) * sizeof(char *));
+	args = malloc((count + 1) * sizeof(char *));
 	if (!args)
 		return (NULL);
 	i = 0;
@@ -156,7 +156,7 @@ char	*get_command_path(char *cmd, t_env *env)
 		else
 			return (NULL);
 	}
-	*path_env = NULL;
+	path_env = NULL;
 	while (env)
 	{
 		if (ft_cmp(env->key, "PATH") == 0)
@@ -168,11 +168,11 @@ char	*get_command_path(char *cmd, t_env *env)
 	}
 	if (!path_env)
 		return (NULL);
-	*path = ft_strdup(path_env);
-	*dir = my_strtok(path, ":");
+	path = ft_strdup(path_env);
+	dir = my_strtok(path, ":");
 	while (dir)
 	{
-		*full_path = malloc(ft_strlen(dir) + ft_strlen(cmd) + 2);
+		full_path = malloc(ft_strlen(dir) + ft_strlen(cmd) + 2);
 		sprintf(full_path, "%s/%s", dir, cmd);
 		if (access(full_path, F_OK) == 0)
 		{
@@ -236,21 +236,21 @@ int	if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
 				exit(EXIT_FAILURE);
 			if (!parser->tokens || !parser->tokens->str)
 			{
-				*tmp = parser->tokens;
+				tmp = parser->tokens;
 				while (tmp && tmp->token != TOKEN_WORD)
 					tmp = tmp->next;
 				if (!tmp || !tmp->str)
 					exit(0);
 				parser->tokens = tmp;
 			}
-			*path = get_command_path(parser->tokens->str, tools->env);
+			path = get_command_path(parser->tokens->str, tools->env);
 			if (!path)
 			{
 				fprintf(stderr, "minishell: %s: command not found\n",
 					parser->tokens->str);
 				exit(127);
 			}
-			**args = build_args(parser->tokens);
+			args = build_args(parser->tokens);
 			if (!args)
 			{
 				free(path);
