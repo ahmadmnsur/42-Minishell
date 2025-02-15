@@ -41,6 +41,7 @@ typedef enum e_tokens
 	TOKEN_REDIRECT_OUT,
 	TOKEN_HEREDOC,
 	TOKEN_APPEND,
+	TOKEN_SEMICOLON,
 	TOKEN_EOF
 }	t_tokens;
 
@@ -239,5 +240,7 @@ int	get_nb_of_pipes(t_lexer *lexer);
 char	*ft_strndupp(const char *src, size_t n);
 char	*ft_strstr(const char *haystack, const char *needle);
 char *remove_escaped_quotes(const char *str);
+void handle_special_char(t_lexer **lexer, const char *str, int *i);
+void handle_semicolon(t_lexer **lexer, int *i);
 
 #endif

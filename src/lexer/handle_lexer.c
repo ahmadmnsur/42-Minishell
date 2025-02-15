@@ -85,3 +85,9 @@ void handle_quotes(t_lexer **lexer, const char *str, int *i, char quote)
     free(sub);
     *i += len + 1;
 }
+
+// 3. Add a new handler for semicolons
+void handle_semicolon(t_lexer **lexer, int *i)
+{
+    add_lexer_and_increment_i(lexer, TOKEN_SEMICOLON, i, 1);
+}

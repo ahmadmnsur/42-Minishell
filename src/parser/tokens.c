@@ -39,7 +39,7 @@ static void	assign_tokens_to_parser(t_parser **parser,
 	start_node = tmp_lexer;
 	while (tmp_parser && tmp_lexer)
 	{
-		while (tmp_lexer && tmp_lexer->token != TOKEN_PIPE)
+		while (tmp_lexer && tmp_lexer->token != TOKEN_PIPE && tmp_lexer->token != TOKEN_SEMICOLON)
 			tmp_lexer = tmp_lexer->next;
 		if (tmp_lexer)
 		{
