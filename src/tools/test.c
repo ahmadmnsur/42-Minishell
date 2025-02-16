@@ -32,7 +32,7 @@ int	init_tools(t_tools *tools, char *str, char **envp)
 }
 void	init_parser_node(t_parser **parser, t_lexer *lexer, const char *str)
 {
-	int	pipe_count;
+	int	command_count;
 	int	i;
 	int	j;
 
@@ -48,12 +48,28 @@ void	init_parser_node(t_parser **parser, t_lexer *lexer, const char *str)
 	if (str[j] == '\0')
 		return ; // If the string is only spaces, return early
 
-	pipe_count = get_nb_of_pipes(lexer);
+	command_count = get_nb_of_pipes(lexer) + get_nb_of_semicolon(lexer);
 	i = 0;
-	while (i <= pipe_count)
+	while (i <= command_count)
 	{
 		parser_add_back(parser);
 		i++;
 	}
+}
+
+int get_nb_of_semicolon(t_lexer *lexer)
+{
+    int count;
+    t_lexer *current;
+
+	current = lexer;
+	count = 0;
+    while (current)
+    {
+        if (current->token == TOKEN_SEMICOLON)
+            count++;
+        current = current->next;
+    }
+    return (count);
 }
 

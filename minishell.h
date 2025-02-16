@@ -265,5 +265,6 @@ void			free_pipes(int nbr_of_pipe, int **pipes);
 int				count_commands(t_parser *parser);
 int				process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects);
 char			*find_path_env(t_env *env);
+int				get_nb_of_semicolon(t_lexer *lexer);
 
 #endif
