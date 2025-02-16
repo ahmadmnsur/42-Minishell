@@ -627,25 +627,25 @@ void	fill_ptr_substr(char **ptr, char *buffer, pid_t *pid)
 void	handle_dollar_special_case(t_lexer	*current, char **sub,
     int **len, int **i)
 {
-int	j;
+	int	j;
 
-if (current->str[**i] && ft_isdigit(current->str[**i]))
-{
-(**i)++;
-j = 0;
-while (current->str[**i + j] && ft_isalnum(current->str[**i + j]))
-j++;
-**len += j;
-return ;
-}
-if (current->str[**i] && current->str[**i] == '$')
-{
-*sub = ft_itoa((int)get_pid());
-**len += ft_strlen(*sub);
-free(*sub);
-(**i)++;
-return ;
-}
+	if (current->str[**i] && ft_isdigit(current->str[**i]))
+	{
+	(**i)++;
+	j = 0;
+	while (current->str[**i + j] && ft_isalnum(current->str[**i + j]))
+	j++;
+	**len += j;
+	return ;
+	}
+	if (current->str[**i] && current->str[**i] == '$')
+	{
+	*sub = ft_itoa((int)get_pid());
+	**len += ft_strlen(*sub);
+	free(*sub);
+	(**i)++;
+	return ;
+	}
 }
 
 int	open_file(char *filename, int oflags, int access)
