@@ -163,6 +163,7 @@ int	if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes, char **envp)
 				free(pipes);
 				free(child_pids);
 				return (-1);
+				j++;
 			}
 			i++;
 		}
