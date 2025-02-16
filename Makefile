@@ -35,7 +35,12 @@ SRCS =  minishell.c								\
 		src/execute_command/execute2.c			\
 		src/execute_command/execute3.c			\
 		src/execute_command/execute4.c			\
+		src/execute_command/exe21.c				\
+		src/execute_command/exe31.c				\
+		src/execute_command/exe32.c				\
 		src/execute_command/utils1.c			\
+		src/execute_command/utils2.c			\
+		src/execute_command/utils3.c			\
 		src/signals/signals2.c					\
 		src/signals/signals1.c					\
 		src/heredoc/test.c						\

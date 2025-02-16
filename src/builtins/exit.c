@@ -28,19 +28,6 @@ int	is_numeric(const char *str)
 	return (1);
 }
 
-void	free_args(char **arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		free(arg[i]);
-		i++;
-	}
-	free(arg);
-}
-
 int	print_error(char **arg)
 {
 	printf("exit: %s: numeric argument required\n", arg[1]);

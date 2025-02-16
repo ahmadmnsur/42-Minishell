@@ -148,8 +148,7 @@ char			*get_command_path(char *cmd, t_env *env);
 char			**build_args(t_lexer *tokens);
 int				process_redirections_child(t_tools *tools, t_lexer *redirects);
 char			*my_strtok(char *str, const char *delim);
-int				if_mult_pipe(t_tools *tools, t_parser *parser,
-					int num_pipes, char **envp);
+int				if_mult_pipe(t_tools *tools, t_parser *parser, int num_pipes);
 int				process_all_heredocs(t_parser *parser, t_tools *tools);
 int				check_unclosed_quotes(char *str);
 void			set_one_builtin(t_parser *curr);
@@ -240,5 +239,31 @@ char			*remove_escaped_quotes(const char *str);
 void			handle_special_char(t_lexer **lexer, const char *str, int *i);
 void			handle_semicolon(t_lexer **lexer, int *i);
 t_quote_type	get_quote_type(char quote);
+int				process_heredoc_fd(t_tools *tools, t_lexer *current);
+int				open_fd_for_redirection(t_tools *tools, t_lexer *current);
+int				dup_fd_for_token(int fd, int token);
+int				execute_builtin_no_pipe(t_tools *tools, t_parser *parser);
+void			free_args(char **args);
+void			execute_external_command(t_tools *tools, t_parser *parser);
+void			validate_and_update_tokens(t_parser *parser);
+void			child_process_no_pipe(t_tools *tools, t_parser *parser);
+int				wait_for_child(pid_t pid);
+int				open_file_by_token(const char *filename, int token);
+int				get_redirection_fd(t_lexer *current);
+int				process_redirections_child(t_tools *tools, t_lexer *redirects);
+int				**alloc_pipes(int nbr_of_pipe);
+void			setup_child_pipes(int i, int num_cmd, int **pipes);
+void			exec_child_command_exec(t_parser *curr, t_tools *tools);
+int				fork_all_commands(t_tools *tools,
+					t_parser *parser, int **pipes, pid_t *child_pids);
+void			close_parent_pipe_ends(int i, int num_cmd, int **pipes);
+int				setup_mult_pipe(int num_cmd,
+					int nbr_of_pipe, pid_t **child_pids, int ***pipes);
+int				wait_for_all_children(int num_cmd, pid_t *child_pids);
+void			close_all_pipes(int nbr_of_pipe, int **pipes);
+void			free_pipes(int nbr_of_pipe, int **pipes);
+int				count_commands(t_parser *parser);
+int				process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects);
+char			*find_path_env(t_env *env);
 
 #endif

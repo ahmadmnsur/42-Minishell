@@ -44,7 +44,7 @@ int	execute_command(t_tools *tools, char **envp)
 		return (status);
 	}
 	set_execution_signals();
-	status = if_mult_pipe(tools, parser, num_pipes, envp);
+	status = if_mult_pipe(tools, parser, num_pipes);
 	set_signals();
 	return (status);
 }
