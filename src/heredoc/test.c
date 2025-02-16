@@ -151,4 +151,3 @@ int	get_delimiters_count(char **delimiters)
 		count++;
 	return (count);
 }
-//testt

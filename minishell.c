@@ -85,23 +85,6 @@ char	*minishell_loop(int status)
     return (readline_);
 }
 
-void	print_full_env(t_env *env)
-{
-	t_env	*tmp;
-
-	if (!env)
-		return ;
-	tmp = env;
-	while (tmp)
-	{
-		if (tmp->value)
-			printf("export %s=\"%s\"\n", tmp->key, tmp->value);
-		else
-			printf("export %s\n", tmp->key);
-		tmp = tmp->next;
-	}
-}
-
 void	set_env_var(t_env **env, char *key, char *value, int hidden)
 {
 	t_env	*to_get;
@@ -124,47 +107,6 @@ void	set_env_var(t_env **env, char *key, char *value, int hidden)
 		to_get->value = new_val;
 		to_get->hidden = hidden;
 	}
-}
-
-void	free_simple_node(t_env **env, t_env *to_del)
-{
-	t_env	*tmp;
-
-	if (!env || !*env || !to_del)
-		return ;
-	if (*env == to_del)
-	{
-		*env = (*env)->next;
-		if (to_del->key)
-			free(to_del->key);
-		if (to_del->value)
-			free(to_del->value);
-		free(to_del);
-		to_del = NULL;
-		return ;
-	}
-	tmp = *env;
-	while (tmp->next != to_del)
-		tmp = tmp->next;
-	tmp->next = to_del->next;
-	if (to_del->key)
-		free(to_del->key);
-	if (to_del->value)
-		free(to_del->value);
-	free(to_del);
-	to_del = NULL;
-}
-
-void	unset_env_var(t_env **env, char *key)
-{
-	t_env	*to_del;
-
-	if (!env || !*env || !key)
-		return ;
-	to_del = get_env_var(*env, key);
-	if (!to_del)
-		return ;
-	free_simple_node(env, to_del);
 }
 
 void	copy_envp(t_env **env, char **envp)
@@ -355,106 +297,78 @@ void	update_no_quotes_case(t_tools *tools, t_lexer **current, t_lexer **tmp)
 static void	handle_qst_str(t_tools *tools, int **i, char ***result,
     size_t	size)
 {
-char	*sub;
+	char	*sub;
 
-sub = ft_itoa(tools->last_exit_status);
-ft_strlcat(**result, sub, size);
-free(sub);
-(**i)++;
+	sub = ft_itoa(tools->last_exit_status);
+	ft_strlcat(**result, sub, size);
+	free(sub);
+	(**i)++;
 }
 
 static void	handle_special_cases(t_lexer *current, int **i, char ***result,
     size_t size)
 {
-char	*sub;
-int		j;
+	char	*sub;
+	int		j;
 
-if (current->str[**i] && ft_isdigit(current->str[**i]))
-{
-(**i)++;
-j = 0;
-while (current->str[**i + j] && ft_isalnum(current->str[**i + j]))
-    j++;
-sub = ft_substr(current->str, **i, j);
-if (sub)
-    ft_strlcat(**result, sub, size);
-free(sub);
-**i += j;
-return ;
-}
-if (current->str[**i] && current->str[**i] == '$')
-{
-sub = ft_itoa((int)get_pid());
-ft_strlcat(**result, sub, size);
-free(sub);
-(**i)++;
-return ;
-}
+	if (current->str[**i] && ft_isdigit(current->str[**i]))
+	{
+		(**i)++;
+		j = 0;
+		while (current->str[**i + j] && ft_isalnum(current->str[**i + j]))
+			j++;
+		sub = ft_substr(current->str, **i, j);
+		if (sub)
+			ft_strlcat(**result, sub, size);
+		free(sub);
+		**i += j;
+		return ;
+	}
+	if (current->str[**i] && current->str[**i] == '$')
+	{
+		sub = ft_itoa((int)get_pid());
+		ft_strlcat(**result, sub, size);
+		free(sub);
+		(**i)++;
+		return ;
+	}
 }
 
 static void	handle_empty_sub(char **sub, t_lexer *current, char ***result,
     size_t size)
 {
-if (current->space || current->quote_type == DOUBLE_QUOTES)
-ft_strlcat(**result, "$", size);
-free(*sub);
+	if (current->space || current->quote_type == DOUBLE_QUOTES)
+	ft_strlcat(**result, "$", size);
+	free(*sub);
 }
 
 void	handle_dollar_sign_str(t_lexer *current, t_tools *tools,
-int *i, char **result)
+	int *i, char **result)
 {
-int		j;
-char	*sub;
-t_env	*env_var;
-size_t	size;
+	int		j;
+	char	*sub;
+	t_env	*env_var;
+	size_t	size;
 
-size = get_new_string_length(current, tools) + 1;
-(*i)++;
-j = 0;
-if (current->str[*i] && current->str[*i] == '?')
-return (handle_qst_str(tools, &i, &result, size), (void)0);
-if (is_a_special_case(current, i))
-return (handle_special_cases(current, &i, &result, size), (void)0);
-while (current->str[*i + j] && (ft_isalnum(current->str[*i + j])
-    || current->str[*i + j] == '_'))
-j++;
-sub = ft_substr(current->str, *i, j);
-if (!sub || !*sub)
-return (handle_empty_sub(&sub, current, &result, size), (void)0);
-env_var = get_env_var(tools->env, sub);
-if (env_var && env_var->value)
-ft_strlcat(*result, env_var->value, size);
-free(sub);
-*i += j;
+	size = get_new_string_length(current, tools) + 1;
+	(*i)++;
+	j = 0;
+	if (current->str[*i] && current->str[*i] == '?')
+	return (handle_qst_str(tools, &i, &result, size), (void)0);
+	if (is_a_special_case(current, i))
+	return (handle_special_cases(current, &i, &result, size), (void)0);
+	while (current->str[*i + j] && (ft_isalnum(current->str[*i + j])
+		|| current->str[*i + j] == '_'))
+	j++;
+	sub = ft_substr(current->str, *i, j);
+	if (!sub || !*sub)
+	return (handle_empty_sub(&sub, current, &result, size), (void)0);
+	env_var = get_env_var(tools->env, sub);
+	if (env_var && env_var->value)
+	ft_strlcat(*result, env_var->value, size);
+	free(sub);
+	*i += j;
 }
-
-// char	*string_converter(t_lexer *current, t_tools *tools)
-// {
-// char	*result;
-// int		i;
-// int		j;
-// size_t	size;
-
-// size = get_new_string_length(current, tools) + 1;
-// result = (char *)ft_calloc(size, 1);
-// if (!result)
-// return (NULL);
-// i = 0;
-// j = 0;
-// while (current->str[i])
-// {
-// if (current->str[i] != '$')
-// {
-//     result[j] = current->str[i];
-//     j++;
-//     i++;
-// }
-// else
-//     (handle_dollar_sign_str(current, tools, &i, &result),
-//         j = ft_strlen(result));
-// }
-// return (result);
-// }
 
 char	*string_converter(t_lexer *current, t_tools *tools)
 {
@@ -506,10 +420,10 @@ char	*string_converter(t_lexer *current, t_tools *tools)
 void	handle_empty_split(t_lexer **current, t_lexer *to_del,
     char ***split, char **str)
 {
-free_lexer_node(current, to_del);
-if (*split && !(**split))
-free_split(*split);
-free(*str);
+	free_lexer_node(current, to_del);
+	if (*split && !(**split))
+	free_split(*split);
+	free(*str);
 }
 
 void	handle_simple_string(t_lexer *to_del, char ***split, char **str)
@@ -631,20 +545,20 @@ void	handle_dollar_special_case(t_lexer	*current, char **sub,
 
 	if (current->str[**i] && ft_isdigit(current->str[**i]))
 	{
-	(**i)++;
-	j = 0;
-	while (current->str[**i + j] && ft_isalnum(current->str[**i + j]))
-	j++;
-	**len += j;
-	return ;
+		(**i)++;
+		j = 0;
+		while (current->str[**i + j] && ft_isalnum(current->str[**i + j]))
+		j++;
+		**len += j;
+		return ;
 	}
 	if (current->str[**i] && current->str[**i] == '$')
 	{
-	*sub = ft_itoa((int)get_pid());
-	**len += ft_strlen(*sub);
-	free(*sub);
-	(**i)++;
-	return ;
+		*sub = ft_itoa((int)get_pid());
+		**len += ft_strlen(*sub);
+		free(*sub);
+		(**i)++;
+		return ;
 	}
 }
 
