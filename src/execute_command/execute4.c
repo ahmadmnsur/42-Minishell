@@ -12,45 +12,20 @@
 
 #include "../../minishell.h"
 
-t_env	*get_env_var(t_env *env, char *key)
-{
-	t_env	*tmp;
-
-	if (!env)
-		return (NULL);
-	tmp = env;
-	while (tmp)
-	{
-		if (ft_strlen(tmp->key) == ft_strlen(key)
-			&& ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-char	*expand_heredoc_line(char *line, t_env *env,
-	int last_ret, int expand_variables)
+char	*expand_heredoc_line(char *line, t_env *env, int last_ret, int expand_variables)
 {
 	char	*expanded;
-	size_t	i;
-	size_t	j;
-	size_t	k;
+	size_t	i = 0, j = 0, k, key_start;
 	char	ret_str[12];
-	size_t	key_start;
 	char	*key;
 	t_env	*env_var;
 
 	expanded = malloc(1000);
 	if (!expanded)
 		return (NULL);
-	i = 0;
-	j = 0;
 	while (line[j])
 	{
-		if (expand_variables && line[j]
-			== '$' && (line[j + 1] == '?' || ft_isalpha(
-					(unsigned char)line[j + 1]) || line[j + 1] == '_'))
+		if (expand_variables && line[j] == '$' && (line[j + 1] == '?' || ft_isalpha((unsigned char)line[j + 1]) || line[j + 1] == '_'))
 		{
 			j++;
 			if (line[j] == '?')
@@ -68,7 +43,7 @@ char	*expand_heredoc_line(char *line, t_env *env,
 					j++;
 				key = ft_strndupp(line + key_start, j - key_start);
 				if (!key)
-					continue ;
+					continue;
 				env_var = get_env_var(env, key);
 				free(key);
 				if (env_var && env_var->value)
@@ -86,20 +61,15 @@ char	*expand_heredoc_line(char *line, t_env *env,
 	return (expanded);
 }
 
-char	*handle_heredoc_case(char **delimiters,
-	t_tools *tools, t_quote_type quote_type)
+char	*handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_type)
 {
 	char	*delimiter;
-	char	template[sizeof("/tmp/minishell_heredocXXXXXX")];
-	int		tmp_fd;
-	FILE	*tmp_file;
-	char	*line;
-	char	*expanded_line;
+	char	template[] = "/tmp/minishell_heredocXXXXXX";
+	int		tmp_fd, stdin_copy;
+	char	*line, *expanded_line;
 	int		expand_variables;
-	int		stdin_copy;
 
 	stdin_copy = dup(STDIN_FILENO);
-	ft_strlcpy(template, "/tmp/minishell_heredocXXXXXX", sizeof(template));
 	if (stdin_copy == -1)
 	{
 		perror("minishell");
@@ -131,16 +101,6 @@ char	*handle_heredoc_case(char **delimiters,
 		reset_signals();
 		return (NULL);
 	}
-	tmp_file = fdopen(tmp_fd, "w+");
-	if (!tmp_file)
-	{
-		perror("minishell");
-		close(tmp_fd);
-		free(delimiter);
-		close(stdin_copy);
-		reset_signals();
-		return (NULL);
-	}
 	expand_variables = (quote_type == NO_QUOTE);
 	while (1)
 	{
@@ -148,7 +108,7 @@ char	*handle_heredoc_case(char **delimiters,
 		if (g_signum == SIGINT)
 		{
 			free(line);
-			fclose(tmp_file);
+			close(tmp_fd);
 			unlink(template);
 			free(delimiter);
 			dup2(stdin_copy, STDIN_FILENO);
@@ -158,32 +118,34 @@ char	*handle_heredoc_case(char **delimiters,
 		}
 		if (!line)
 		{
-			fprintf(stderr,
-				"here-document delimited by end-of-file (wanted `%s')\n",
-				delimiter);
-			break ;
+			write(2, "here-document delimited by end-of-file (wanted `", 48);
+			write(2, delimiter, strlen(delimiter));
+			write(2, "')\n", 3);
+			break;
 		}
 		if (strcmp(line, delimiter) == 0)
 		{
 			free(line);
-			break ;
+			break;
 		}
 		if (expand_variables)
 		{
-			expanded_line = expand_heredoc_line(line, tools->env,
-					tools->last_exit_status, 1);
-			fprintf(tmp_file, "%s\n", expanded_line);
+			expanded_line = expand_heredoc_line(line, tools->env, tools->last_exit_status, 1);
+			write(tmp_fd, expanded_line, strlen(expanded_line));
+			write(tmp_fd, "\n", 1);
 			free(expanded_line);
 		}
 		else
-			fprintf(tmp_file, "%s\n", line);
+		{
+			write(tmp_fd, line, strlen(line));
+			write(tmp_fd, "\n", 1);
+		}
 		free(line);
 	}
 	dup2(stdin_copy, STDIN_FILENO);
 	close(stdin_copy);
 	free(delimiter);
-	fflush(tmp_file);
-	fclose(tmp_file);
+	close(tmp_fd);
 	reset_signals();
 	if (g_signum == SIGINT)
 	{

@@ -71,3 +71,20 @@ int	process_all_heredocs(t_parser *parser, t_tools *tools)
 	}
 	return (0);
 }
+
+t_env	*get_env_var(t_env *env, char *key)
+{
+	t_env	*tmp;
+
+	if (!env)
+		return (NULL);
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strlen(tmp->key) == ft_strlen(key)
+			&& ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
