@@ -128,7 +128,7 @@ char	*handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
 			free(line);
 			break;
 		}
-		if (expand_variables)
+		if (!expand_variables)
 		{
 			expanded_line = expand_heredoc_line(line, tools->env, tools->last_exit_status, 1);
 			write(tmp_fd, expanded_line, strlen(expanded_line));
