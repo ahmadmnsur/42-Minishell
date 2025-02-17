@@ -119,11 +119,11 @@ char	*handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
 		if (!line)
 		{
 			write(2, "here-document delimited by end-of-file (wanted `", 48);
-			write(2, delimiter, strlen(delimiter));
+			write(2, delimiter, ft_strlen(delimiter));
 			write(2, "')\n", 3);
 			break;
 		}
-		if (strcmp(line, delimiter) == 0)
+		if (ft_cmp(line, delimiter) == 0)
 		{
 			free(line);
 			break;
@@ -131,13 +131,13 @@ char	*handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_
 		if (!expand_variables)
 		{
 			expanded_line = expand_heredoc_line(line, tools->env, tools->last_exit_status, 1);
-			write(tmp_fd, expanded_line, strlen(expanded_line));
+			write(tmp_fd, expanded_line, ft_strlen(expanded_line));
 			write(tmp_fd, "\n", 1);
 			free(expanded_line);
 		}
 		else
 		{
-			write(tmp_fd, line, strlen(line));
+			write(tmp_fd, line, ft_strlen(line));
 			write(tmp_fd, "\n", 1);
 		}
 		free(line);
