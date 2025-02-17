@@ -68,7 +68,8 @@ void	exec_child_command_exec(t_parser *curr, t_tools *tools)
 		exit(0);
 	path = get_command_path(curr->tokens->str, tools->env);
 	if (!path)
-		exit(127);
+		(fprintf(stderr, "minishell: %s: command not found\n", \
+		curr->tokens->str), exit(127));
 	args = build_args(curr->tokens);
 	if (!args)
 	{
