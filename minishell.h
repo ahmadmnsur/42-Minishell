@@ -86,6 +86,15 @@ typedef struct s_tools
 	t_env		*env;
 }	t_tools;
 
+typedef struct s_heredoc_ctx //for heredoc execution
+{
+	int		stdin_copy;
+	int		tmp_fd;
+	char	*delimiter;
+	char	template[32];
+	int		expand_variables;
+}	t_heredoc_ctx;
+
 extern int	g_signum;
 
 void			art(void);
@@ -266,5 +275,10 @@ int				count_commands(t_parser *parser);
 int				process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects);
 char			*find_path_env(t_env *env);
 int				get_nb_of_semicolon(t_lexer *lexer);
+void			print_heredoc_error(char *delimiter);
+int				handle_sigint(t_heredoc_ctx *ctx, char *line);
+int				process_heredoc_line(t_heredoc_ctx *ctx, t_tools *tools, char *line);
+int				heredoc_loop(t_heredoc_ctx *ctx, t_tools *tools);
+char			*expand_heredoc_line(char *line, t_env *env, int last_ret, int expand_variables);
 
 #endif

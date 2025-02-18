@@ -61,96 +61,62 @@ char	*expand_heredoc_line(char *line, t_env *env, int last_ret, int expand_varia
 	return (expanded);
 }
 
-char	*handle_heredoc_case(char **delimiters, t_tools *tools, t_quote_type quote_type)
+static int	heredoc_setup(t_heredoc_ctx *ctx, char **delimiters, \
+			t_quote_type quote_type)
 {
-	char	*delimiter;
-	char	template[] = "/tmp/minishell_heredocXXXXXX";
-	int		tmp_fd, stdin_copy;
-	char	*line, *expanded_line;
-	int		expand_variables;
-
-	stdin_copy = dup(STDIN_FILENO);
-	if (stdin_copy == -1)
-	{
-		perror("minishell");
-		return (NULL);
-	}
+	ctx->stdin_copy = dup(STDIN_FILENO);
+	if (ctx->stdin_copy == -1)
+		return (perror("minishell"), -1);
 	signal(SIGINT, handle_heredoc_signal);
 	signal(SIGQUIT, SIG_IGN);
 	g_signum = 0;
 	if (!delimiters || !delimiters[0])
-	{
-		close(stdin_copy);
-		reset_signals();
-		return (NULL);
-	}
-	delimiter = ft_strtrim(delimiters[0], " \t\n");
-	if (!delimiter)
+		return (close(ctx->stdin_copy), reset_signals(), -1);
+	ctx->delimiter = ft_strtrim(delimiters[0], " \t\n");
+	if (!ctx->delimiter)
 	{
 		perror("minishell");
-		close(stdin_copy);
-		reset_signals();
-		return (NULL);
+		return (close(ctx->stdin_copy), reset_signals(), -1);
 	}
-	tmp_fd = mkstemp(template);
-	if (tmp_fd == -1)
+	ctx->tmp_fd = mkstemp(ctx->template);
+	if (ctx->tmp_fd == -1)
 	{
 		perror("minishell");
-		free(delimiter);
-		close(stdin_copy);
-		reset_signals();
-		return (NULL);
+		free(ctx->delimiter);
+		return (close(ctx->stdin_copy), reset_signals(), -1);
 	}
-	expand_variables = (quote_type == NO_QUOTE);
-	while (1)
-	{
-		line = readline("> ");
-		if (g_signum == SIGINT)
-		{
-			free(line);
-			close(tmp_fd);
-			unlink(template);
-			free(delimiter);
-			dup2(stdin_copy, STDIN_FILENO);
-			close(stdin_copy);
-			reset_signals();
-			return (NULL);
-		}
-		if (!line)
-		{
-			write(2, "here-document delimited by end-of-file (wanted `", 48);
-			write(2, delimiter, ft_strlen(delimiter));
-			write(2, "')\n", 3);
-			break;
-		}
-		if (ft_cmp(line, delimiter) == 0)
-		{
-			free(line);
-			break;
-		}
-		if (!expand_variables)
-		{
-			expanded_line = expand_heredoc_line(line, tools->env, tools->last_exit_status, 1);
-			write(tmp_fd, expanded_line, ft_strlen(expanded_line));
-			write(tmp_fd, "\n", 1);
-			free(expanded_line);
-		}
-		else
-		{
-			write(tmp_fd, line, ft_strlen(line));
-			write(tmp_fd, "\n", 1);
-		}
-		free(line);
-	}
-	dup2(stdin_copy, STDIN_FILENO);
-	close(stdin_copy);
-	free(delimiter);
-	close(tmp_fd);
+	ctx->expand_variables = (quote_type == NO_QUOTE);
+	return (0);
+}
+
+static char	*heredoc_cleanup(t_heredoc_ctx *ctx)
+{
+	dup2(ctx->stdin_copy, STDIN_FILENO);
+	close(ctx->stdin_copy);
+	free(ctx->delimiter);
+	close(ctx->tmp_fd);
 	reset_signals();
 	if (g_signum == SIGINT)
 	{
-		unlink(template);
+		unlink(ctx->template);
 		return (NULL);
 	}
-	return (ft_strdup(template));
+	return (ft_strdup(ctx->template));
+}
+
+char	*handle_heredoc_case(char **delimiters, t_tools *tools, \
+		t_quote_type quote_type)
+{
+	t_heredoc_ctx	ctx;
+	char			*result;
+	size_t			len;
+
+	len = ft_strlen("/tmp/minishell_heredocXXXXXX") + 1;
+	ft_strlcpy(ctx.template, "/tmp/minishell_heredocXXXXXX", len);
+	if (heredoc_setup(&ctx, delimiters, quote_type) != 0)
+		return (NULL);
+	if (heredoc_loop(&ctx, tools) != 0)
+		return (NULL);
+	result = heredoc_cleanup(&ctx);
+	return (result);
 }

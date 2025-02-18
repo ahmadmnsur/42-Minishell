@@ -46,6 +46,8 @@ SRCS =  minishell.c								\
 		src/heredoc/test.c						\
 		src/tools/test.c 						\
 		src/lexer/utils_2.c						\
+		src/execute_command/herdoc_utils.c		\
+		src/errors/errors.c						\
 	
 		
 OBJDIR = objs
