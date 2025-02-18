@@ -12,53 +12,44 @@
 
 #include "../../minishell.h"
 
-char	*expand_heredoc_line(char *line, t_env *env, int last_ret, int expand_variables)
+/* Helper: process one iteration of expansion */
+static void	process_expansion(t_exp_ctx *ctx,
+	int last_ret, int expand_variables)
 {
-	char	*expanded;
-	size_t	i = 0, j = 0, k, key_start;
-	char	ret_str[12];
-	char	*key;
-	t_env	*env_var;
-
-	expanded = malloc(1000);
-	if (!expanded)
-		return (NULL);
-	while (line[j])
+	if (expand_variables && ctx->line[ctx->j] == '$' && (ctx->line[
+				ctx->j + 1] == '?' || ft_isalnum((unsigned char)ctx->line[
+					ctx->j + 1]) || ctx->line[ctx->j + 1] == '_'))
 	{
-		if (expand_variables && line[j] == '$' && (line[j + 1] == '?' || ft_isalpha((unsigned char)line[j + 1]) || line[j + 1] == '_'))
+		ctx->j++;
+		if (ctx->line[ctx->j] == '?')
 		{
-			j++;
-			if (line[j] == '?')
-			{
-				snprintf(ret_str, sizeof(ret_str), "%d", last_ret);
-				k = 0;
-				while (ret_str[k])
-					expanded[i++] = ret_str[k++];
-				j++;
-			}
-			else
-			{
-				key_start = j;
-				while (ft_isalnum((unsigned char)line[j]) || line[j] == '_')
-					j++;
-				key = ft_strndupp(line + key_start, j - key_start);
-				if (!key)
-					continue;
-				env_var = get_env_var(env, key);
-				free(key);
-				if (env_var && env_var->value)
-				{
-					k = 0;
-					while (env_var->value[k])
-						expanded[i++] = env_var->value[k++];
-				}
-			}
+			expand_exit_status(ctx, last_ret);
+			ctx->j++;
 		}
 		else
-			expanded[i++] = line[j++];
+			expand_env_variable(ctx);
 	}
-	expanded[i] = '\0';
-	return (expanded);
+	else
+		ctx->expanded[ctx->i++] = ctx->line[ctx->j++];
+}
+
+/* Main function: expand variables in a heredoc line */
+char	*expand_heredoc_line(char *line, t_env *env,
+	int last_ret, int expand_variables)
+{
+	t_exp_ctx	ctx;
+
+	ctx.expanded = malloc(1000);
+	if (!ctx.expanded)
+		return (NULL);
+	ctx.line = line;
+	ctx.i = 0;
+	ctx.j = 0;
+	ctx.env = env;
+	while (ctx.line[ctx.j])
+		process_expansion(&ctx, last_ret, expand_variables);
+	ctx.expanded[ctx.i] = '\0';
+	return (ctx.expanded);
 }
 
 static int	heredoc_setup(t_heredoc_ctx *ctx, char **delimiters, \

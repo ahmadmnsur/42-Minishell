@@ -86,7 +86,7 @@ typedef struct s_tools
 	t_env		*env;
 }	t_tools;
 
-typedef struct s_heredoc_ctx //for heredoc execution
+typedef struct s_heredoc_ctx
 {
 	int		stdin_copy;
 	int		tmp_fd;
@@ -94,6 +94,15 @@ typedef struct s_heredoc_ctx //for heredoc execution
 	char	template[32];
 	int		expand_variables;
 }	t_heredoc_ctx;
+
+typedef struct s_exp_ctx
+{
+	char		*expanded;
+	const char	*line;
+	size_t		i;
+	size_t		j;
+	t_env		*env;
+} t_exp_ctx;
 
 extern int	g_signum;
 
@@ -280,5 +289,7 @@ int				handle_sigint(t_heredoc_ctx *ctx, char *line);
 int				process_heredoc_line(t_heredoc_ctx *ctx, t_tools *tools, char *line);
 int				heredoc_loop(t_heredoc_ctx *ctx, t_tools *tools);
 char			*expand_heredoc_line(char *line, t_env *env, int last_ret, int expand_variables);
+void			expand_exit_status(t_exp_ctx *ctx, int last_ret);
+void			expand_env_variable(t_exp_ctx *ctx);
 
 #endif

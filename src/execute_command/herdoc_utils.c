@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   herdoc_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mjamil <mjamil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 11:06:31 by mjamil            #+#    #+#             */
+/*   Updated: 2025/02/18 11:06:31 by mjamil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
 int	handle_sigint(t_heredoc_ctx *ctx, char *line)
@@ -54,4 +66,39 @@ int	heredoc_loop(t_heredoc_ctx *ctx, t_tools *tools)
 			break ;
 	}
 	return (0);
+}
+
+void	expand_exit_status(t_exp_ctx *ctx, int last_ret)
+{
+	char	ret_str[12];
+	size_t	k;
+
+	snprintf(ret_str, sizeof(ret_str), "%d", last_ret);
+	k = 0;
+	while (ret_str[k])
+		ctx->expanded[ctx->i++] = ret_str[k++];
+}
+
+void	expand_env_variable(t_exp_ctx *ctx)
+{
+	size_t	key_start;
+	char	*key;
+	t_env	*env_var;
+	size_t	k;
+
+	key_start = ctx->j;
+	while (ft_isalnum((unsigned char)ctx->line[
+				ctx->j]) || ctx->line[ctx->j] == '_')
+		ctx->j++;
+	key = ft_strndupp(ctx->line + key_start, ctx->j - key_start);
+	if (!key)
+		return ;
+	env_var = get_env_var(ctx->env, key);
+	free(key);
+	if (env_var && env_var->value)
+	{
+		k = 0;
+		while (env_var->value[k])
+			ctx->expanded[ctx->i++] = env_var->value[k++];
+	}
 }
