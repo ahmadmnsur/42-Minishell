@@ -105,7 +105,10 @@ int	if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
 			return (1);
 		}
 		else if (pid == 0)
+		{
 			child_process_no_pipe(tools, parser);
+			exit(0);
+		}
 		else
 			exit_status = wait_for_child(pid);
 	}
