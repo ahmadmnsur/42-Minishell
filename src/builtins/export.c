@@ -77,28 +77,177 @@ int	check_existing_key(t_env *env, char *key)
 	return (0);
 }
 
+// int	builtin_export(t_parser *parser, t_env *env)
+// {
+// 	char	**arg;
+// 	char	**argcomment;
+// 	int		key_exists;
+
+// 	arg = get_cmd(parser->tokens);
+// 	if (!arg[1])
+// 		return (print_full_export_list(env), 0);
+// 	argcomment = export_split(arg[1], "=");
+// 	if (!argcomment || !argcomment[1])
+// 		return (printf("export: Invalid input\n"),
+// 			free_split_array(argcomment), 1);
+// 	if (!is_valid_identifier(argcomment[1]))
+// 		return (handle_invalid_export(argcomment));
+// 	key_exists = check_existing_key(env, argcomment[1]);
+// 	if (!argcomment[2] && !key_exists)
+// 		add_env_var(&env, argcomment[1], NULL);
+// 	else if (argcomment[2] && !argcomment[3])
+// 		update_env_var(&env, argcomment[1], "");
+// 	else if (argcomment[2] && argcomment[3])
+// 		update_env_var(&env, argcomment[1], argcomment[3]);
+// 	free_split_array(argcomment);
+// 	return (0);
+// }
+
 int	builtin_export(t_parser *parser, t_env *env)
 {
-	char	**arg;
-	char	**argcomment;
-	int		key_exists;
+	char	**args;
+	char	**arg_parts;
+	int		i;
+	int		ret;
 
-	arg = get_cmd(parser->tokens);
-	if (!arg[1])
+	ret = 0;
+	args = get_cmd(parser->tokens);
+	if (!args[1])
 		return (print_full_export_list(env), 0);
-	argcomment = export_split(arg[1], "=");
-	if (!argcomment || !argcomment[1])
-		return (printf("export: Invalid input\n"),
-			free_split_array(argcomment), 1);
-	if (!is_valid_identifier(argcomment[1]))
-		return (handle_invalid_export(argcomment));
-	key_exists = check_existing_key(env, argcomment[1]);
-	if (!argcomment[2] && !key_exists)
-		add_env_var(&env, argcomment[1], NULL);
-	else if (argcomment[2] && !argcomment[3])
-		update_env_var(&env, argcomment[1], "");
-	else if (argcomment[2] && argcomment[3])
-		update_env_var(&env, argcomment[1], argcomment[3]);
-	free_split_array(argcomment);
-	return (0);
+	i = 1;
+	while (args[i])
+	{
+		arg_parts = export_split(args[i], "=");
+		if (!arg_parts || !arg_parts[1])
+		{
+			(printf("export: Invalid input\n"), free_split_array(arg_parts));
+			ret = 1;
+			i++;
+			continue ;
+		}
+		if (!is_valid_identifier(arg_parts[1]))
+		{
+			ret = handle_invalid_export(arg_parts);
+			i++;
+			continue;
+		}
+		if (!arg_parts[2] && (!check_existing_key(env, arg_parts[1])))
+			add_env_var(&env, arg_parts[1], NULL);
+		else if (arg_parts[2] && !arg_parts[3])
+			update_env_var(&env, arg_parts[1], "");
+		else if (arg_parts[2] && arg_parts[3])
+			update_env_var(&env, arg_parts[1], arg_parts[3]);
+		free_split_array(arg_parts);
+		i++;
+	}
+	return (ret);
 }
+
+/**
+ * builtin_export - Builtin command to handle export functionality.
+ * @parser: Parser context.
+ * @env: Environment variables.
+ *
+ * Return: 0 on success, 1 on failure.
+ */
+
+//  static int handle_export_argument(t_env *env, char *arg)
+// {
+//     char    **arg_parts;
+//     int     ret;
+
+//     ret = 0;
+//     arg_parts = export_split(arg, "=");
+//     if (!arg_parts || !arg_parts[1])
+//     {
+//         printf("export: Invalid input\n");
+//         free_split_array(arg_parts);
+//         return (1);
+//     }
+//     if (!is_valid_identifier(arg_parts[1]))
+//     {
+//         ret = handle_invalid_export(arg_parts);
+//     }
+//     else if (!arg_parts[2] && (!check_existing_key(env, arg_parts[1])))
+//         add_env_var(&env, arg_parts[1], NULL);
+//     else if (arg_parts[2] && !arg_parts[3])
+//         update_env_var(&env, arg_parts[1], "");
+//     else if (arg_parts[2] && arg_parts[3])
+//         update_env_var(&env, arg_parts[1], arg_parts[3]);
+//     free_split_array(arg_parts);
+//     return (ret);
+// }
+
+// int builtin_export(t_parser *parser, t_env *env)
+// {
+//     char    **args;
+//     int     i;
+//     int     ret;
+
+//     ret = 0;
+//     args = get_cmd(parser->tokens);
+//     if (!args[1])
+//         return (print_full_export_list(env), 0);
+//     i = 1;
+//     while (args[i])
+//     {
+//         if (handle_export_argument(env, args[i]) != 0)
+//             ret = 1;
+//         i++;
+//     }
+//     return (ret);
+// }
+
+
+
+// int	builtin_export(t_parser *parser, t_env *env)
+// {
+// 	char	**args;
+// 	char	**arg_parts;
+// 	int		i;
+// 	int		ret;
+// 	char	*trimmed_key;
+
+// 	ret = 0;
+// 	args = get_cmd(parser->tokens);
+// 	if (!args[1])
+// 		return (print_full_export_list(env), 0);
+// 	i = 1;
+// 	while (args[i])
+// 	{
+// 		arg_parts = export_split(args[i], "=");
+// 		if (!arg_parts || !arg_parts[1])
+// 		{
+// 			(printf("export: Invalid input\n"), free_split_array(arg_parts));
+// 			ret = 1;
+// 			i++;
+// 			continue ;
+// 		}
+// 		// Trim whitespace from the key
+// 		trimmed_key = ft_strtrim(arg_parts[1], " \t\n\r");
+// 		if (!is_valid_identifier(trimmed_key))
+// 		{
+// 			(printf("export: `%s`: not a valid identifier\n", arg_parts[1]), free(trimmed_key));
+// 			free_split_array(arg_parts);
+// 			ret = 1;
+// 			i++;
+// 			continue;
+// 		}
+// 		free(trimmed_key); // No longer needed if using trimmed key elsewhere
+// 		// Proceed to add/update using trimmed key if needed
+// 		// Ensure you use the trimmed key when adding to the environment
+// 		// Example modification:
+// 		// update_env_var(&env, trimmed_key, arg_parts[3]);
+// 		// [Adjust the rest of your code to use the trimmed key]
+// 		// [The following code is an example and needs adjustment based on your functions]
+// 		if (!arg_parts[2] && (!check_existing_key(env, arg_parts[1])))
+// 			add_env_var(&env, arg_parts[1], NULL);
+// 		else if (arg_parts[2] && !arg_parts[3])
+// 			update_env_var(&env, arg_parts[1], "");
+// 		else if (arg_parts[2] && arg_parts[3])
+// 			update_env_var(&env, arg_parts[1], arg_parts[3]);
+// 		free_split_array(arg_parts);
+// 		i++;
+// 	}
+// 	return (ret);
+// }
