@@ -104,6 +104,13 @@ typedef struct s_exp_ctx
 	t_env		*env;
 }	t_exp_ctx;
 
+typedef struct s_conv
+{
+	int		i;
+	int		j;
+	char	*result;
+}	t_conv;
+
 extern int	g_signum;
 
 void			art(void);

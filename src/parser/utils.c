@@ -88,44 +88,44 @@ void	update_no_quotes_case(t_tools *tools, t_lexer **current, t_lexer **tmp)
 	(free_lexer_node(current, to_del), free_split(split), free(str));
 }
 
-char	*string_converter(t_lexer *current, t_tools *tools)
-{
-	char	*result;
-	int		i;
-	int		j;
-	size_t	size;
+// char	*string_converter(t_lexer *current, t_tools *tools)
+// {
+// 	char	*result;
+// 	int		i;
+// 	int		j;
+// 	size_t	size;
 
-	size = get_new_string_length(current, tools) + 1;
-	result = ft_calloc(size, 1);
-	if (!result)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (current->str[i])
-	{
-		if (current->quote_type == DOUBLE_QUOTES && current->str[i] == '\\')
-		{
-			if (current->str[i + 1] && (current->str[
-						i + 1] == '"' || current->str[
-						i + 1] == '$' || current->str[i + 1] == '\\'))
-			{
-				result[j++] = current->str[i + 1];
-				i += 2;
-				continue ;
-			}
-			else
-			{
-				result[j++] = current->str[i++];
-				continue ;
-			}
-		}
-		if (current->str[i] == '$')
-		{
-			handle_dollar_sign_str(current, tools, &i, &result);
-			j = ft_strlen(result);
-			continue ;
-		}
-		result[j++] = current->str[i++];
-	}
-	return (result);
-}
+// 	size = get_new_string_length(current, tools) + 1;
+// 	result = ft_calloc(size, 1);
+// 	if (!result)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (current->str[i])
+// 	{
+// 		if (current->quote_type == DOUBLE_QUOTES && current->str[i] == '\\')
+// 		{
+// 			if (current->str[i + 1] && (current->str[
+// 						i + 1] == '"' || current->str[
+// 						i + 1] == '$' || current->str[i + 1] == '\\'))
+// 			{
+// 				result[j++] = current->str[i + 1];
+// 				i += 2;
+// 				continue ;
+// 			}
+// 			else
+// 			{
+// 				result[j++] = current->str[i++];
+// 				continue ;
+// 			}
+// 		}
+// 		if (current->str[i] == '$')
+// 		{
+// 			handle_dollar_sign_str(current, tools, &i, &result);
+// 			j = ft_strlen(result);
+// 			continue ;
+// 		}
+// 		result[j++] = current->str[i++];
+// 	}
+// 	return (result);
+// }
