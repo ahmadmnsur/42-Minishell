@@ -23,6 +23,7 @@ SRCS =  minishell.c								\
 		src/parser/parser_heredoc.c             \
 		src/parser/utils2.c     				\
 		src/parser/utils3.c     				\
+		src/parser/utils4.c     				\
 		src/utils/utils.c						\
 		src/builtins/echo.c						\
 		src/builtins/exit.c						\
