@@ -12,29 +12,20 @@
 
 #include "../../minishell.h"
 
-// void	handle_ctrl_c(int sig)
-// {
-// 	g_signum = sig;
-// 	rl_replace_line("", 1);
-// 	write(1, "\n", 1);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
-
-void handle_ctrl_c(int sig)
+void	handle_ctrl_c(int sig)
 {
-    g_signum = sig;
-    write(1, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+	g_signum = sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void handle_heredoc_signal(int sig)
+void	handle_heredoc_signal(int sig)
 {
-    g_signum = sig;
-    write(STDOUT_FILENO, "\n", 1);
-    close(STDIN_FILENO);
+	g_signum = sig;
+	write(STDOUT_FILENO, "\n", 1);
+	close(STDIN_FILENO);
 }
 
 void	handle_execution_signals(int sig)

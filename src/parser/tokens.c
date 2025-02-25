@@ -40,7 +40,7 @@ static void	assign_tokens_to_parser(t_parser **parser,
 	while (tmp_parser && tmp_lexer)
 	{
 		if (start_node && start_node->token == TOKEN_EOF)
-			break;
+			break ;
 		while (tmp_lexer && tmp_lexer->token != TOKEN_PIPE && tmp_lexer->token != TOKEN_SEMICOLON)
 			tmp_lexer = tmp_lexer->next;
 		if (tmp_lexer)
@@ -92,22 +92,3 @@ void	ft_tokens_join(t_lexer **tmp, t_lexer **to_del)
 	else
 		(*tmp)->str = ft_strjoin((*tmp)->str, (*tmp)->next->str);
 }
-
-void	free_strs_nodes(char **s1, char **s2)
-{
-	free(*s1);
-	*s1 = ft_strdup(*s2);
-	free(*s2);
-	*s2 = NULL;
-}
-
-void	delete_empty_node(t_lexer **tokens, t_lexer **tmp, char **str)
-{
-	t_lexer	*to_del;
-
-	to_del = *tmp;
-	(*tmp) = (*tmp)->next;
-	free_lexer_node(tokens, to_del);
-	free(*str);
-}
-//testt

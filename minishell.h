@@ -102,7 +102,7 @@ typedef struct s_exp_ctx
 	size_t		i;
 	size_t		j;
 	t_env		*env;
-} t_exp_ctx;
+}	t_exp_ctx;
 
 extern int	g_signum;
 
@@ -279,14 +279,17 @@ int				wait_for_all_children(int num_cmd, pid_t *child_pids);
 void			close_all_pipes(int nbr_of_pipe, int **pipes);
 void			free_pipes(int nbr_of_pipe, int **pipes);
 int				count_commands(t_parser *parser);
-int				process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects);
+int				process_redirections_child_for_no_pipe(t_tools *tools,
+					t_lexer *redirects);
 char			*find_path_env(t_env *env);
 int				get_nb_of_semicolon(t_lexer *lexer);
 void			print_heredoc_error(char *delimiter);
 int				handle_sigint(t_heredoc_ctx *ctx, char *line);
-int				process_heredoc_line(t_heredoc_ctx *ctx, t_tools *tools, char *line);
+int				process_heredoc_line(t_heredoc_ctx *ctx,
+					t_tools *tools, char *line);
 int				heredoc_loop(t_heredoc_ctx *ctx, t_tools *tools);
-char			*expand_heredoc_line(char *line, t_env *env, int last_ret, int expand_variables);
+char			*expand_heredoc_line(char *line, t_env *env,
+					int last_ret, int expand_variables);
 void			expand_exit_status(t_exp_ctx *ctx, int last_ret);
 void			expand_env_variable(t_exp_ctx *ctx);
 

@@ -21,7 +21,7 @@ void	fill_sub_lexer(t_lexer **sub, t_lexer **tmp, unsigned int sub_size)
 	while (i < sub_size)
 	{
 		if ((*tmp)->token == TOKEN_EOF)
-			break;
+			break ;
 		new = create_new_lexer_node(
 				(*tmp)->str, (*tmp)->token, (*tmp)->quote_type, (*tmp)->space);
 		add_lexer_node_back(sub, new);

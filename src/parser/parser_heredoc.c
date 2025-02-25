@@ -56,7 +56,7 @@ void	cat_heredoc_words(t_parser *parser)
 			if (tmp->next && tmp->next->next)
 				tmp = tmp->next->next;
 			else
-				break;
+				break ;
 			continue ;
 		}
 		else

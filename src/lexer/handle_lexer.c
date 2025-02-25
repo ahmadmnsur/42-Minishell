@@ -57,37 +57,28 @@ void	handle_out_or_append(t_lexer **lexer, const char *str, int *i)
 		add_lexer_and_increment_i(lexer, TOKEN_REDIRECT_OUT, i, 1);
 }
 
-
-void handle_quotes(t_lexer **lexer, const char *str, int *i, char quote)
+void	handle_quotes(t_lexer **lexer, const char *str, int *i, char quote)
 {
-    char            *sub;
-    t_lexer         *new;
-    t_quote_type    type;
-    int             len;
+	char			*sub;
+	t_lexer			*new;
+	t_quote_type	type;
+	int				len;
+	char			*tmp;
 
-    type = get_quote_type(quote);
-    len = get_quote_length(str, *i, quote);
-    sub = ft_substr(str, *i + 1, len - 1);
-    
-    // If it's a double-quoted string, remove escape backslashes.
-    if (type == DOUBLE_QUOTES)
-    {
-        char *tmp = remove_escaped_quotes(sub);
-        free(sub);
-        sub = tmp;
-    }
-
-    new = create_new_lexer_node(sub, TOKEN_WORD, type, 1);
-    if (!whitespacee(str[*i + len + 1]) && str[*i + len + 1] != '<'
-        && str[*i + len + 1] != '>' && str[*i + len + 1] != '|')
-        new->space = 0;
-    add_lexer_node_back(lexer, new);
-    free(sub);
-    *i += len + 1;
-}
-
-// 3. Add a new handler for semicolons
-void handle_semicolon(t_lexer **lexer, int *i)
-{
-    add_lexer_and_increment_i(lexer, TOKEN_SEMICOLON, i, 1);
+	type = get_quote_type(quote);
+	len = get_quote_length(str, *i, quote);
+	sub = ft_substr(str, *i + 1, len - 1);
+	if (type == DOUBLE_QUOTES)
+	{
+		tmp = remove_escaped_quotes(sub);
+		free(sub);
+		sub = tmp;
+	}
+	new = create_new_lexer_node(sub, TOKEN_WORD, type, 1);
+	if (!whitespacee(str[*i + len + 1]) && str[*i + len + 1] != '<'
+		&& str[*i + len + 1] != '>' && str[*i + len + 1] != '|')
+		new->space = 0;
+	add_lexer_node_back(lexer, new);
+	free(sub);
+	*i += len + 1;
 }

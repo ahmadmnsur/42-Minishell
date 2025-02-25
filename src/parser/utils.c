@@ -95,7 +95,6 @@ char	*string_converter(t_lexer *current, t_tools *tools)
 	int		j;
 	size_t	size;
 
-	/* Make sure get_new_string_length accounts for removed escape backslashes */
 	size = get_new_string_length(current, tools) + 1;
 	result = ft_calloc(size, 1);
 	if (!result)
@@ -104,30 +103,27 @@ char	*string_converter(t_lexer *current, t_tools *tools)
 	j = 0;
 	while (current->str[i])
 	{
-		/* If in double quotes, check for backslash escapes */
 		if (current->quote_type == DOUBLE_QUOTES && current->str[i] == '\\')
 		{
-			/* Only escape the characters that should be escaped */
-			if (current->str[i + 1] && (current->str[i + 1] == '"' ||
-				current->str[i + 1] == '$' ||
-				current->str[i + 1] == '\\'))
+			if (current->str[i + 1] && (current->str[
+						i + 1] == '"' || current->str[
+						i + 1] == '$' || current->str[i + 1] == '\\'))
 			{
 				result[j++] = current->str[i + 1];
 				i += 2;
-				continue;
+				continue ;
 			}
-			/* If not a recognized escape, copy the backslash as is */
 			else
 			{
 				result[j++] = current->str[i++];
-				continue;
+				continue ;
 			}
 		}
 		if (current->str[i] == '$')
 		{
 			handle_dollar_sign_str(current, tools, &i, &result);
-			j = ft_strlen(result); /* Update j to current length */
-			continue;
+			j = ft_strlen(result);
+			continue ;
 		}
 		result[j++] = current->str[i++];
 	}

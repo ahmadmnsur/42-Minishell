@@ -48,7 +48,6 @@ void	init_parser_node(t_parser **parser, t_lexer *lexer, const char *str)
 	}
 	if (str[j] == '\0')
 		return ;
-
 	command_count = get_nb_of_pipes(lexer) + get_nb_of_semicolon(lexer);
 	i = 0;
 	while (i <= command_count)
@@ -58,20 +57,20 @@ void	init_parser_node(t_parser **parser, t_lexer *lexer, const char *str)
 	}
 }
 
-int get_nb_of_semicolon(t_lexer *lexer)
+int	get_nb_of_semicolon(t_lexer *lexer)
 {
-    int count;
-    t_lexer *current;
+	int		count;
+	t_lexer	*current;
 
 	current = lexer;
 	count = 0;
-    while (current)
-    {
-        if (current->token == TOKEN_SEMICOLON)
-            count++;
-        current = current->next;
-    }
-    return (count);
+	while (current)
+	{
+		if (current->token == TOKEN_SEMICOLON)
+			count++;
+		current = current->next;
+	}
+	return (count);
 }
 
 int	check_initial_errors(char *prompt, t_tools *tools)

@@ -21,14 +21,13 @@ int	whitespacee(char c)
 	return (0);
 }
 
-
-int special_char(char c)
+int	special_char(char c)
 {
-    if (c == '|' || c == '>' || c == ';')
-        return (1);
-    else if (c == '<' || c == '\'' || c == '\"')
-        return (1);
-    return (0);
+	if (c == '|' || c == '>' || c == ';')
+		return (1);
+	else if (c == '<' || c == '\'' || c == '\"')
+		return (1);
+	return (0);
 }
 
 void	skip_spaces(const char *str, int *i)

@@ -13,7 +13,7 @@
 #include "../../minishell.h"
 
 static void	handle_qst_str(t_tools *tools, int **i, char ***result,
-    size_t	size)
+	size_t	size)
 {
 	char	*sub;
 
@@ -24,7 +24,7 @@ static void	handle_qst_str(t_tools *tools, int **i, char ***result,
 }
 
 static void	handle_special_cases(t_lexer *current, int **i, char ***result,
-    size_t size)
+	size_t size)
 {
 	char	*sub;
 	int		j;
@@ -53,10 +53,10 @@ static void	handle_special_cases(t_lexer *current, int **i, char ***result,
 }
 
 static void	handle_empty_sub(char **sub, t_lexer *current, char ***result,
-    size_t size)
+	size_t size)
 {
 	if (current->space || current->quote_type == DOUBLE_QUOTES)
-	ft_strlcat(**result, "$", size);
+		ft_strlcat(**result, "$", size);
 	free(*sub);
 }
 
@@ -75,8 +75,8 @@ void	handle_dollar_sign_str(t_lexer *current, t_tools *tools,
 		return (handle_qst_str(tools, &i, &result, size), (void)0);
 	if (is_a_special_case(current, i))
 		return (handle_special_cases(current, &i, &result, size), (void)0);
-	while (current->str[*i + j] && (ft_isalnum(current->str[*i + j])
-		|| current->str[*i + j] == '_'))
+	while (current->str[*i + j] && (ft_isalnum(current->str[
+					*i + j]) || current->str[*i + j] == '_'))
 		j++;
 	sub = ft_substr(current->str, *i, j);
 	if (!sub || !*sub)

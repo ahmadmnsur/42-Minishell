@@ -34,7 +34,7 @@ int	main(int argc, char *argv[], char *envp[])
 		free(prompt);
 		if (init_tools(&tools, cmd, envp))
 			tools.last_exit_status = execute_command(&tools, envp);
-        free_parser_list(&(tools.parser));
+		free_parser_list(&(tools.parser));
 	}
 	(free_env(&(tools.env)), rl_clear_history());
 	return (0);

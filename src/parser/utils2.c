@@ -13,11 +13,11 @@
 #include "../../minishell.h"
 
 void	handle_empty_split(t_lexer **current, t_lexer *to_del,
-    char ***split, char **str)
+	char ***split, char **str)
 {
 	free_lexer_node(current, to_del);
 	if (*split && !(**split))
-	free_split(*split);
+		free_split(*split);
 	free(*str);
 }
 
@@ -46,4 +46,3 @@ void	insert_at(t_lexer **lexer, t_lexer *current, char *str, int space)
 	new->next = tmp->next;
 	tmp->next = new;
 }
-
