@@ -15,5 +15,5 @@
 char	*minishell_loop(int status)
 {
 	(void)status;
-	return (readline("minishell>>"));
+	return (readline("minishell>> "));
 }
