@@ -27,36 +27,6 @@ static unsigned int	count_lexer_nodes(t_lexer *lexer)
 	return (nb_nodes);
 }
 
-static void	assign_tokens_to_parser(t_parser **parser,
-			t_lexer *lexer, unsigned int nb_nodes)
-{
-	t_lexer		*tmp_lexer;
-	t_lexer		*start_node;
-	t_parser	*tmp_parser;
-
-	tmp_lexer = lexer;
-	tmp_parser = *parser;
-	start_node = tmp_lexer;
-	while (tmp_parser && tmp_lexer)
-	{
-		if (start_node && start_node->token == TOKEN_EOF)
-			break ;
-		while (tmp_lexer && tmp_lexer->token != TOKEN_PIPE && tmp_lexer->token != TOKEN_SEMICOLON)
-			tmp_lexer = tmp_lexer->next;
-		if (tmp_lexer)
-		{
-			tmp_parser->tokens = ft_sublexer(lexer, start_node,
-					tmp_lexer->i - start_node->i);
-			start_node = tmp_lexer->next;
-			tmp_lexer = tmp_lexer->next;
-		}
-		else
-			tmp_parser->tokens = ft_sublexer(lexer, start_node,
-					nb_nodes - start_node->i);
-		tmp_parser = tmp_parser->next;
-	}
-}
-
 void	set_tokens_lexer(t_parser **parser, t_lexer *lexer)
 {
 	unsigned int	nb_nodes;

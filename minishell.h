@@ -111,6 +111,14 @@ typedef struct s_conv
 	char	*result;
 }	t_conv;
 
+typedef struct s_assign
+{
+	t_lexer			*lexer_head;
+	t_lexer			*start_node;
+	t_lexer			*lexer;
+	unsigned int	nb_nodes;
+}	t_assign;
+
 extern int	g_signum;
 
 void			art(void);
@@ -299,5 +307,7 @@ char			*expand_heredoc_line(char *line, t_env *env,
 					int last_ret, int expand_variables);
 void			expand_exit_status(t_exp_ctx *ctx, int last_ret);
 void			expand_env_variable(t_exp_ctx *ctx);
+void			assign_tokens_to_parser(t_parser **parser,
+					t_lexer *lexer, unsigned int nb_nodes);
 
 #endif
