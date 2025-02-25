@@ -60,10 +60,16 @@ void	exec_child_command_exec(t_parser *curr, t_tools *tools)
 	char	*path;
 	char	**args;
 	char	**local_envp;
-
+    int       status;
+    
 	if (curr->redirects && process_redirections_child
 		(tools, curr->redirects) != 0)
 		exit(EXIT_FAILURE);
+    if (curr->builtin)
+    {
+        status = curr->builtin(curr, tools->env);
+        exit(status);
+    }
 	if (!curr->tokens || !curr->tokens->str)
 		exit(0);
 	path = get_command_path(curr->tokens->str, tools->env);
