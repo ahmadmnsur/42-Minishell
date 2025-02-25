@@ -64,6 +64,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	int				hidden;
+	int				assigned;
 	struct s_env	*next;
 	int				two_point;
 }	t_env;
@@ -126,8 +127,8 @@ int				ft_cmp(const char *s1, const char *s2);
 int				get_cmd_len(t_lexer *lexer);
 char			**get_cmd(t_lexer *lexer);
 int				is_numeric(const char *str);
-void			add_env_var(t_env **env, const char *key, const char *value);
-void			update_env_var(t_env **env, const char *key, const char *value);
+void			add_env_var(t_env **env, const char *key, const char *value, int assigned);
+void 			update_env_var(t_env **env, const char *key, const char *value, int assigned);
 void			print_full_export_list(t_env *env);
 char			**export_split(const char *str, const char *delimiter);
 void			free_split_array(char **array);

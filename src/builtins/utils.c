@@ -38,46 +38,54 @@ char	*get_env(t_env *head, const char *key)
 	return (ft_strdup(""));
 }
 
-void	add_env_var(t_env **env, const char *key, const char *value)
+void add_env_var(t_env **env, const char *key, const char *value, int assigned)
 {
-	t_env	*new_var;
-	t_env	*tmp;
+    t_env   *new_var;
+    t_env   *tmp;
 
-	new_var = malloc(sizeof(t_env));
-	if (!new_var)
-		return ;
-	new_var->key = ft_strdup(key);
-	new_var->value = ft_strdup(value);
-	new_var->hidden = 0;
-	new_var->next = NULL;
-	if (!*env)
-		*env = new_var;
-	else
-	{
-		tmp = *env;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_var;
-	}
+    new_var = malloc(sizeof(t_env));
+    if (!new_var)
+        return ;
+    new_var->key = ft_strdup(key);
+    if (assigned)
+        new_var->value = ft_strdup(value);
+    else
+        new_var->value = NULL;  // Not assigned so no value is stored
+    new_var->assigned = assigned;
+    new_var->hidden = 0;
+    new_var->next = NULL;
+    if (!*env)
+        *env = new_var;
+    else
+    {
+        tmp = *env;
+        while (tmp->next)
+            tmp = tmp->next;
+        tmp->next = new_var;
+    }
 }
 
-void	update_env_var(t_env **env, const char *key, const char *value)
+void update_env_var(t_env **env, const char *key, const char *value, int assigned)
 {
-	t_env	*tmp;
+    t_env *tmp;
 
-	tmp = *env;
-	while (tmp)
-	{
-		if (ft_cmp(tmp->key, key) == 0)
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(value);
-			tmp->hidden = 0;
-			return ;
-		}
-		tmp = tmp->next;
-	}
-	add_env_var(env, key, value);
+    tmp = *env;
+    while (tmp)
+    {
+        if (ft_cmp(tmp->key, key) == 0)
+        {
+            if (tmp->value)
+                free(tmp->value);
+            if (assigned)
+                tmp->value = ft_strdup(value);
+            else
+                tmp->value = NULL;
+            tmp->assigned = assigned;
+            return ;
+        }
+        tmp = tmp->next;
+    }
+    add_env_var(env, key, value, assigned);
 }
 
 void	print_full_export_list(t_env *env)

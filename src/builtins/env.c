@@ -25,7 +25,7 @@ int	builtin_env(t_parser *parser, t_env *env)
 	tmp = env;
 	while (tmp != NULL)
 	{
-		if (tmp->hidden == 0)
+		if (tmp->hidden == 0 && tmp->value != NULL)
 			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
