@@ -248,8 +248,6 @@ void			handle_dollar_special_case(t_lexer	*current, char **sub,
 					int **len, int **i);
 char			*handle_heredoc_case(char **delimiters, t_tools *tools,
 					t_quote_type quote_type);
-int				open_file(char *filename, int oflags, int access);
-int				get_delimiters_count(char **delimiters);
 int				get_nb_of_pipes(t_lexer *lexer);
 char			*ft_strndupp(const char *src, size_t n);
 char			*ft_strstr(const char *haystack, const char *needle);

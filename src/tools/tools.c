@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjamil <mjamil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -30,6 +30,7 @@ int	init_tools(t_tools *tools, char *str, char **envp)
 	set_builtins(tools);
 	return (1);
 }
+
 void	init_parser_node(t_parser **parser, t_lexer *lexer, const char *str)
 {
 	int	command_count;
@@ -46,7 +47,7 @@ void	init_parser_node(t_parser **parser, t_lexer *lexer, const char *str)
 		j++;
 	}
 	if (str[j] == '\0')
-		return ; // If the string is only spaces, return early
+		return ;
 
 	command_count = get_nb_of_pipes(lexer) + get_nb_of_semicolon(lexer);
 	i = 0;
@@ -73,3 +74,28 @@ int get_nb_of_semicolon(t_lexer *lexer)
     return (count);
 }
 
+int	check_initial_errors(char *prompt, t_tools *tools)
+{
+	char	c;
+
+	if (check_unclosed_quotes(prompt))
+	{
+		c = check_unclosed_quotes(prompt);
+		if (c == '\'')
+			print_syntax_error("'", &(tools->last_exit_status));
+		else
+			print_syntax_error("\"", &(tools->last_exit_status));
+		return (free_tools(tools), 0);
+	}
+	else if (!validate_pipes_and_words(tools->parser))
+	{
+		print_syntax_error("|", &(tools->last_exit_status));
+		return (free_tools(tools), 0);
+	}
+	else if (!check_parser_redirections(tools->parser))
+	{
+		tools->last_exit_status = 2;
+		return (free_tools(tools), 0);
+	}
+	return (1);
+}

@@ -57,7 +57,7 @@ int	count_commands(t_parser *parser)
 // Execute the command in the child process
 void	exec_child_command_exec(t_parser *curr, t_tools *tools)
 {
-    int		status;
+	int		status;
 	char	*path;
 	char	**args;
 	char	**local_envp;
@@ -65,16 +65,16 @@ void	exec_child_command_exec(t_parser *curr, t_tools *tools)
 	if (curr->redirects && process_redirections_child
 		(tools, curr->redirects) != 0)
 		exit(EXIT_FAILURE);
-    if (curr->builtin)
-    {
-        status = curr->builtin(curr, tools->env);
-        exit(status);
-    }
+	if (curr->builtin)
+	{
+		status = curr->builtin(curr, tools->env);
+		exit(status);
+	}
 	if (!curr->tokens || !curr->tokens->str)
 		exit(0);
 	path = get_command_path(curr->tokens->str, tools->env);
 	if (!path)
-	    (fprintf(stderr, "minishell: %s: command not found\n", \
+		(fprintf(stderr, "minishell: %s: command not found\n", \
 		curr->tokens->str), exit(127));
 	args = build_args(curr->tokens);
 	if (!args)
