@@ -14,8 +14,7 @@
 
 static t_lexer	*find_next_delimiter(t_lexer *lexer)
 {
-	while (lexer && lexer->token != TOKEN_PIPE && lexer
-		->token != TOKEN_SEMICOLON)
+	while (lexer && lexer->token != TOKEN_PIPE)
 		lexer = lexer->next;
 	return (lexer);
 }

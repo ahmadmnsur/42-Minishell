@@ -40,10 +40,10 @@ char	*remove_escaped_quotes(const char *str)
 }
 
 // 3. Add a new handler for semicolons
-void	handle_semicolon(t_lexer **lexer, int *i)
-{
-	add_lexer_and_increment_i(lexer, TOKEN_SEMICOLON, i, 1);
-}
+// void	handle_semicolon(t_lexer **lexer, int *i)
+// {
+// 	add_lexer_and_increment_i(lexer, TOKEN_SEMICOLON, i, 1);
+// }
 
 int	get_nb_of_pipes(t_lexer *lexer)
 {

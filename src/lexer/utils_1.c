@@ -60,8 +60,6 @@ void	handle_special_char(t_lexer **lexer, const char *str, int *i)
 		handle_pipe(lexer, i);
 	else if (str[*i] == '>')
 		handle_out_or_append(lexer, str, i);
-	else if (str[*i] == ';')
-		handle_semicolon(lexer, i);
 }
 
 void	process_string(t_lexer **lexer, const char *str, int *i)

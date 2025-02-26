@@ -23,7 +23,7 @@ int	whitespacee(char c)
 
 int	special_char(char c)
 {
-	if (c == '|' || c == '>' || c == ';')
+	if (c == '|' || c == '>')
 		return (1);
 	else if (c == '<' || c == '\'' || c == '\"')
 		return (1);

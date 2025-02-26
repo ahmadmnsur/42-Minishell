@@ -271,7 +271,6 @@ char			*ft_strndupp(const char *src, size_t n);
 char			*ft_strstr(const char *haystack, const char *needle);
 char			*remove_escaped_quotes(const char *str);
 void			handle_special_char(t_lexer **lexer, const char *str, int *i);
-void			handle_semicolon(t_lexer **lexer, int *i);
 t_quote_type	get_quote_type(char quote);
 int				process_heredoc_fd(t_tools *tools, t_lexer *current);
 int				open_fd_for_redirection(t_tools *tools, t_lexer *current);
@@ -300,7 +299,6 @@ int				count_commands(t_parser *parser);
 int				process_redirections_child_for_no_pipe(t_tools *tools,
 					t_lexer *redirects);
 char			*find_path_env(t_env *env);
-int				get_nb_of_semicolon(t_lexer *lexer);
 void			print_heredoc_error(char *delimiter);
 int				handle_sigint(t_heredoc_ctx *ctx, char *line);
 int				process_heredoc_line(t_heredoc_ctx *ctx,
