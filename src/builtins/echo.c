@@ -51,6 +51,7 @@ int	builtin_echo(t_parser *parser, t_env *env)
 	arg = get_cmd(parser->tokens->next);
 	if (!arg || !arg[0])
 	{
+		free_split_array(arg);
 		printf("\n");
 		return (0);
 	}
@@ -65,5 +66,6 @@ int	builtin_echo(t_parser *parser, t_env *env)
 	}
 	if (new_line)
 		printf("\n");
+	free_split_array(arg);
 	return (0);
 }

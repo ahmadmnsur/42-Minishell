@@ -12,6 +12,8 @@
 
 #include "../../minishell.h"
 
+//This function compares two strings lexicographically and returns
+//the difference between the first differing characters.
 int	ft_cmp(const char *s1, const char *s2)
 {
 	size_t	i;
@@ -26,6 +28,8 @@ int	ft_cmp(const char *s1, const char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
+//This function searches for an environment variable by its key in
+//the linked list and returns its value as a newly allocated string.
 char	*get_env(t_env *head, const char *key)
 {
 	while (head)
@@ -38,6 +42,7 @@ char	*get_env(t_env *head, const char *key)
 	return (ft_strdup(""));
 }
 
+// This function adds a new environment variable to the linked list.
 void	add_env_var(t_env **env, const char *key,
 	const char *value, int assigned)
 {
@@ -66,6 +71,8 @@ void	add_env_var(t_env **env, const char *key,
 	}
 }
 
+//This function updates an existing environment variable's
+//value in the list or adds it if it doesn't exist.
 void	update_env_var(t_env **env, const char *key,
 	const char *value, int assigned)
 {
@@ -90,6 +97,8 @@ void	update_env_var(t_env **env, const char *key,
 	add_env_var(env, key, value, assigned);
 }
 
+//This function prints the entire environment
+//variable list in a format similar to declare -x key="value".
 void	print_full_export_list(t_env *env)
 {
 	t_env	*tmp;

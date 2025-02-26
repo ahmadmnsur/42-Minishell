@@ -12,6 +12,8 @@
 
 #include "../../minishell.h"
 
+//char *result = ft_strndupp("Hello, world!", 5);
+// result will contain "Hello"
 char	*ft_strndupp(const char *src, size_t n)
 {
 	char	*dest;
@@ -30,6 +32,8 @@ char	*ft_strndupp(const char *src, size_t n)
 	return (dest);
 }
 
+//char *result = ft_strstr("Hello, world!", "world");
+// result will point to the 'w' in "world" in the string "Hello, world!"
 char	*ft_strstr(const char *haystack, const char *needle)
 {
 	size_t	i;

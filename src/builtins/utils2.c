@@ -12,6 +12,8 @@
 
 #include "../../minishell.h"
 
+//This function counts how many consecutive
+//TOKEN_WORD tokens exist in the lexer list
 int	get_cmd_len(t_lexer *lexer)
 {
 	int	len;
@@ -27,6 +29,8 @@ int	get_cmd_len(t_lexer *lexer)
 	return (len);
 }
 
+//This function creates and returns an array of strings
+//representing the command tokens found in the lexer list.
 char	**get_cmd(t_lexer *lexer)
 {
 	char	**cmd;
@@ -50,6 +54,8 @@ char	**get_cmd(t_lexer *lexer)
 	return (cmd);
 }
 
+//This function creates and initializes
+//a new environment variable node.
 t_env	*create_env_node(char *key, char *value, int hidden)
 {
 	t_env	*new_node;
@@ -65,6 +71,8 @@ t_env	*create_env_node(char *key, char *value, int hidden)
 	return (new_node);
 }
 
+//This function updates an existing environment
+//variable or adds a new one to the list.
 int	set_env(t_env **head, const char *key, const char *value, int hidden)
 {
 	t_env	*current;
@@ -94,6 +102,8 @@ int	set_env(t_env **head, const char *key, const char *value, int hidden)
 	return (0);
 }
 
+//This function frees all elements of a split
+//string array (array of strings) and the array itself.
 void	free_split_array(char **array)
 {
 	int	i;
