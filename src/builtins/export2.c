@@ -51,6 +51,7 @@ void	fill_result_with_values(char **result,
 	trimmed_value = ft_strtrim(result[3], " \t\n\r");
 	free(result[3]);
 	result[3] = trimmed_value;
+	free(result[2]);
 }
 
 char	**export_split(const char *str, const char *delimiter)
