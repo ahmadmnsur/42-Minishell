@@ -94,12 +94,11 @@ int	cd_path(const char *path, t_env *env)
 	return (0);
 }
 
-int	builtin_cd(t_parser *parser, t_env *env)
+static int	process_cd_args(char **arg, t_env *env)
 {
-	char	**arg;
+	int	ret;
 
-	arg = get_cmd(parser->tokens->next);
-	if (!arg || !arg[0])
+	if (!arg[0])
 		return (cd_home(env));
 	if (arg[1])
 	{
@@ -107,9 +106,23 @@ int	builtin_cd(t_parser *parser, t_env *env)
 		return (1);
 	}
 	if (ft_cmp(arg[0], "~") == 0)
-		return (cd_home(env));
+		ret = cd_home(env);
 	else if (ft_cmp(arg[0], "-") == 0)
-		return (cd_oldpwd(env));
+		ret = cd_oldpwd(env);
 	else
-		return (cd_path(arg[0], env));
+		ret = cd_path(arg[0], env);
+	return (ret);
+}
+
+int	builtin_cd(t_parser *parser, t_env *env)
+{
+	char	**arg;
+	int		ret;
+
+	arg = get_cmd(parser->tokens->next);
+	if (!arg)
+		return (cd_home(env));
+	ret = process_cd_args(arg, env);
+	free_split_array(arg);
+	return (ret);
 }
