@@ -35,8 +35,8 @@ static int	extract_assignment_details(char *arg, char **key, char **value)
 	if (!arg_parts)
 		return (0);
 	*key = ft_strdup(arg_parts[1]);
-	assigned = (arg_parts[2] != NULL);
-	if (assigned && arg_parts[3])
+	assigned = (arg_parts[3] != NULL);
+	if (assigned)
 		*value = ft_strdup(arg_parts[3]);
 	else
 		*value = NULL;
