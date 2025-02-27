@@ -32,18 +32,15 @@ static int	extract_assignment_details(char *arg, char **key, char **value)
 	int		assigned;
 
 	arg_parts = export_split(arg, "=");
-	*key = ft_strtrim(arg_parts[1], " \t\n\r");
-	if (arg_parts[3] && ft_strlen(arg_parts[3]) > 0)
-		assigned = 1;
-	else if (arg_parts[3] && ft_strlen(arg_parts[3]) == 0)
-		assigned = 1;
-	else
-		assigned = 0;
+	if (!arg_parts)
+		return (0);
+	*key = ft_strdup(arg_parts[1]);
+	assigned = (arg_parts[2] != NULL);
 	if (assigned && arg_parts[3])
 		*value = ft_strdup(arg_parts[3]);
 	else
 		*value = NULL;
-	free_split_array(arg_parts);
+	free_export_split_result(arg_parts);
 	return (assigned);
 }
 

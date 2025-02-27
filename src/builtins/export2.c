@@ -52,6 +52,7 @@ void	fill_result_with_values(char **result,
 	free(result[3]);
 	result[3] = trimmed_value;
 	free(result[2]);
+	result[2] = NULL;
 }
 
 char	**export_split(const char *str, const char *delimiter)

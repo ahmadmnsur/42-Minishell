@@ -313,5 +313,6 @@ void			assign_tokens_to_parser(t_parser **parser,
 int				is_valid_identifier(char *str);
 int				check_existing_key(t_env *env, char *key);
 int				handle_export_assignment(char *arg, t_env **env);
+void			free_export_split_result(char **result);
 
 #endif

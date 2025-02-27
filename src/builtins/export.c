@@ -24,6 +24,21 @@ static int	handle_export_identifier(char *arg, t_env *env)
 	return (0);
 }
 
+void	free_export_split_result(char **result)
+{
+	int	i;
+
+	i = 0;
+	if (!result)
+		return ;
+	while (i < 5)
+	{
+		free(result[i]);
+		i++;
+	}
+	free(result);
+}
+
 static int	process_export_args(char **args, t_env **env)
 {
 	int	i;
