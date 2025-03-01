@@ -49,7 +49,6 @@ SRCS =  minishell.c								\
 		src/execute_command/utils3.c			\
 		src/signals/signals2.c					\
 		src/signals/signals1.c					\
-		src/tools/tools.c 						\
 		src/lexer/utils_2.c						\
 		src/execute_command/herdoc_utils.c		\
 		src/utils/get_pid.c						\
@@ -58,6 +57,7 @@ SRCS =  minishell.c								\
 		src/utils/init.c						\
 		src/utils/readline.c					\
 		src/utils/update_shlvl.c				\
+		src/utils/utils2.c						\
 		
 OBJDIR = objs
 OBJCS = $(SRCS:%.c=$(OBJDIR)/%.o)
@@ -75,10 +75,21 @@ $(OBJDIR):
 $(NAME): $(OBJDIR) $(OBJCS)
 	make -C $(LIBFT)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJCS) $(READLINE_FLAG) $(LIBFT_LIB)
-	@printf "Compiling the entire program...\n"
-	@sleep 1
-	@printf "\033[A\033[K"
-	@printf "\033[32m### Minishell Compiled Successfully! ###\n\033[0m"
+	@printf "\n\033[32m"
+	@printf "  __  __ _       _     _          _ _ \n"
+	@printf " |  \\/  (_)     (_)   | |        | | |\n"
+	@printf " | \\  / |_ _ __  _ ___| |__   ___| | |\n"
+	@printf " | |\\/| | | '_ \\| / __| '_ \\ / _ \\ | |\n"
+	@printf " | |  | | | | | | \\__ \\ | | |  __/ | |\n"
+	@printf " |_|  |_|_|_| |_|_|___/_| |_|\\___|_|_|\n"
+	@printf "\n"
+	@printf "### Minishell Compiled Successfully! ###\n"
+	@printf "\033[0m\n"
+	@printf "\n\033[1;34m"
+	@printf "🧠 By Ahmad & Jamil\n"
+	@printf "🔥 Ready to rock your shell! Type './minishell' to start."
+	@printf "\033[0m\n"
+	
 
 $(OBJDIR)/%.o: %.c
 	mkdir -p $(dir $@)
