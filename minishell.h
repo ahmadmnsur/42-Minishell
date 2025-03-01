@@ -233,7 +233,6 @@ void			set_env_var(t_env **env, char *key, char *value, int hidden);
 void			copy_envp(t_env **env, char **envp);
 void			update_shlvl(t_env **env, int hidden);
 void			initialize_environment(t_env **env);
-int				init_tools(t_tools *tools, char *str, char **envp);
 void			free_tools(t_tools *tools);
 int				check_initial_errors(char *prompt, t_tools *tools);
 void			print_message_error(char *s1, char *s2, char *s3, char *s4);
