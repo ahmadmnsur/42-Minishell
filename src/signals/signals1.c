@@ -42,9 +42,3 @@ void	set_ctrl_d(t_tools *tools, char *prompt)
 		exit(0);
 	}
 }
-
-void	ignore_signals(void)
-{
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIG_IGN);
-}
