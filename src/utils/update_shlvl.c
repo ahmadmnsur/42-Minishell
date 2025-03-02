@@ -71,19 +71,25 @@ void	env_add_back(t_env **env, char *key, char *value, int hidden)
 void	copy_envp(t_env **env, char **envp)
 {
 	int		i;
-	char	**split;
+	char	*key;
+	char	*value;
+	char	*equal_sign;
 
 	if (!envp || !*envp)
 		return ;
 	i = 0;
 	while (envp[i])
 	{
-		split = ft_split(envp[i], "=");
-		set_env_var(env, split[0], split[1], 0);
-		free_split(split);
-		split = NULL;
+		equal_sign = ft_strchr(envp[i], '=');
+		if (equal_sign)
+		{
+			key = ft_substr(envp[i], 0, equal_sign - envp[i]);
+			value = ft_strdup(equal_sign + 1);
+			set_env_var(env, key, value, 0);
+			free(key);
+			free(value);
+		}
 		i++;
 	}
-	free_split(split);
 	update_shlvl(env, 0);
 }
