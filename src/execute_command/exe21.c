@@ -75,7 +75,10 @@ int	process_redirections_child_for_no_pipe(t_tools *tools, t_lexer *redirects)
 	{
 		fd = open_fd_for_redirection(tools, current);
 		if (fd == -1)
+		{
+			printf("zsh: permission denied: testfile\n");
 			return (-1);
+		}
 		if (dup_fd_for_token(fd, current->token) == -1)
 		{
 			close(fd);
