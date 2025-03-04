@@ -12,28 +12,20 @@
 
 #include "../../minishell.h"
 
-static unsigned int	count_lexer_nodes(t_lexer *lexer)
-{
-	t_lexer			*tmp_lexer;
-	unsigned int	nb_nodes;
-
-	nb_nodes = 0;
-	tmp_lexer = lexer;
-	while (tmp_lexer)
-	{
-		nb_nodes++;
-		tmp_lexer = tmp_lexer->next;
-	}
-	return (nb_nodes);
-}
-
 void	set_tokens_lexer(t_parser **parser, t_lexer *lexer)
 {
+	t_lexer			*tmp;
 	unsigned int	nb_nodes;
 
 	if (!parser || !lexer)
 		return ;
-	nb_nodes = count_lexer_nodes(lexer);
+	nb_nodes = 0;
+	tmp = lexer;
+	while (tmp)
+	{
+		nb_nodes++;
+		tmp = tmp->next;
+	}
 	assign_tokens_to_parser(parser, lexer, nb_nodes);
 }
 
