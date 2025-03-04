@@ -25,8 +25,8 @@
 # include <signal.h>
 # include "libft/libft.h"
 
-struct	s_parser;
-struct	s_env;
+struct		s_parser;
+struct		s_env;
 typedef int	(*t_builtin_func)(struct s_parser *, struct s_env *);
 
 typedef enum e_tokens
