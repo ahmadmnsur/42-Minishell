@@ -11,59 +11,51 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	get_nb_of_heredocs(t_lexer *redirs)
+//recursively count the number of heredocs
+static int	get_nb_of_heredocs(t_lexer *redirs)
 {
-	int	nb_hd;
-
-	nb_hd = 0;
-	while (redirs)
-	{
-		if (redirs->token == TOKEN_HEREDOC)
-			nb_hd++;
-		redirs = redirs->next;
-	}
-	return (nb_hd);
+	if (!redirs)
+		return (0);
+	if (redirs->token == TOKEN_HEREDOC)
+		return (1 + get_nb_of_heredocs(redirs->next));
+	return (get_nb_of_heredocs(redirs->next));
 }
 
-void	set_hd_limiters_in_node(t_parser *node)
+//recursively fill the hd_limiters array
+static void	fill_hd_limiters(t_lexer *redirs, char **limiters, int *i)
 {
-	int		nb_hd;
-	int		i;
-	t_lexer	*redirs;
-	char	**limiters;
+	if (!redirs)
+		return ;
+	if (redirs->token == TOKEN_HEREDOC && redirs->next)
+	{
+		limiters[*i] = ft_strdup(redirs->next->str);
+		(*i)++;
+	}
+	fill_hd_limiters(redirs->next, limiters, i);
+}
+
+//set the hd_limiters array in the parser node
+static void	set_hd_limiters_in_node(t_parser *node)
+{
+	int	nb_hd;
+	int	i;
 
 	if (!node || !node->redirects)
 		return ;
 	nb_hd = get_nb_of_heredocs(node->redirects);
-	limiters = malloc(sizeof(char *) * (nb_hd + 1));
-	if (!limiters)
+	node->hd_delimiters = malloc(sizeof(char *) * (nb_hd + 1));
+	if (!node->hd_delimiters)
 		return ;
 	i = 0;
-	redirs = node->redirects;
-	while (redirs)
-	{
-		if (redirs->token == TOKEN_HEREDOC && redirs->next)
-		{
-			limiters[i] = ft_strdup(redirs->next->str);
-			i++;
-		}
-		redirs = redirs->next;
-	}
-	limiters[i] = NULL;
-	node->hd_delimiters = limiters;
+	fill_hd_limiters(node->redirects, node->hd_delimiters, &i);
+	node->hd_delimiters[i] = NULL;
 }
 
+//recursively set the hd_limiters array in the parser
 void	set_hd_limiter_parser(t_parser *parser)
 {
-	t_parser	*curr;
-
 	if (!parser)
 		return ;
-	curr = parser;
-	while (curr)
-	{
-		set_hd_limiters_in_node(curr);
-		curr = curr->next;
-	}
+	set_hd_limiters_in_node(parser);
+	set_hd_limiter_parser(parser->next);
 }

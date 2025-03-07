@@ -37,12 +37,12 @@ void	delete_parser_node(t_parser **head, t_parser *node_to_delete)
 
 void	free_parser_content(t_parser *node)
 {
+	if (node->hd_delimiters != NULL)
+		free_split(node->hd_delimiters);
 	if (node->tokens != NULL)
 		free_lexer(&node->tokens);
 	if (node->redirects != NULL)
 		free_lexer(&node->redirects);
-	if (node->hd_delimiters != NULL)
-		free_split(node->hd_delimiters);
 }
 
 void	free_parser_list(t_parser **head)

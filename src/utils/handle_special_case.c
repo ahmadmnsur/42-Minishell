@@ -15,11 +15,11 @@
 static void	handle_qst_str(t_tools *tools, int **i, char ***result,
 	size_t	size)
 {
-	char	*sub;
+	char	*status_str;
 
-	sub = ft_itoa(tools->last_exit_status);
-	ft_strlcat(**result, sub, size);
-	free(sub);
+	status_str = ft_itoa(tools->last_exit_status);
+	ft_strlcat(**result, status_str, size);
+	free(status_str);
 	(**i)++;
 }
 

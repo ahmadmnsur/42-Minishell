@@ -25,7 +25,7 @@ int	is_redirection_token(t_tokens token)
 	return (0);
 }
 
-int	handle_redirect_in(t_lexer *current)
+static int	handle_redirect_in(t_lexer *current)
 {
 	if (current->next && current->next->token != TOKEN_WORD && !current->space)
 	{
@@ -38,7 +38,7 @@ int	handle_redirect_in(t_lexer *current)
 	return (1);
 }
 
-int	check_invalid_token(t_lexer *current)
+static int	check_invalid_token(t_lexer *current)
 {
 	char	*token;
 
@@ -57,7 +57,7 @@ int	check_invalid_token(t_lexer *current)
 	return (1);
 }
 
-int	check_redirections(t_lexer *lexer)
+static int	check_redirections(t_lexer *lexer)
 {
 	t_lexer	*current;
 
