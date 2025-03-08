@@ -308,5 +308,9 @@ int				is_valid_identifier(char *str);
 int				check_existing_key(t_env *env, char *key);
 int				handle_export_assignment(char *arg, t_env **env);
 void			free_export_split_result(char **result);
-
+int				is_only_ands(char *str);
+int				is_directory_path(char *str);
+int				check_exclamation(char *prompt, t_tools *tools);
+int				check_colon(char *prompt, t_tools *tools);
+int				check_pipe_error(t_tools *tools);
 #endif

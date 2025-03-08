@@ -17,3 +17,14 @@ char	*minishell_loop(int status)
 	(void)status;
 	return (readline("minishell >> "));
 }
+
+int	check_pipe_error(t_tools *tools)
+{
+	if (!validate_pipes_and_words(tools->parser))
+	{
+		print_syntax_error("|", &(tools->last_exit_status));
+		free_tools(tools);
+		return (0);
+	}
+	return (1);
+}

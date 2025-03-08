@@ -55,10 +55,11 @@ SRCS =  minishell.c								\
 		src/utils/handle_special_case.c			\
 		src/utils/handle_special_case2.c		\
 		src/utils/init.c						\
-		src/utils/readline.c					\
 		src/utils/update_shlvl.c				\
 		src/utils/utils2.c						\
 		src/parser/parser_add_create.c			\
+		src/utils/check_initilal_errors.c		\
+		src/utils/utlis3.c						\
 		
 OBJDIR = objs
 OBJCS = $(SRCS:%.c=$(OBJDIR)/%.o)

@@ -53,29 +53,66 @@ void	init_parser_node(t_parser **parser, t_lexer *lexer, const char *str)
 // 	}
 // 	return (count);
 // }
-
-int	check_initial_errors(char *prompt, t_tools *tools)
+int	check_exclamation(char *prompt, t_tools *tools)
 {
-	char	c;
-
-	if (check_unclosed_quotes(prompt))
-	{
-		c = check_unclosed_quotes(prompt);
-		if (c == '\'')
-			print_syntax_error("'", &(tools->last_exit_status));
-		else
-			print_syntax_error("\"", &(tools->last_exit_status));
-		return (free_tools(tools), 0);
-	}
-	else if (!validate_pipes_and_words(tools->parser))
-	{
-		print_syntax_error("|", &(tools->last_exit_status));
-		return (free_tools(tools), 0);
-	}
-	else if (!check_parser_redirections(tools->parser))
+	if (prompt[0] == '!' && prompt[1] == '\0')
 	{
 		tools->last_exit_status = 2;
 		return (free_tools(tools), 0);
 	}
 	return (1);
+}
+
+int	check_colon(char *prompt, t_tools *tools)
+{
+	if (prompt[0] == ':' && prompt[1] == '\0')
+	{
+		tools->last_exit_status = 0;
+		return (free_tools(tools), 0);
+	}
+	return (1);
+}
+
+int	is_directory_path(char *str)
+{
+	int	i;
+	int	j;
+
+	if (!str || str[0] != '/')
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		while (str[i] && str[i] == '/')
+			i++;
+		if (!str[i])
+			break ;
+		j = i;
+		while (str[j] && str[j] != '/')
+			j++;
+		if (j - i != 1 && j - i != 2)
+			return (0);
+		if (j - i == 1 && str[i] != '.')
+			return (0);
+		if (j - i == 2 && (str[i] != '.' || str[i + 1] != '.'))
+			return (0);
+		i = j;
+	}
+	return (1);
+}
+
+int	is_only_ands(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '&')
+			return (0);
+		i++;
+	}
+	return (i);
 }
