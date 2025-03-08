@@ -12,42 +12,44 @@
 
 #include "../../minishell.h"
 
+static t_lexer	*find_current_node(t_lexer *lexer, t_lexer *current)
+{
+	while (lexer && lexer != current)
+		lexer = lexer->next;
+	return (lexer);
+}
+
+static void	append_next_token(t_lexer **lexer, t_lexer *node)
+{
+	t_lexer	*to_del;
+
+	to_del = node->next;
+	node->str = ft_strjoin(node->str, to_del->str);
+	node->space = 1;
+	node->quote_type = SINGLE_QUOTES;
+	free_lexer_node(lexer, to_del);
+}
+
 void	cat_heredoc_word(t_lexer **lexer, t_lexer *current)
 {
 	t_lexer	*tmp;
-	t_lexer	*to_del;
 
-	to_del = NULL;
-	if (!current || (current && current->space))
+	if (!current || current->space)
 		return ;
-	tmp = *lexer;
-	while (tmp != current)
-		tmp = tmp->next;
-	while (tmp && tmp->next && !(tmp->next->space))
-	{
-		to_del = tmp->next;
-		tmp->str = ft_strjoin(tmp->str, to_del->str);
-		tmp->space = 1;
-		tmp->quote_type = SINGLE_QUOTES;
-		free_lexer_node(lexer, to_del);
-	}
+	tmp = find_current_node(*lexer, current);
+	while (tmp && tmp->next && !tmp->next->space)
+		append_next_token(lexer, tmp);
 	if (tmp && tmp->next)
-	{
-		to_del = tmp->next;
-		tmp->str = ft_strjoin(tmp->str, to_del->str);
-		tmp->space = 1;
-		tmp->quote_type = SINGLE_QUOTES;
-		free_lexer_node(lexer, to_del);
-	}
+		append_next_token(lexer, tmp);
 }
 
 void	cat_heredoc_words(t_parser *parser)
 {
 	t_lexer	*tmp;
 
-	tmp = parser->tokens;
-	if (!parser || !(parser->tokens))
+	if (!parser || !parser->tokens)
 		return ;
+	tmp = parser->tokens;
 	while (tmp)
 	{
 		if (tmp->token == TOKEN_HEREDOC)
@@ -59,7 +61,6 @@ void	cat_heredoc_words(t_parser *parser)
 				break ;
 			continue ;
 		}
-		else
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 }

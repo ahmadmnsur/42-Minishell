@@ -58,6 +58,7 @@ SRCS =  minishell.c								\
 		src/utils/readline.c					\
 		src/utils/update_shlvl.c				\
 		src/utils/utils2.c						\
+		src/parser/parser_add_create.c			\
 		
 OBJDIR = objs
 OBJCS = $(SRCS:%.c=$(OBJDIR)/%.o)
