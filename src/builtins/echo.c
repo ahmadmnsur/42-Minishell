@@ -43,8 +43,9 @@ int	handle_newline_option(char **arg, int *new_line)
 
 void	print_argument_with_skip(const char *str)
 {
-	int	j = 0;
+	int	j;
 
+	j = 0;
 	while (str[j])
 	{
 		if (str[j] == '\\' && str[j + 1])
