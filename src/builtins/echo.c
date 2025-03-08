@@ -41,6 +41,25 @@ int	handle_newline_option(char **arg, int *new_line)
 	return (i);
 }
 
+void	print_argument_with_skip(const char *str)
+{
+	int	j = 0;
+
+	while (str[j])
+	{
+		if (str[j] == '\\' && str[j + 1])
+		{
+			printf("%c", str[j + 1]);
+			j += 2;
+		}
+		else
+		{
+			printf("%c", str[j]);
+			j++;
+		}
+	}
+}
+
 int	builtin_echo(t_parser *parser, t_env *env)
 {
 	char	**arg;
@@ -59,7 +78,7 @@ int	builtin_echo(t_parser *parser, t_env *env)
 	i = handle_newline_option(arg, &new_line);
 	while (arg[i])
 	{
-		printf("%s", arg[i]);
+		print_argument_with_skip(arg[i]);
 		if (arg[i + 1])
 			printf(" ");
 		i++;
