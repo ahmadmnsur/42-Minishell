@@ -61,14 +61,20 @@ int	process_all_heredocs(t_parser *parser, t_tools *tools)
 	t_parser	*curr;
 	int			ret;
 
+	signal(SIGINT, handle_heredoc_signal);
+	signal(SIGQUIT, SIG_IGN);
 	curr = parser;
 	while (curr)
 	{
 		ret = process_redirects_all_heredoc(curr->redirects, tools);
 		if (ret)
+		{
+			set_signals();
 			return (ret);
+		}
 		curr = curr->next;
 	}
+	set_signals();
 	return (0);
 }
 
