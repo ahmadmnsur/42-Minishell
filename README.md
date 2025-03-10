@@ -25,7 +25,7 @@ The **minishell** project is a simple Unix shell implemented in C as part of the
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/minishell.git
+    https://github.com/mohamad-m-jamil/Minishell.git
     ```
 
 2. Navigate to the project directory:
