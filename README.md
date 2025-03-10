@@ -1,61 +1,74 @@
 # Minishell
 
-Introduction
+## Overview
 
-Minishell is a project from the 42 curriculum that involves building a simple shell program in C. The goal is to understand how a command-line interpreter works, manage processes, handle signals, and implement built-in shell commands similar to Bash.
+The **minishell** project is a simple Unix shell implemented in C as part of the 42 School curriculum. This shell simulates basic shell functionality, such as command execution, environment variable handling, piping, and redirection. It provides a minimalist shell experience, allowing the user to interact with the system using familiar shell commands.
 
-Features
+## Features
 
-Command execution (handling external commands like ls, echo, etc.).
+- **Command Execution**: Executes system commands like `ls`, `cd`, and `echo`.
+- **Environment Variables**: Supports environment variable management (`export`, `unset`, and variable expansion).
+- **Pipes**: Implements basic pipe functionality to connect commands.
+- **Redirection**: Handles input/output redirection using `>` and `<`.
+- **Built-in Commands**: Implements common built-in shell commands such as `cd`, `exit`, `echo`, and `export`.
+- **Exit Status**: Returns the correct exit status for commands.
+- **Signal Handling**: Gracefully handles signals like `Ctrl+C` and `Ctrl+\\`.
 
-Built-in commands: cd, echo, pwd, export, unset, env, exit.
+## Requirements
 
-Environment variable management.
+- **Unix-based Operating System** (Linux, macOS, etc.)
+- **C Compiler** (gcc or clang)
+- **Make Utility** for building the project
 
-Input and output redirections (>, >>, <).
+## Installation
 
-Pipe execution (|).
+1. Clone the repository:
 
-Handling of $? to return the last command's exit status.
+    ```bash
+    git clone https://github.com/yourusername/minishell.git
+    ```
 
-Support for && and || logical operators.
+2. Navigate to the project directory:
 
-Signal handling (Ctrl+C, Ctrl+D, Ctrl+).
+    ```bash
+    cd minishell
+    ```
 
-Handling of SHLVL to track shell instances.
+3. Build the project using `make`:
 
-Installation & Usage
+    ```bash
+    make
+    ```
 
-Clone the repository and compile the program:
+4. Run the shell:
 
-make
-./minishell
+    ```bash
+    ./minishell
+    ```
 
-Once inside the shell, you can execute commands as you would in Bash:
+## Usage
 
-$ ls -l
-$ echo "Hello, World!"
-$ export VAR=value
-$ echo $VAR
-$ cd ..
-$ exit
+Once the shell is running, you can enter commands just like in a regular shell. For example:
 
-Project Requirements
+- `echo Hello, World!` - Prints "Hello, World!" to the terminal.
+- `ls -l` - Lists files in the current directory.
+- `cd /path/to/directory` - Changes the current directory.
+- `exit` - Exits the shell.
 
-Must be written in C and follow the Norminette coding style.
+You can also use pipes and redirection:
 
-No use of fork() outside of execution.
+- `cat file.txt | grep "pattern"` - Uses a pipe to search for "pattern" in the contents of `file.txt`.
+- `echo "Hello" > output.txt` - Redirects the output of `echo` to a file.
 
-No use of system().
+## Notes
 
-Handle memory leaks and segmentation faults.
+- The project does not implement advanced shell features like job control, but it covers the basics of shell functionality, including command execution, environment variable handling, pipes, and redirection.
+- The `cd` command does not support relative paths that rely on `~` (tilde), and certain built-ins like `history` or job control are not implemented in this version.
 
-Authors
+## Contribution
 
-Mohamad Jamil
+Feel free to fork the repository and create pull requests for improvements, bug fixes, or new features!
 
-Ahmad mansour
+## License
 
-License
-
-This project is for educational purposes as part of 42 School and is not intended for commercial use.
+This project is open-source and available under the MIT License.
