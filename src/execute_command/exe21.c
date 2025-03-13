@@ -104,7 +104,7 @@ int	execute_builtin_no_pipe(t_tools *tools, t_parser *parser)
 		(tools, parser->redirects) != 0)
 		exit_status = 1;
 	else
-		exit_status = parser->builtin(parser, tools->env);
+		exit_status = parser->builtin(parser, tools->env, tools);
 	dup2(save_stdin, STDIN_FILENO);
 	close(save_stdin);
 	dup2(save_stdout, STDOUT_FILENO);

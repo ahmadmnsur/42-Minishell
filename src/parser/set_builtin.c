@@ -17,7 +17,8 @@ void	set_one_builtin(t_parser *curr)
 	static const char		*builtin_names[] = {
 		"echo", "pwd", "cd", "export", "unset", "env", "exit"
 	};
-	static int				(*builtin_funcs[])(t_parser *, t_env *) = {
+	static int				(*builtin_funcs[])(t_parser *, t_env *, \
+							t_tools *) = {
 		builtin_echo, builtin_pwd, builtin_cd, builtin_export,
 		builtin_unset, builtin_env, builtin_exit
 	};

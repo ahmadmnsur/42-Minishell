@@ -20,7 +20,7 @@ int	open_file_by_token(const char *filename, int token)
 		return (open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644));
 	else if (token == TOKEN_APPEND)
 		return (open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644));
-	fprintf(stderr, "minishell: syntax error near unexpected token\n");
+	printf("minishell: syntax error near unexpected token\n");
 	return (-1);
 }
 
@@ -32,13 +32,13 @@ int	get_redirection_fd(t_lexer *current)
 
 	if (!current->next || current->next->token != TOKEN_WORD)
 	{
-		fprintf(stderr, "minishell: syntax error near unexpected token\n");
+		printf("minishell: syntax error near unexpected token\n");
 		return (-1);
 	}
 	filename = current->next->str;
 	if (!filename)
 	{
-		fprintf(stderr, "minishell: error processing redirection\n");
+		printf("minishell: error processing redirection\n");
 		return (-1);
 	}
 	fd = open_file_by_token(filename, current->token);

@@ -12,14 +12,15 @@
 
 #include "../../minishell.h"
 
-int	builtin_env(t_parser *parser, t_env *env)
+int	builtin_env(t_parser *parser, t_env *env, t_tools *tools)
 {
 	t_env	*tmp;
 
 	(void)parser;
+	(void)tools;
 	if (!env)
 	{
-		fprintf(stderr, "env: No environment variables to display\n");
+		printf("env: No environment variables to display\n");
 		return (0);
 	}
 	tmp = env;

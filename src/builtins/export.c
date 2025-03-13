@@ -63,11 +63,12 @@ static int	process_export_args(char **args, t_env **env)
 	return (ret);
 }
 
-int	builtin_export(t_parser *parser, t_env *env)
+int	builtin_export(t_parser *parser, t_env *env, t_tools *tools)
 {
 	char	**args;
 	int		ret;
 
+	(void)tools;
 	args = get_cmd(parser->tokens);
 	if (!args[1])
 	{

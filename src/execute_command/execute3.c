@@ -81,6 +81,7 @@ int	wait_for_all_children(int num_cmd, pid_t *child_pids)
 
 	i = 0;
 	last_status = 0;
+	reset_signals_ok();
 	while (i < num_cmd)
 	{
 		wpid = waitpid(child_pids[i], &status, 0);

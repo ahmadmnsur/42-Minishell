@@ -53,11 +53,12 @@ int	pwd_help(t_env *env_list)
 	return (0);
 }
 
-int	builtin_pwd(t_parser *parser, t_env *env)
+int	builtin_pwd(t_parser *parser, t_env *env, t_tools *tools)
 {
 	char	cwd[1024];
 
 	(void)parser;
+	(void)tools;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		printf("%s\n", cwd);

@@ -61,9 +61,9 @@ void	update_no_quotes_case(t_tools *tools, t_lexer **current, t_lexer **tmp)
 	if (!split || !*split)
 		return (handle_empty_split(current, to_del, &split, &str), (void)0);
 	i = 0;
-	while (split[i + 1])
+	while (split[i])
 		i++;
-	if (i == 0)
+	if (i == 1)
 		return (handle_simple_string(to_del, &split, &str), (void)0);
 	insert_split_tokens(current, to_del, split, i);
 	free_update_resources(current, to_del, split, str);

@@ -42,3 +42,9 @@ void	set_ctrl_d(t_tools *tools, char *prompt)
 		exit(0);
 	}
 }
+
+void	reset_signals_ok(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}

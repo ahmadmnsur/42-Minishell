@@ -19,7 +19,7 @@ static int	handle_heredoc_all_heredoc(t_lexer *redirect, t_tools *tools)
 
 	if (!redirect->next || redirect->next->token != TOKEN_WORD)
 	{
-		fprintf(stderr, "minishell: syntax error near unexpected token\n");
+		printf("minishell: syntax error near unexpected token\n");
 		return (-1);
 	}
 	delimiter = redirect->next->str;

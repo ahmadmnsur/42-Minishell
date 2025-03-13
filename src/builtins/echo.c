@@ -61,13 +61,14 @@ void	print_argument_with_skip(const char *str)
 	}
 }
 
-int	builtin_echo(t_parser *parser, t_env *env)
+int	builtin_echo(t_parser *parser, t_env *env, t_tools *tools)
 {
 	char	**arg;
 	int		new_line;
 	int		i;
 
 	(void)env;
+	(void)tools;
 	arg = get_cmd(parser->tokens->next);
 	if (!arg || !arg[0])
 	{
@@ -86,6 +87,5 @@ int	builtin_echo(t_parser *parser, t_env *env)
 	}
 	if (new_line)
 		printf("\n");
-	free_split_array(arg);
-	return (0);
+	return (free_split_array(arg), 0);
 }

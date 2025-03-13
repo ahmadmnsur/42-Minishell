@@ -60,11 +60,12 @@ void	remove_env_var(t_env **env, const char *key)
 	free(to_del);
 }
 
-int	builtin_unset(t_parser *parser, t_env *env)
+int	builtin_unset(t_parser *parser, t_env *env, t_tools *tools)
 {
 	t_lexer	*tmp;
 	int		exit_status;
 
+	(void)tools;
 	tmp = parser->tokens->next;
 	exit_status = 0;
 	if (!tmp)

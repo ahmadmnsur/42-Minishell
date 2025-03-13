@@ -75,8 +75,10 @@ void	handle_quotes(t_lexer **lexer, const char *str, int *i, char quote)
 		sub = tmp;
 	}
 	new = create_new_lexer_node(sub, TOKEN_WORD, type, 1);
-	if (!whitespacee(str[*i + len + 1]) && str[*i + len + 1] != '<'
-		&& str[*i + len + 1] != '>' && str[*i + len + 1] != '|')
+	if ((*i + len + 1) < (int) ft_strlen(str) && !whitespacee(str[*i
+				+ len + 1]) && str[*i
+			+ len + 1] != '<' && str[*i + len
+			+ 1] != '>' && str[*i + len + 1] != '|')
 		new->space = 0;
 	add_lexer_node_back(lexer, new);
 	free(sub);

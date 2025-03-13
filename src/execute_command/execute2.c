@@ -23,7 +23,7 @@ void	execute_external_command(t_tools *tools, t_parser *parser)
 	path = get_command_path(parser->tokens->str, tools->env);
 	if (!path)
 	{
-		fprintf(stderr, "minishell: %s: command not found\n",
+		printf("minishell: %s: command not found\n",
 			parser->tokens->str);
 		exit(127);
 	}
@@ -62,6 +62,7 @@ void	validate_and_update_tokens(t_parser *parser)
    and execute the external command. */
 void	child_process_no_pipe(t_tools *tools, t_parser *parser)
 {
+	signal(SIGQUIT, SIG_DFL);
 	if (parser->redirects && process_redirections_child_for_no_pipe
 		(tools, parser->redirects) != 0)
 		exit(EXIT_FAILURE);
@@ -107,7 +108,10 @@ int	if_no_pipe(t_tools *tools, t_parser *parser, char **envp)
 		else if (pid == 0)
 			child_process_no_pipe(tools, parser);
 		else
+		{
+			reset_signals_ok();
 			exit_status = wait_for_child(pid);
+		}
 	}
 	return (exit_status);
 }
