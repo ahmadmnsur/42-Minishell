@@ -53,6 +53,7 @@ void	init_parser_node(t_parser **parser, t_lexer *lexer, const char *str)
 // 	}
 // 	return (count);
 // }
+
 int	check_exclamation(char *prompt, t_tools *tools)
 {
 	if (prompt[0] == '!' && prompt[1] == '\0')

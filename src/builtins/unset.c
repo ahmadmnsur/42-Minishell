@@ -60,7 +60,7 @@ void	remove_env_var(t_env **env, const char *key)
 	free(to_del);
 }
 
-int	builtin_unset(t_parser *parser, t_env *env, t_tools *tools)
+int	builtin_unset(t_parser *parser, t_env **env, t_tools *tools)
 {
 	t_lexer	*tmp;
 	int		exit_status;
@@ -83,7 +83,7 @@ int	builtin_unset(t_parser *parser, t_env *env, t_tools *tools)
 			printf("unset: `%s`: not a valid identifier\n", tmp->str);
 		}
 		else
-			remove_env_var(&env, tmp->str);
+			remove_env_var(env, tmp->str);
 		tmp = tmp->next;
 	}
 	return (exit_status);

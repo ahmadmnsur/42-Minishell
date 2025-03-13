@@ -63,7 +63,7 @@ static int	process_export_args(char **args, t_env **env)
 	return (ret);
 }
 
-int	builtin_export(t_parser *parser, t_env *env, t_tools *tools)
+int	builtin_export(t_parser *parser, t_env **env, t_tools *tools)
 {
 	char	**args;
 	int		ret;
@@ -72,11 +72,11 @@ int	builtin_export(t_parser *parser, t_env *env, t_tools *tools)
 	args = get_cmd(parser->tokens);
 	if (!args[1])
 	{
-		print_full_export_list(env);
+		print_full_export_list(*env);
 		free_split_array(args);
 		return (0);
 	}
-	ret = process_export_args(args, &env);
+	ret = process_export_args(args, env);
 	free_split_array(args);
 	return (ret);
 }

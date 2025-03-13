@@ -53,7 +53,7 @@ int	pwd_help(t_env *env_list)
 	return (0);
 }
 
-int	builtin_pwd(t_parser *parser, t_env *env, t_tools *tools)
+int	builtin_pwd(t_parser *parser, t_env **env, t_tools *tools)
 {
 	char	cwd[1024];
 
@@ -71,6 +71,6 @@ int	builtin_pwd(t_parser *parser, t_env *env, t_tools *tools)
 			printf("Error: Environment list is NULL.\n");
 			return (1);
 		}
-		return (pwd_help(env));
+		return (pwd_help(*env));
 	}
 }

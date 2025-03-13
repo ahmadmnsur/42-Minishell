@@ -73,7 +73,7 @@ int	print_error(char **arg)
 	return (2);
 }
 
-int	builtin_exit(t_parser *parser, t_env *env, t_tools *tools)
+int	builtin_exit(t_parser *parser, t_env **env, t_tools *tools)
 {
 	char	**arg;
 	int		exit_status;

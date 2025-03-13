@@ -12,17 +12,33 @@
 
 #include "../../minishell.h"
 
+// void	update_shlvl(t_env **env, int hidden)
+// {
+// 	char	*shlvl_str;
+// 	int		shlvl;
+
+// 	shlvl_str = get_env_var(*env, "SHLVL")->value;
+// 	shlvl = ft_atoi(shlvl_str);
+// 	shlvl++;
+// 	shlvl_str = ft_itoa(shlvl);
+// 	set_env_var(env, "SHLVL", shlvl_str, hidden);
+// 	free(shlvl_str);
+// }
+
 void	update_shlvl(t_env **env, int hidden)
 {
-	char	*shlvl_str;
+	t_env	*shlvl_node;
 	int		shlvl;
+	char	*new_shlvl;
 
-	shlvl_str = get_env_var(*env, "SHLVL")->value;
-	shlvl = ft_atoi(shlvl_str);
-	shlvl++;
-	shlvl_str = ft_itoa(shlvl);
-	set_env_var(env, "SHLVL", shlvl_str, hidden);
-	free(shlvl_str);
+	shlvl_node = get_env_var(*env, "SHLVL");
+	if (!shlvl_node)
+		shlvl = 1;
+	else
+		shlvl = ft_atoi(shlvl_node->value) + 1;
+	new_shlvl = ft_itoa(shlvl);
+	set_env_var(env, "SHLVL", new_shlvl, hidden);
+	free(new_shlvl);
 }
 
 void	set_env_var(t_env **env, char *key, char *value, int hidden)

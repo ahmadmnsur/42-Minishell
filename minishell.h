@@ -28,7 +28,7 @@
 struct		s_parser;
 struct		s_env;
 struct		s_tools;
-typedef int	(*t_builtin_func)(struct s_parser *, struct s_env *, \
+typedef int	(*t_builtin_func)(struct s_parser *, struct s_env **, \
 			struct s_tools *);
 
 typedef enum e_tokens
@@ -126,12 +126,12 @@ extern int	g_signum;
 
 void			art(void);
 void			handle_heredoc_signal(int sig);
-int				builtin_env(t_parser *parser, t_env *env, t_tools *tools);
-int				builtin_pwd(t_parser *parser, t_env *env, t_tools *tools);
-int				builtin_exit(t_parser *parser, t_env *env, t_tools *tools);
-int				builtin_unset(t_parser *parser, t_env *env, t_tools *tools);
-int				builtin_export(t_parser *parser, t_env *env, t_tools *tools);
-int				builtin_cd(t_parser *parser, t_env *env, t_tools *tools);
+int				builtin_env(t_parser *parser, t_env **env, t_tools *tools);
+int				builtin_pwd(t_parser *parser, t_env **env, t_tools *tools);
+int				builtin_exit(t_parser *parser, t_env **env, t_tools *tools);
+int				builtin_unset(t_parser *parser, t_env **env, t_tools *tools);
+int				builtin_export(t_parser *parser, t_env **env, t_tools *tools);
+int				builtin_cd(t_parser *parser, t_env **env, t_tools *tools);
 char			*get_env(t_env *head, const char *key);
 int				ft_cmp(const char *s1, const char *s2);
 int				get_cmd_len(t_lexer *lexer);
@@ -237,7 +237,7 @@ int				ft_isspacee(char *str);
 void			env_add_back(t_env **env, char *key, char *value, int hidden);
 t_env			*get_env_var(t_env *env, char *key);
 void			free_split(char **split);
-int				builtin_echo(t_parser *parser, t_env *env, t_tools *tools);
+int				builtin_echo(t_parser *parser, t_env **env, t_tools *tools);
 void			update_double_quotes_case(t_tools *tools, t_lexer *current);
 void			insert_at(t_lexer **lexer,
 					t_lexer *current, char *str, int space);

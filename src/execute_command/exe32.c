@@ -67,7 +67,7 @@ void	exec_child_command_exec(t_parser *curr, t_tools *tools)
 		exit(EXIT_FAILURE);
 	if (curr->builtin)
 	{
-		status = curr->builtin(curr, tools->env, tools);
+		status = curr->builtin(curr, &tools->env, tools);
 		exit(status);
 	}
 	if (!curr->tokens || !curr->tokens->str)

@@ -114,7 +114,7 @@ static int	process_cd_args(char **arg, t_env *env)
 	return (ret);
 }
 
-int	builtin_cd(t_parser *parser, t_env *env, t_tools *tools)
+int	builtin_cd(t_parser *parser, t_env **env, t_tools *tools)
 {
 	char	**arg;
 	int		ret;
@@ -122,8 +122,8 @@ int	builtin_cd(t_parser *parser, t_env *env, t_tools *tools)
 	(void)tools;
 	arg = get_cmd(parser->tokens->next);
 	if (!arg)
-		return (cd_home(env));
-	ret = process_cd_args(arg, env);
+		return (cd_home(*env));
+	ret = process_cd_args(arg, *env);
 	free_split_array(arg);
 	return (ret);
 }

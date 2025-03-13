@@ -61,7 +61,7 @@ void	print_argument_with_skip(const char *str)
 	}
 }
 
-int	builtin_echo(t_parser *parser, t_env *env, t_tools *tools)
+int	builtin_echo(t_parser *parser, t_env **env, t_tools *tools)
 {
 	char	**arg;
 	int		new_line;
