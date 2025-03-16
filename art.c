@@ -35,5 +35,8 @@ void	art(void)
 	printf("\033[38;5;208m%s\033[0m", "╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝");
 	printf("\033[1;37m%s\033[0m", "╚══════╝");
 	printf("\033[38;5;208m%s\n", "╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝");
+	printf("\033[38;5;208m%s\033[0m\n", "      		by Ahmad & Jamil     ");
 	printf("\033[1;37m%s\033[0m\n", "");
+	printf("\033[1;32m%s", "\"No leaks allowed ");
+	printf("our shell is watertight!\033[0m\n");
 }

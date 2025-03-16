@@ -30,6 +30,7 @@ int	fork_all_commands(t_tools *tools,
 			return (-1);
 		else if (child_pids[i] == 0)
 		{
+			signal(SIGQUIT, SIG_DFL);
 			setup_child_pipes(i, num_cmd, pipes);
 			exec_child_command_exec(curr, tools);
 		}
