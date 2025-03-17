@@ -21,7 +21,7 @@ int	cd_home(t_env *env)
 	pwd = get_env(env, "PWD");
 	if (!home)
 	{
-		printf("cd: HOME not set\n");
+		write(2, "cd: HOME not set\n", 17);
 		return (1);
 	}
 	if (chdir(home) != 0)
@@ -47,7 +47,7 @@ int	cd_oldpwd(t_env *env)
 	oldpwd = get_env(env, "OLDPWD");
 	if (!oldpwd)
 	{
-		printf("cd: OLDPWD not set\n");
+		write(2, "cd: OLDPWD not set\n", 20);
 		return (1);
 	}
 	if (chdir(oldpwd) != 0)
@@ -102,7 +102,7 @@ static int	process_cd_args(char **arg, t_env *env)
 		return (cd_home(env));
 	if (arg[1])
 	{
-		printf("cd: too many arguments\n");
+		write(2, "cd: too many arguments\n", 24);
 		return (1);
 	}
 	if (ft_cmp(arg[0], "~") == 0)

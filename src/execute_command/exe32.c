@@ -54,7 +54,14 @@ int	count_commands(t_parser *parser)
 	return (count);
 }
 
-// Execute the command in the child process
+void	error_command_not_found(const char *cmd)
+{
+	write(2, "minishell: ", 11);
+	write(2, cmd, strlen(cmd));
+	write(2, ": command not found\n", 21);
+	exit(127);
+}
+
 void	exec_child_command_exec(t_parser *curr, t_tools *tools)
 {
 	int		status;
@@ -74,8 +81,7 @@ void	exec_child_command_exec(t_parser *curr, t_tools *tools)
 		exit(0);
 	path = get_command_path(curr->tokens->str, tools->env);
 	if (!path)
-		(printf("minishell: %s: command not found\n", \
-		curr->tokens->str), exit(127));
+		error_command_not_found(curr->tokens->str);
 	args = build_args(curr->tokens);
 	if (!args)
 		(free(path), exit(EXIT_FAILURE));

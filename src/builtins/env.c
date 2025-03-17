@@ -20,7 +20,7 @@ int	builtin_env(t_parser *parser, t_env **env, t_tools *tools)
 	(void)tools;
 	if (!env)
 	{
-		printf("env: No environment variables to display\n");
+		write(2, "env: No environment variables to display\n", 41);
 		return (0);
 	}
 	tmp = *env;
