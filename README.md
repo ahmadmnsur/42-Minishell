@@ -1,6 +1,5 @@
 ![42 beirut](https://media.licdn.com/dms/image/D4E3DAQGxvimpQQFi_A/image-scale_191_1128/0/1695893480399/42_beirut_cover?e=2147483647&v=beta&t=oNrMR2IXjtfu3XXV-uSUW8wI98g19yUUHZ0XuhtX2NE)
 
----
 
 # Minishell
 
@@ -23,6 +22,43 @@ The **minishell** project is a simple Unix shell implemented in C as part of the
 - **Unix-based Operating System** (Linux, macOS, etc.)
 - **C Compiler** (gcc or clang)
 - **Make Utility** for building the project
+  
+## Dependencies
+
+Before installing, ensure you have the necessary tools:
+
+**Installing make and gcc**
+
+Ubuntu/Debian:
+
+```sudo apt-get update```
+
+```sudo apt-get install build-essential```
+
+macOS (via Xcode Command Line Tools):
+
+```xcode-select --install```
+
+Fedora:
+
+```sudo dnf install gcc make```
+
+Arch Linux:
+
+```sudo pacman -S base-devel```
+
+
+**Installing the GNU Readline Library**
+
+Ubuntu/Debian:
+
+```sudo apt-get install libreadline-dev```
+
+macOS (via Homebrew):
+
+```brew install readline```
+
+For other systems, refer to your package manager’s documentation.
 
 ## Installation
 
@@ -72,7 +108,3 @@ You can also use pipes and redirection:
 ## Contribution
 
 Feel free to fork the repository and create pull requests for improvements, bug fixes, or new features!
-
-## License
-
-This project is open-source and available under the MIT License.
